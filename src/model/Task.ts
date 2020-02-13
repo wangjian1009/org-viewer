@@ -7,7 +7,7 @@ export enum TaskType {
     Task,
     Project,
     Requirement,
-};
+}
 
 export class Task {
     readonly localId: string;
