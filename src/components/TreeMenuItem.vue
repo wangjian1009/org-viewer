@@ -57,6 +57,8 @@ span {
   background-repeat: no-repeat;
   vertical-align: middle;
   border-top: 1px solid #eee;
+  height: 50px;
+  line-height: 50px;
 
   em {
     display: inline-block;
