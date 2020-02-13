@@ -1,3 +1,4 @@
+import { State } from './State';
 import { Tag } from './Tag';
 import { Member } from './Member';
 import { Area } from './Area';
@@ -5,6 +6,7 @@ import { Task } from './Task';
 
 export class Document {
     private _areas: Area[];
+    private _states: State[];
     private _tags: Tag[];
     private _members: Member[];
     private _localIdMax: number;
@@ -16,6 +18,7 @@ export class Document {
 
     constructor(public source: string) {
         this._localIdMax = 0;
+        this._states = [];
         this._areas = [];
         this._tags = [];
         this._members = [];
@@ -33,8 +36,12 @@ export class Document {
         //console.assert(
     }
 
+    get states(): State[] {
+        return Array.from(this._states);
+    }
+
     get areas(): Area[] {
-        return Array.from(this._areas.values());
+        return Array.from(this._areas);
     }
 
     createArea(name: string): Area {

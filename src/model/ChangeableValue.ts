@@ -1,19 +1,29 @@
 class ChangeableValue<T> {
     private _isChanged: boolean;
-    private _changed: T | undefined;
+    private _changed: T;
 
-    get value(): T | undefined {
+    get value(): T {
         return this._isChanged ? this._changed : this._origin;
     }
 
     constructor(readonly _origin: T) {
         this._isChanged = false;
+        this._changed = _origin;
     }
 }
 
 function getChangeableValue<T>(o: ChangeableValue<T> | undefined): T | undefined {
     if (o) {
         return o.value;
+    }
+    else {
+        return undefined;
+    }
+}
+
+function createChangeableValue<T>(o: T | undefined) {
+    if (o) {
+        return new ChangeableValue<T>(o);
     }
     else {
         return undefined;
