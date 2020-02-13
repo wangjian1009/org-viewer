@@ -9,11 +9,19 @@ export class Document {
     private _localIdMax: number;
     private _localIdToTask: Map<string, Task>;
 
+    priorityMin: string;
+    priorityMax: string;
+    priorityDft: string;
+
     constructor(public source: string) {
         this._localIdMax = 0;
         this._areas = [];
         this._tags = [];
         this._localIdToTask = new Map();
+
+        this.priorityMin = 'A';
+        this.priorityMax = 'C';
+        this.priorityDft = 'B';
     }
 
     dispose() {

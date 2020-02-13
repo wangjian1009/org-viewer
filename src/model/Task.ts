@@ -1,12 +1,20 @@
 import { Document } from './Document';
 import { Area } from './Area';
 
+export enum TaskType {
+    Task,
+    Project,
+    Requirement,
+};
+
 export class Task {
     readonly localId: string;
     private _area: Area;
-    private _persistentId: ChangeableValue<string> | undefined;
     private _parent: Task | undefined;
     private _subTasks: Task[];
+    private _persistentId: ChangeableValue<string> | undefined;
+    private _description: ChangeableValue<string> | undefined;
+    private _priority: ChangeableValue<string> | undefined;
 
     constructor(readonly docuent: Document, area: Area, parent: Task | undefined) {
         this.localId = docuent._generateLocalId();
@@ -43,8 +51,24 @@ export class Task {
         return this._parent;
     }
 
+    get priority(): string | undefined {
+        const selfPriority = getChangeableValue(this._priority);
+        if (selfPriority) return selfPriority;
+
+        if (this._parent) {
+            return this._parent.priority;
+        }
+        else {
+            return this.docuent.priorityDft;
+        }
+    }
+
     get persistentId(): string | undefined {
         return getChangeableValue(this._persistentId);
+    }
+
+    get description(): string | undefined {
+        return getChangeableValue(this._description);
     }
 
     subTasks(): Task[] {
