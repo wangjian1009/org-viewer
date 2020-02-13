@@ -6,6 +6,7 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "test:unit": "vue-cli-service test:unit",
+    "test:model": "ts-mocha tests/model/*.ts",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
@@ -29,6 +30,7 @@
     "eslint-plugin-vue": "^5.0.0",
     "less": "^3.10.3",
     "less-loader": "^5.0.0",
+    "ts-mocha": "^6.0.0",
     "typescript": "~3.5.3",
     "vue-template-compiler": "^2.6.10"
   }

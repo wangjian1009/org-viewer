@@ -6,6 +6,7 @@ import { Task } from './Task';
 export class Document {
     private _areas: Area[];
     private _tags: Tag[];
+    private _members: Member[];
     private _localIdMax: number;
     private _localIdToTask: Map<string, Task>;
 
@@ -17,6 +18,7 @@ export class Document {
         this._localIdMax = 0;
         this._areas = [];
         this._tags = [];
+        this._members = [];
         this._localIdToTask = new Map();
 
         this.priorityMin = 'A';
@@ -31,16 +33,24 @@ export class Document {
         //console.assert(
     }
 
-    get areas() { return this._areas.values(); }
+    get areas(): Area[] {
+        return Array.from(this._areas.values());
+    }
 
     createArea(name: string): Area {
         return new Area(this, name);
     }
 
-    get tags() { return this._tags.values(); }
+    get tags(): Tag[] {
+        return Array.from(this._tags.values());
+    }
 
     findTag(name: string): Tag | undefined {
         return this._tags.find((tag) => tag.name == name);
+    }
+
+    get member(): Member[] {
+        return Array.from(this._members.values());
     }
 
     _generateLocalId() {
