@@ -75,6 +75,21 @@ export class Task {
         return getChangeableValue(this._description);
     }
 
+    get tags(): Tag[] {
+        const selfTags = getChangeableValue(this._tags);
+        if (selfTags) return Array.from(selfTags);
+        return [];
+    }
+
+    hasTag(tag: Tag): boolean {
+        const selfTags = getChangeableValue(this._tags);
+        if (selfTags) {
+            return selfTags.includes(tag);
+        }
+
+        return false;
+    }
+
     get members(): Member[] {
         const selfMembers = getChangeableValue(this._members);
         if (selfMembers) return Array.from(selfMembers);
@@ -88,7 +103,18 @@ export class Task {
         return getChangeableValue(this._members);
     }
 
-    subTasks(): Task[] {
+    hasMember(member: Member): boolean {
+        const selfMembers = getChangeableValue(this._members);
+        if (selfMembers) {
+            return selfMembers.includes(member);
+        }
+
+        if (this.parent) return this.parent.hasMember(member);
+
+        return false;
+    }
+
+    get subTasks(): Task[] {
         return Array.from(this._subTasks.values());
     }
 
@@ -97,6 +123,9 @@ export class Task {
     }
 
     _removeSubTask(task: Task) {
-        //this._subTasks.pop
+        const pos = this._subTasks.indexOf(task);
+        if (pos >= 0) {
+            this._subTasks.splice(pos, 1);
+        }
     }
 }
