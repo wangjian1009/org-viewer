@@ -11,7 +11,7 @@ export class Area {
     }
 
     dispose() {
-        for (const task in this._rootTasks) {
+        for (const task of this._rootTasks) {
             task.dispose();
         }
     }

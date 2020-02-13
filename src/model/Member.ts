@@ -1,6 +1,6 @@
 import { Document } from './Document'
 
-export class Membe {
+export class Member {
     private _name: string;
 
     get name(): string {

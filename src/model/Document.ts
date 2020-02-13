@@ -25,9 +25,10 @@ export class Document {
     }
 
     dispose() {
-        for (const area in this._areas) {
+        for (const area of this._areas) {
             area.dispose();
         }
+        //console.assert(
     }
 
     get areas() { return this._areas.values(); }
