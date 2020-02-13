@@ -15,17 +15,25 @@ export class ResultNode {
 export class Searcher {
     memberFilter: Member[] | undefined;
     tagFilter: Tag[] | undefined;
+    areaFilter: Area[] | undefined;
+    includeArea: boolean;
     _result: ResultNode | undefined;
 
     constructor(readonly document: Document) {
+        this.includeArea = false;
     }
 
     go() {
         const rootNode = new ResultNode(undefined, this);
 
         for (const area of this.document.areas) {
+            var areaNode = rootNode;
+            if (this.includeArea) {
+                areaNode = new ResultNode(rootNode, area);
+            }
+
             for (const task of area.rootTasks) {
-                this._process(rootNode, task);
+                this._process(areaNode, task);
             }
         }
 
