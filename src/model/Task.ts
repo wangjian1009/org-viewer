@@ -4,6 +4,7 @@ import { State } from './State';
 import { Tag } from './Tag';
 import { Member } from './Member';
 import { StateLog } from './StateLog';
+import { ChangeableValue, createChangeableValue, getChangeableValue } from './ChangeableValue';
 
 export enum TaskType {
     Task,

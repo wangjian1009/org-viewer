@@ -1,4 +1,4 @@
-class ChangeableValue<T> {
+export class ChangeableValue<T> {
     private _isChanged: boolean;
     private _changed: T;
 
@@ -12,7 +12,7 @@ class ChangeableValue<T> {
     }
 }
 
-function getChangeableValue<T>(o: ChangeableValue<T> | undefined): T | undefined {
+export function getChangeableValue<T>(o: ChangeableValue<T> | undefined): T | undefined {
     if (o) {
         return o.value;
     }
@@ -21,7 +21,7 @@ function getChangeableValue<T>(o: ChangeableValue<T> | undefined): T | undefined
     }
 }
 
-function createChangeableValue<T>(o: T | undefined) {
+export function createChangeableValue<T>(o: T | undefined) {
     if (o) {
         return new ChangeableValue<T>(o);
     }
