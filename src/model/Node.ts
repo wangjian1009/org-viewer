@@ -22,6 +22,4 @@ export class Node {
     set originPersistentId(persistentId: string | undefined) {
         this._persistentId = createChangeableValue(persistentId);
     }
-
-
 }
