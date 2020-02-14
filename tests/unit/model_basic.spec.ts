@@ -12,6 +12,10 @@ describe("model.basic", function() {
             `#+TITLE: 测试文档
 * Area1
 ** Task1.1
+:PROPERTIES:
+:ID:       DC7F5E66-20E3-42DA-BE24-172E670ED505
+:COOKIE_DATA: todo recursive
+:END:
 *** Task1.1.1
 ** Task1.2
 * Area2
@@ -24,12 +28,12 @@ describe("model.basic", function() {
     });
 
     it('document title ok', function(done) {
-        should.equal(document.title, "测试文档");
+        "测试文档".should.equal(document.title);
         done();
     });
 
     it('document have connrect struct', function(done) {
-        document.areas.map((area) => area.title).should.deep.equal(['Area1', 'Area2']);
+        ['Area1', 'Area2'].should.deep.equal(document.areas.map((area) => area.title));
         done();
     });
 
@@ -43,7 +47,7 @@ describe("model.basic", function() {
         });
 
         it('should have correct struct', function(done) {
-            area1.rootTasks.map((task) => task.title).should.deep.equal(['Task1.1', 'Task1.2']);
+            ['Task1.1', 'Task1.2'].should.deep.equal(area1.rootTasks.map((task) => task.title));
             done();
         });
     });

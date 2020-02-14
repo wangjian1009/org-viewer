@@ -2,7 +2,6 @@ import { Node } from './Node';
 import { Document } from './Document';
 import { Area } from './Area';
 import { Task } from './Task';
-const Org = require('org');
 
 class StackNode {
     constructor(
@@ -13,6 +12,11 @@ class StackNode {
     }
 }
 
+enum ParseState {
+    Normal,
+    Drawer
+}
+
 export class OrgParser {
     static parseNewDocument(data: string): Document {
         const document = new Document();
@@ -21,95 +25,117 @@ export class OrgParser {
         return document;
     }
 
+    debug: boolean = true;
     private _stackTop: StackNode | undefined;
+    private _drawerName: string | undefined;
 
     constructor(readonly document: Document) {
     }
 
     parse(data: string) {
         this._stackTop = new StackNode(undefined, 0, this.document);
+        this._drawerName = undefined;
 
-        const parser = new Org.Parser();
-
-        const model = parser.parse(data, {});
-
-        for (const node of model.nodes) {
-            this._processNode(node);
+        const lines = data.split(/\r?\n/);
+        for (const line of lines) {
+            this._processLine(line);
         }
     }
 
-    private _processNode(node: any) {
-        const nodeType = node.type;
-        if (nodeType === Org.Node.types.directive) {
-            this._processDirective(node);
-        }
-        else if (nodeType === Org.Node.types.header) {
-            this._processHeader(node);
-        }
-        else if (nodeType === Org.Node.types.inlineContainer) {
-            this._processInlineContainer(node);
-        }
-        else {
-            console.log(`not supported node ${node}`);
+    private _processLine(line: string) {
+        if (line.match(Syntax.blank)) return;
+
+        const setupLine = line.match(/^\s*#\+(TITLE|TAG|STARTUP|SEQ_TODO|TODO|TAGS|CATEGORY):*(.*)$/i);
+        if (setupLine) {
+            this._processSetupLine(setupLine[1].toUpperCase(), setupLine[2]);
             return;
         }
-    }
 
-    private _processDirective(node: any) {
-        const name = node.directiveName;
-        if (name == "title:") {
-            this.document.originTitle = node.directiveRawValue;
+        const directiveLine = line.match(/^(\s*)#\+(?:(begin|end)_)?(.*)$/i); // m[1] => indentation, m[2] => type, m[3] => content
+        if (directiveLine) {
+            this._processDirectiveLine(directiveLine[1], directiveLine[2], directiveLine[3]);
+            return;
+        }
+
+        const drawerLine = line.match(/^\s*:(\w+):(.*)$/);
+        if (drawerLine) {
+            const drawerLineTag = drawerLine[1];
+
+            if (!this._drawerName) {
+                this._drawerName = drawerLineTag;
+            }
+            else {
+                if (drawerLineTag.toLocaleLowerCase() == 'end') {
+                    this._drawerName = undefined;
+                }
+                else {
+                    this._processLineDrawer(drawerLineTag, drawerLine[2]);
+                }
+            }
         }
         else {
-            console.log(`ignore directive ${name}`);
+            if (this._drawerName) {
+                if (this.debug) console.log(`ignore in drawer ${this._drawerName}: ${line}`);
+            }
+            else {
+                this._processLineNormal(line);
+            }
         }
     }
 
-    private _processHeader(node: any) {
-        //console.log(node);
+    private _processLineDrawer(drawTag: string, left: string) {
+        console.log(`process draw ${drawTag}`);
+    }
 
-        const level = <number>node.level;
+    private _processLineNormal(line: string) {
+        const headerLine = line.match(/^(\*+)\s+(.*)$/);
+        if (headerLine) {
+            this._processHeader(headerLine[1], headerLine[2]);
+            return;
+        }
+        else {
+            if (this.debug) {
+                console.log(`ignore normal line ${line}`);
+            }
+        }
+    }
+
+    private _processSetupLine(tag: string, content: string) {
+        if (tag == "TITLE") {
+            this.document.originTitle = content.trim();
+        }
+        else {
+            if (this.debug) {
+                console.log(`ignore setup ${tag}`);
+            }
+        }
+    }
+
+    private _processDirectiveLine(indentation: string, tag: string, content: string) {
+        if (this.debug) {
+            console.log(`ignore directive ${tag}`);
+        }
+    }
+
+    private _processHeader(leader: string, left: string) {
+        const level = leader.length;
         this._stackPopToLevel(level);
+
+        const title = left;
 
         if (level == 1) {
             const area = new Area(this.document);
+            area.originTitle = title;
             this._stackPush(level, area);
-            this._processChildren(node);
         }
         else {
             const area = this._stackArea();
             if (area) {
                 const task = new Task(this.document, area, this._stackTask());
+                task.originTitle = title;
                 this._stackPush(level, task);
-                this._processChildren(node);
             }
         }
-    }
-
-    private _processChildren(orgNode: any) {
-        for (const child of orgNode.children) {
-            this._processNode(child);
-        }
-    }
-
-    private _processInlineContainer(orgNode: any) {
-        const node = this._stackTop ? this._stackTop.node : undefined;
-        if (!node) return;
-
-        var title: string | undefined;
-
-        for (const child of orgNode.children) {
-            if (child.type === Org.Node.types.text) {
-                if (title) {
-                    title = title + child.value;
-                }
-                else {
-                    title = child.value;
-                }
-            }
-        }
-
-        node.originTitle = title;
     }
 
     private _stackTask(): Task | undefined {
@@ -147,3 +173,18 @@ export class OrgParser {
         return top;
     }
 }
+
+class Syntax {
+    static header = /^(\*+)\s+(.*)$/; // m[1] => level, m[2] => content
+    //     Syntax.define("preformatted", /^(\s*):(?: (.*)$|$)/); // m[1] => indentation, m[2] => content
+    // Syntax.define("unorderedListElement", /^(\s*)(?:-|\+|\s+\*)\s+(.*)$/); // m[1] => indentation, m[2] => content
+    // Syntax.define("orderedListElement", /^(\s*)(\d+)(?:\.|\))\s+(.*)$/); // m[1] => indentation, m[2] => number, m[3] => content
+    // Syntax.define("tableSeparator", /^(\s*)\|((?:\+|-)*?)\|?$/); // m[1] => indentation, m[2] => content
+    // Syntax.define("tableRow", /^(\s*)\|(.*?)\|?$/); // m[1] => indentation, m[2] => content
+    static blank = /^$/;
+    // Syntax.define("horizontalRule", /^(\s*)-{5,}$/); //
+    // Syntax.define("directive", /^(\s*)#\+(?:(begin|end)_)?(.*)$/i); // m[1] => indentation, m[2] => type, m[3] => content
+    static comment = /^(\s*)#(.*)$/;
+    static line = /^(\s*)(.*)$/;
+}
+

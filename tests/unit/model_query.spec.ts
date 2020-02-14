@@ -36,16 +36,14 @@ describe("model.query", function() {
 
             it("full query", function(done) {
                 searcher.go();
-                searchResults(searcher).should.deep.equal(
-                    [['Area1',
-                        [['Task1.1', ['Task1.1.1']]
-                            , 'Task1.2'
-                        ]
-                    ],
-                    ['Area2',
-                        ['Task2.1']]
+                [['Area1',
+                    [['Task1.1', ['Task1.1.1']]
+                        , 'Task1.2'
                     ]
-                );
+                ],
+                ['Area2',
+                    ['Task2.1']]
+                ].should.deep.equal(searchResults(searcher));
                 done();
             });
         });
@@ -57,11 +55,11 @@ describe("model.query", function() {
 
             it("full query", function(done) {
                 searcher.go();
-                searchResults(searcher).should.deep.equal(
-                    [['Task1.1', ['Task1.1.1']]
-                        , 'Task1.2'
-                        , 'Task2.1'
-                    ]
+                [['Task1.1', ['Task1.1.1']]
+                    , 'Task1.2'
+                    , 'Task2.1'
+                ].should.deep.equal(
+                    searchResults(searcher)
                 );
                 done();
             });
