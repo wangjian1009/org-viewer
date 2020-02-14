@@ -11,7 +11,7 @@ export class ResultNode {
     constructor(readonly parent: ResultNode | undefined, readonly value: Node) {
         this.childs = [];
     }
-};
+}
 
 export class Searcher {
     memberFilter: Member[] | undefined;
@@ -24,6 +24,10 @@ export class Searcher {
         this.includeArea = false;
     }
 
+    get result(): ResultNode | undefined {
+        return this._result;
+    }
+
     go() {
         const rootNode = new ResultNode(undefined, this.document);
 
@@ -31,6 +35,7 @@ export class Searcher {
             var areaNode = rootNode;
             if (this.includeArea) {
                 areaNode = new ResultNode(rootNode, area);
+                rootNode.childs.push(areaNode);
             }
 
             for (const task of area.rootTasks) {
