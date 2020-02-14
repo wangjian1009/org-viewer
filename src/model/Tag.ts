@@ -1,9 +1,9 @@
 import { Document } from './Document'
 
 export enum TagType {
-    Member,
-    Task,
     Other,
+    Task,
+    Member,
 }
 
 export class Tag {

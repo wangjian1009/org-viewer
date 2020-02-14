@@ -1,7 +1,7 @@
 <template>
   <div>
     <ul>
-      <TreeMenuItem :menu="item" :key="item.name" v-for="item in menus" />
+      <TreeMenuItem :node="node" :key="node.value.localId" v-for="node in nodes" />
     </ul>
   </div>
 </template>
@@ -9,7 +9,7 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import TreeMenuItem from './TreeMenuItem.vue'
-import Menu from '../Menu'
+import { ResultNode } from '../model'
 
 @Component({
   components: {
@@ -18,19 +18,19 @@ import Menu from '../Menu'
 })
 
 export default class TreeMenu extends Vue {
-  @Prop() private menus!: Menu[];
+  @Prop() 
+  private nodes!: ResultNode[];
 }
 </script>
 
-<style lang="less" scoped>
+<style lang="less">
 
 ul {
-  width: 400px;
   list-style: none;
-  margin: 0px;
   
   li {
     text-align: left;
+    padding-left: 10px;
   }
 }
 

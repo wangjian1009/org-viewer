@@ -2,20 +2,9 @@ import axios from 'axios';
 
 export default class OrgLoader {
 
-    orgPath: string
-
-    constructor(orgPath: string) {
-        this.orgPath = orgPath
-    }
-
-    async getOrgFileContent(): Promise<any> {
-        let resp = await axios.get(this.orgPath)
+    static async load(orgPath: string): Promise<any> {
+        let resp = await axios.get(orgPath)
 
         return resp.data
-    }
-
-    async parseOrgContent() {
-        let content = await this.getOrgFileContent()
-        console.log(content)
     }
 }

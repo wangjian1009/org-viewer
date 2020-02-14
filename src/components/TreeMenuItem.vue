@@ -1,13 +1,18 @@
 <template>
   <li>
-    <span @click="toggle">
-      <em v-if="hasChild" class="icon">{{isOpen ? '-' : '+'}}</em>
-      <em v-if="!hasChild" class="icon file-text"></em>
-      {{ menu.name }}
+    <span class="line" @click="toggle">
+      <em v-if="hasChild" class="icon">
+        <Icon v-if="!isOpen" type="ios-arrow-forward" />
+        <Icon v-if="isOpen" type="ios-arrow-down" />
+      </em>
+      <em v-if="!hasChild">
+        <!-- <Icon type="ios-leaf-outline" /> -->
+      </em>
+      <span class="sub-title">{{ node.value.title }}</span>
     </span>
     <transition name="fade">
       <ul v-show="isOpen" v-if="hasChild">
-        <TreeMenuItem v-for="(item, index) in menu.children" :menu="item" :key="index" />
+        <TreeMenuItem v-for="(item, index) in node.childs" :node="item" :key="index" />
       </ul>
     </transition>
   </li>
@@ -15,7 +20,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
-import Menu from "../Menu";
+import { ResultNode } from '../model'
 import EventManger from '../EventManger';
 
 @Component({
@@ -24,17 +29,16 @@ import EventManger from '../EventManger';
 
 export default class TreeMenuItem extends Vue {
   @Prop()
-  menu!: Menu;
+  node!: ResultNode
 
-  isOpen: boolean = false;
+  isOpen: boolean = false
 
   toggle(): void {
-    this.isOpen = !this.isOpen;
-    EventManger.$emit("toggleItem", this.menu.content)
+    this.isOpen = !this.isOpen
   }
 
   get hasChild() {
-    return this.menu.children && this.menu.children.length > 0;
+    return this.node.childs && this.node.childs.length > 0
   }
 }
 </script>
@@ -46,23 +50,28 @@ ul {
 
   li {
     text-align: left;
+    height: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    word-break: break-all;
+    width: 100%;
   }
 }
 
-span {
-  padding: 6px;
+.line {
   display: inline-block;
   width: 100%;
   margin-right: 5px;
   background-repeat: no-repeat;
   vertical-align: middle;
-  border-top: 1px solid #eee;
+  border-top: 1px solid #c7c7c7;
   height: 50px;
   line-height: 50px;
 
   em {
     display: inline-block;
-    width: 8px;
+    width: 24px;
   }
 }
 
@@ -71,7 +80,7 @@ span:hover {
 }
 
 .fade-enter-active, .fade-leave-active {
-  transition: opacity .5s;
+  transition: opacity .1s;
 }
 
 .fade-enter, .fade-leave-to {
