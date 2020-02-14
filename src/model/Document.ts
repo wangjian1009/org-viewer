@@ -59,12 +59,23 @@ export class Document extends Node {
         return this._tags.find((tag) => tag.name == name);
     }
 
-    get member(): Member[] {
+    get members(): Member[] {
         return Array.from(this._members.values());
     }
 
     _generateLocalId() {
         return (++this._localIdMax).toString();
+    }
+
+    _addMember(member: Member) {
+        this._members.push(member);
+    }
+
+    _removeMember(member: Member) {
+        const pos = this._members.findIndex((checkMember) => checkMember == member);
+        if (pos >= 0) {
+            this._members.slice(pos, 1);
+        }
     }
 
     _addArea(area: Area) {

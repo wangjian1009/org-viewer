@@ -2,6 +2,7 @@ import { Node } from './Node';
 import { Document } from './Document';
 import { Area } from './Area';
 import { Task } from './Task';
+import { Member } from './Member';
 
 class StackNode {
     constructor(
@@ -10,11 +11,6 @@ class StackNode {
         readonly node: Node
     ) {
     }
-}
-
-enum ParseState {
-    Normal,
-    Drawer
 }
 
 export class OrgParser {
@@ -28,6 +24,7 @@ export class OrgParser {
     debug: boolean = true;
     private _stackTop: StackNode | undefined;
     private _drawerName: string | undefined;
+    private _tagGroupIdx = 0;
 
     constructor(readonly document: Document) {
     }
@@ -45,7 +42,7 @@ export class OrgParser {
     private _processLine(line: string) {
         if (line.match(Syntax.blank)) return;
 
-        const setupLine = line.match(/^\s*#\+(TITLE|TAG|STARTUP|SEQ_TODO|TODO|TAGS|CATEGORY):*(.*)$/i);
+        const setupLine = line.match(/^\s*#\+(TITLE|TAG|STARTUP|SEQ_TODO|TODO|TAGS|CATEGORY):(.*)$/i);
         if (setupLine) {
             this._processSetupLine(setupLine[1].toUpperCase(), setupLine[2]);
             return;
@@ -84,7 +81,14 @@ export class OrgParser {
     }
 
     private _processLineDrawer(drawTag: string, left: string) {
-        console.log(`process draw ${drawTag}`);
+        if (drawTag.toUpperCase() == "ID") {
+            // if (this._stackTop) {
+            //     this._stackTop.node.originPersistentId = left.trim();
+            // }
+        }
+        else {
+            console.log(`process draw ${drawTag}`);
+        }
     }
 
     private _processLineNormal(line: string) {
@@ -103,6 +107,31 @@ export class OrgParser {
     private _processSetupLine(tag: string, content: string) {
         if (tag == "TITLE") {
             this.document.originTitle = content.trim();
+        }
+        else if (tag == "TAGS") {
+            if (content.trim().length == 0) {
+                return;
+            }
+
+            this._tagGroupIdx++;
+            if (this._tagGroupIdx == 1) {
+                const members = content.split(/\s+/);
+                for (var memberName of members) {
+                    if (memberName.length == 0) {
+                        continue;
+                    }
+
+                    const m = memberName.match(/^(.*)\(.*\)$/);
+                    if (m) {
+                        memberName = m[1];
+                    }
+
+                    new Member(this.document, memberName);
+                }
+            }
+            else {
+                //console.log(`tab ${this._tagGroupIdx} ==> ${content}`);
+            }
         }
         else {
             if (this.debug) {

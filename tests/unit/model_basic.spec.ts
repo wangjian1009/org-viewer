@@ -10,6 +10,12 @@ describe("model.basic", function() {
     this.beforeAll(function() {
         document = OrgParser.parseNewDocument(
             `#+TITLE: 测试文档
+:PROPERTIES:
+#+TAGS:
+#+TAGS: Member1(l) Member2(c) Member3(s) Member4(x)
+#+TAGS: PROJECT(p) REQUIREMENT(r) BUG(b) VERSION(v)
+#+TAGS: REFINE
+:END:
 * Area1
 ** Task1.1
 :PROPERTIES:
@@ -29,6 +35,12 @@ describe("model.basic", function() {
 
     it('document title ok', function(done) {
         "测试文档".should.equal(document.title);
+        done();
+    });
+
+    it('document members ok', function(done) {
+        ["Member1", "Member2", "Member3", "Member4"]
+            .should.deep.equal(document.members.map((member) => member.name));
         done();
     });
 

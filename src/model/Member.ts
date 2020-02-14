@@ -7,7 +7,12 @@ export class Member {
         return this._name;
     }
 
-    constructor(readonly docuent: Document, name: string) {
+    constructor(readonly document: Document, name: string) {
         this._name = name;
+        this.document._addMember(this);
+    }
+
+    dispose() {
+        this.document._removeMember(this);
     }
 }
