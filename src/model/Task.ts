@@ -22,6 +22,7 @@ export class Task extends Node {
     private _scheduled: ChangeableValue<Date> | undefined;
     private _deadline: ChangeableValue<Date> | undefined;
     private _priority: ChangeableValue<string> | undefined;
+    private _category: ChangeableValue<Tag> | undefined;
     private _tags: ChangeableValue<Tag[]> | undefined;
     private _members: ChangeableValue<Tag[]> | undefined;
     private _stateLogs: ChangeableValue<StateLog[]> | undefined;
@@ -101,6 +102,14 @@ export class Task extends Node {
 
     set originPriority(priority: string | undefined) {
         this._priority = createChangeableValue(priority);
+    }
+
+    get category(): Tag | undefined {
+        return getChangeableValue(this._category);
+    }
+
+    set originCategory(category: Tag | undefined) {
+        this._category = createChangeableValue(category);
     }
 
     get content(): string | undefined {

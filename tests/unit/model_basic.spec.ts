@@ -44,6 +44,12 @@ describe("model.basic", function() {
         done();
     });
 
+    it('document categories ok', function(done) {
+        ["PROJECT", "REQUIREMENT", "BUG", "VERSION"]
+            .should.deep.equal(document.tags(TagType.Category).map((tag) => tag.name));
+        done();
+    });
+
     it('document have connrect struct', function(done) {
         ['Area1', 'Area2'].should.deep.equal(document.areas.map((area) => area.title));
         done();

@@ -142,7 +142,7 @@ export default class App extends Vue {
 
     this.title = document.title
     this.areas = this.transferAreas(document.areas)
-    this.taskTags = this.transferTags(document.tags(TagType.Task))
+    this.taskTags = this.transferTags(document.tags(TagType.Category))
     this.memberTags = this.transferTags(document.tags(TagType.Member))
 
     let searcher = new Searcher(document);

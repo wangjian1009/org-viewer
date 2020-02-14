@@ -2,7 +2,7 @@ import { Document } from './Document'
 
 export enum TagType {
     Other,
-    Task,
+    Category,
     Member,
 }
 

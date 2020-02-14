@@ -119,7 +119,7 @@ export class OrgParser {
                 tagType = TagType.Member;
             }
             else if (this._tagGroupIdx == 2) {
-                tagType = TagType.Task;
+                tagType = TagType.Category;
             }
 
             const tags = content.split(/\s+/);
