@@ -3,7 +3,6 @@ import { Document } from './Document';
 import { Area } from './Area';
 import { State } from './State';
 import { Tag } from './Tag';
-import { Member } from './Member';
 import { StateLog } from './StateLog';
 import { ChangeableValue, createChangeableValue, getChangeableValue } from './ChangeableValue';
 
@@ -24,7 +23,7 @@ export class Task extends Node {
     private _deadline: ChangeableValue<Date> | undefined;
     private _priority: ChangeableValue<string> | undefined;
     private _tags: ChangeableValue<Tag[]> | undefined;
-    private _members: ChangeableValue<Member[]> | undefined;
+    private _members: ChangeableValue<Tag[]> | undefined;
     private _stateLogs: ChangeableValue<StateLog[]> | undefined;
 
     constructor(readonly docuent: Document, area: Area, parent: Task | undefined) {
@@ -131,7 +130,7 @@ export class Task extends Node {
         return false;
     }
 
-    get members(): Member[] {
+    get members(): Tag[] {
         const selfMembers = getChangeableValue(this._members);
         if (selfMembers) return Array.from(selfMembers);
 
@@ -140,15 +139,15 @@ export class Task extends Node {
         return [];
     }
 
-    set originMembers(members: Member[] | undefined) {
+    set originMembers(members: Tag[] | undefined) {
         this._members = createChangeableValue(members);
     }
 
-    get selfMembers(): Member[] | undefined {
+    get selfMembers(): Tag[] | undefined {
         return getChangeableValue(this._members);
     }
 
-    hasMember(member: Member): boolean {
+    hasMember(member: Tag): boolean {
         const selfMembers = getChangeableValue(this._members);
         if (selfMembers) {
             return selfMembers.includes(member);

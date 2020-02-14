@@ -1,15 +1,13 @@
 import { Node } from './Node';
 import { State } from './State';
-import { Tag } from './Tag';
-import { Member } from './Member';
+import { Tag, TagType } from './Tag';
 import { Area } from './Area';
 import { Task } from './Task';
 
 export class Document extends Node {
     private _areas: Area[];
     private _states: State[];
-    private _tags: Tag[];
-    private _members: Member[];
+    private _tags: Map<TagType, Tag[]>;
     private _localIdMax: number;
     private _localIdToTask: Map<string, Task>;
 
@@ -23,8 +21,7 @@ export class Document extends Node {
         this._localIdMax = 0;
         this._states = [];
         this._areas = [];
-        this._tags = [];
-        this._members = [];
+        this._tags = new Map();
         this._localIdToTask = new Map();
 
         this.priorityMin = 'A';
@@ -35,6 +32,13 @@ export class Document extends Node {
     dispose() {
         for (const area of this._areas) {
             area.dispose();
+        }
+        console.assert(this._localIdToTask.size == 0);
+
+        for (const tags of this._tags.values()) {
+            for (const tag of tags) {
+                tag.dispose();
+            }
         }
         console.assert(this._localIdToTask.size == 0);
     }
@@ -51,30 +55,48 @@ export class Document extends Node {
         return this._areas.find((area) => area.title == name);
     }
 
-    get tags(): Tag[] {
-        return Array.from(this._tags.values());
+    tags(tagType: TagType): Tag[] {
+        const tags = this._tags.get(tagType);
+        if (tags) {
+            return Array.from(tags.values());
+        }
+        else {
+            return [];
+        }
     }
 
     findTag(name: string): Tag | undefined {
-        return this._tags.find((tag) => tag.name == name);
-    }
+        for (const tags of this._tags.values()) {
+            const tag = tags.find((t) => t.name == name);
+            if (tag) return tag;
+        }
 
-    get members(): Member[] {
-        return Array.from(this._members.values());
+        return undefined;
     }
 
     _generateLocalId() {
         return (++this._localIdMax).toString();
     }
 
-    _addMember(member: Member) {
-        this._members.push(member);
+    _addTag(tag: Tag) {
+        var tags = this._tags.get(tag.type);
+        if (!tags) {
+            tags = [];
+            this._tags.set(tag.type, tags);
+        }
+        tags.push(tag);
     }
 
-    _removeMember(member: Member) {
-        const pos = this._members.findIndex((checkMember) => checkMember == member);
-        if (pos >= 0) {
-            this._members.slice(pos, 1);
+    _removeTag(tag: Tag) {
+        var tags = this._tags.get(tag.type);
+        if (tags) {
+            const pos = tags.findIndex((checkTag) => checkTag == tag);
+            if (pos >= 0) {
+                tags.slice(pos, 1);
+                if (tags.length == 0) {
+                    this._tags.delete(tag.type);
+                }
+            }
         }
     }
 

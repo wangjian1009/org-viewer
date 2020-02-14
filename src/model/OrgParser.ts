@@ -2,7 +2,7 @@ import { Node } from './Node';
 import { Document } from './Document';
 import { Area } from './Area';
 import { Task } from './Task';
-import { Member } from './Member';
+import { Tag, TagType } from './Tag';
 
 class StackNode {
     constructor(
@@ -114,23 +114,26 @@ export class OrgParser {
             }
 
             this._tagGroupIdx++;
+            var tagType = TagType.Other;
             if (this._tagGroupIdx == 1) {
-                const members = content.split(/\s+/);
-                for (var memberName of members) {
-                    if (memberName.length == 0) {
-                        continue;
-                    }
-
-                    const m = memberName.match(/^(.*)\(.*\)$/);
-                    if (m) {
-                        memberName = m[1];
-                    }
-
-                    new Member(this.document, memberName);
-                }
+                tagType = TagType.Member;
             }
-            else {
-                //console.log(`tab ${this._tagGroupIdx} ==> ${content}`);
+            else if (this._tagGroupIdx == 2) {
+                tagType = TagType.Task;
+            }
+
+            const tags = content.split(/\s+/);
+            for (var tagName of tags) {
+                if (tagName.length == 0) {
+                    continue;
+                }
+
+                const m = tagName.match(/^(.*)\(.*\)$/);
+                if (m) {
+                    tagName = m[1];
+                }
+
+                new Tag(this.document, tagType, tagName);
             }
         }
         else {

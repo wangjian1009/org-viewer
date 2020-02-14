@@ -1,5 +1,11 @@
 import { Document } from './Document'
 
+export enum TagType {
+    Member,
+    Task,
+    Other,
+}
+
 export class Tag {
     private _name: string;
 
@@ -7,7 +13,12 @@ export class Tag {
         return this._name;
     }
 
-    constructor(readonly docuent: Document, name: string) {
+    constructor(readonly document: Document, readonly type: TagType, name: string) {
         this._name = name;
+        this.document._addTag(this);
+    }
+
+    dispose() {
+        this.document._removeTag(this);
     }
 }

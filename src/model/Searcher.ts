@@ -1,6 +1,5 @@
 import { Node } from './Node';
 import { Document } from './Document';
-import { Member } from './Member';
 import { Tag } from './Tag';
 import { Area } from './Area';
 import { Task } from './Task';
@@ -14,7 +13,7 @@ export class ResultNode {
 }
 
 export class Searcher {
-    memberFilter: Member[] | undefined;
+    memberFilter: Tag[] | undefined;
     tagFilter: Tag[] | undefined;
     areaFilter: Area[] | undefined;
     includeArea: boolean;

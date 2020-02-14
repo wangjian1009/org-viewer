@@ -1,5 +1,5 @@
 import chai from 'chai';
-import { Document, Area, Task } from '../../src/model'
+import { Document, Area, Task, Tag, TagType } from '../../src/model'
 import { OrgParser } from '../../src/model/OrgParser'
 
 const should = chai.should();
@@ -40,7 +40,7 @@ describe("model.basic", function() {
 
     it('document members ok', function(done) {
         ["Member1", "Member2", "Member3", "Member4"]
-            .should.deep.equal(document.members.map((member) => member.name));
+            .should.deep.equal(document.tags(TagType.Member).map((tag) => tag.name));
         done();
     });
 
