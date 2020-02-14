@@ -1,27 +1,28 @@
+import { Node } from './Node';
 import { Document } from './Document'
 import { Task } from './Task'
 
-export class Area {
-    private _name: string;
+export class Area extends Node {
     private _rootTasks: Task[];
 
-    constructor(readonly docuent: Document, name: string) {
-        this._name = name;
+    constructor(readonly document: Document) {
+        super();
+
         this._rootTasks = [];
+
+        document._addArea(this);
     }
 
     dispose() {
         for (const task of this._rootTasks) {
             task.dispose();
         }
-    }
 
-    get name(): string {
-        return this._name;
+        this.document._removeArea(this);
     }
 
     createTask(): Task {
-        return new Task(this.docuent, this, undefined);
+        return new Task(this.document, this, undefined);
     }
 
     get rootTasks(): Task[] {

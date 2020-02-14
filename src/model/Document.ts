@@ -1,12 +1,11 @@
+import { Node } from './Node';
 import { State } from './State';
 import { Tag } from './Tag';
 import { Member } from './Member';
 import { Area } from './Area';
 import { Task } from './Task';
-import { ChangeableValue, createChangeableValue, getChangeableValue } from './ChangeableValue';
 
-export class Document {
-    private _title: ChangeableValue<string> | undefined;
+export class Document extends Node {
     private _areas: Area[];
     private _states: State[];
     private _tags: Tag[];
@@ -19,6 +18,8 @@ export class Document {
     priorityDft: string;
 
     constructor() {
+        super();
+
         this._localIdMax = 0;
         this._states = [];
         this._areas = [];
@@ -38,24 +39,12 @@ export class Document {
         console.assert(this._localIdToTask.size == 0);
     }
 
-    get title(): string | undefined {
-        return getChangeableValue(this._title);
-    }
-
-    set originTitle(title: string | undefined) {
-        this._title = createChangeableValue(title);
-    }
-
     get states(): State[] {
         return Array.from(this._states);
     }
 
     get areas(): Area[] {
         return Array.from(this._areas);
-    }
-
-    createArea(name: string): Area {
-        return new Area(this, name);
     }
 
     get tags(): Tag[] {
@@ -72,6 +61,17 @@ export class Document {
 
     _generateLocalId() {
         return (++this._localIdMax).toString();
+    }
+
+    _addArea(area: Area) {
+        this._areas.push(area);
+    }
+
+    _removeArea(area: Area) {
+        const pos = this._areas.findIndex((checkArea) => checkArea == area);
+        if (pos >= 0) {
+            this._areas.slice(pos, 1);
+        }
     }
 
     _addTask(task: Task) {

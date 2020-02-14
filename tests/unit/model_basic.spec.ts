@@ -1,6 +1,6 @@
 import chai from 'chai';
 import { Document } from '../../src/model'
-import { OrgParser } from '../../src/model/OrbParser'
+import { OrgParser } from '../../src/model/OrgParser'
 
 const should = chai.should();
 

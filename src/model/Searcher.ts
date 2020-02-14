@@ -1,3 +1,4 @@
+import { Node } from './Node';
 import { Document } from './Document';
 import { Member } from './Member';
 import { Tag } from './Tag';
@@ -7,7 +8,7 @@ import { Task } from './Task';
 export class ResultNode {
     childs: ResultNode[];
 
-    constructor(readonly parent: ResultNode | undefined, readonly value: Area | Task | Searcher) {
+    constructor(readonly parent: ResultNode | undefined, readonly value: Node) {
         this.childs = [];
     }
 };
@@ -24,7 +25,7 @@ export class Searcher {
     }
 
     go() {
-        const rootNode = new ResultNode(undefined, this);
+        const rootNode = new ResultNode(undefined, this.document);
 
         for (const area of this.document.areas) {
             var areaNode = rootNode;

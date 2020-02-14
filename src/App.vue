@@ -47,7 +47,7 @@ import { Component, Vue } from 'vue-property-decorator';
 import TreeMenu from './components/TreeMenu.vue';
 import Menu from './Menu';
 import EventManger from './EventManger';
-import OrgParser from './model/OrgParser';
+import OrgLoader from './model/OrgLoader';
 
 @Component({
   components: {
@@ -71,7 +71,7 @@ export default class App extends Vue {
   }
 
   async created() {
-    let parser = new OrgParser("http://localhost:8080/SFOX项目工作.org")
+    let parser = new OrgLoader("http://localhost:8080/SFOX项目工作.org")
     parser.parseOrgContent()
   }
 

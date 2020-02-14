@@ -1,3 +1,4 @@
+import { Node } from './Node';
 import { Document } from './Document';
 import { Area } from './Area';
 import { State } from './State';
@@ -12,14 +13,12 @@ export enum TaskType {
     Requirement,
 }
 
-export class Task {
+export class Task extends Node {
     readonly localId: string;
     private _area: Area;
     private _parent: Task | undefined;
     private _subTasks: Task[];
-    private _persistentId: ChangeableValue<string> | undefined;
     private _state: ChangeableValue<State> | undefined;
-    private _title: ChangeableValue<string> | undefined;
     private _content: ChangeableValue<string> | undefined;
     private _scheduled: ChangeableValue<Date> | undefined;
     private _deadline: ChangeableValue<Date> | undefined;
@@ -29,6 +28,8 @@ export class Task {
     private _stateLogs: ChangeableValue<StateLog[]> | undefined;
 
     constructor(readonly docuent: Document, area: Area, parent: Task | undefined) {
+        super();
+
         this.localId = docuent._generateLocalId();
         this._area = area;
         this._subTasks = [];
@@ -103,24 +104,12 @@ export class Task {
         this._priority = createChangeableValue(priority);
     }
 
-    get persistentId(): string | undefined {
-        return getChangeableValue(this._persistentId);
-    }
-
-    get title(): string | undefined {
-        return getChangeableValue(this._title);
-    }
-
-    set originTitle(title: string | undefined) {
-        this._title = createChangeableValue(title);
-    }
-
     get content(): string | undefined {
         return getChangeableValue(this._content);
     }
 
     set originContent(content: string | undefined) {
-        this._title = createChangeableValue(content);
+        this._content = createChangeableValue(content);
     }
 
     get tags(): Tag[] {
