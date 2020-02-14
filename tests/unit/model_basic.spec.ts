@@ -21,6 +21,12 @@ describe("model", function() {
 
     it('basic', (done) => {
         should.equal(document.title, "测试文档");
+
+        document.areas.map((area) => area.title).should.deep.equal(['Area1']);
+
+        const area1 = document.findArea("Area1");
+        should.exist(area1);
+
         done();
     });
 });

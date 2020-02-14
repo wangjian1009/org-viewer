@@ -47,6 +47,10 @@ export class Document extends Node {
         return Array.from(this._areas);
     }
 
+    findArea(name: string): Area | undefined {
+        return this._areas.find((area) => area.title == name);
+    }
+
     get tags(): Tag[] {
         return Array.from(this._tags.values());
     }
