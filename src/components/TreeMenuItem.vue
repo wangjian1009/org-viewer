@@ -13,7 +13,7 @@
             <Icon type="md-people" v-if="task.category == 'REQUIREMENT'" />
             <Icon type="md-git-branch" v-if="task.category == 'VERSION'" />
             <Icon type="md-bug" v-if="task.category == 'BUG'" />
-            <Icon type="md-list" v-if="!task.category" />
+            <Icon type="ios-list-box-outline" v-if="!task.category" />
           </Tooltip>
           {{ task.name ? task.name : "-" }}
         </span>
