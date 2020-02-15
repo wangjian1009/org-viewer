@@ -218,6 +218,7 @@ export class OrgParser {
                 task.originTitle = title;
                 task.originCategory = category;
                 task.originMembers = members;
+                task.originTags = tags;
                 task.originCategory = category;
                 this._stackPush(level, task);
             }

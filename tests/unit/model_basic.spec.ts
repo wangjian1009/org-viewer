@@ -14,10 +14,11 @@ describe("model.basic", function() {
 #+TAGS:
 #+TAGS: Member1(l) Member2(c) Member3(s) Member4(x)
 #+TAGS: PROJECT(p) REQUIREMENT(r) BUG(b) VERSION(v)
-#+TAGS: REFINE
+#+TAGS: Other1 Other2
+#+TAGS: Other3
 :END:
 * Area1
-** Task1.1    :Member1:Member2:
+** Task1.1    :Member1:Member2:Other1:Other3:BUG:
 :PROPERTIES:
 :ID:       DC7F5E66-20E3-42DA-BE24-172E670ED505
 :COOKIE_DATA: todo recursive
@@ -84,8 +85,22 @@ describe("model.basic", function() {
             done();
         });
 
-        it('should have member', function(done) {
+        it('should have members', function(done) {
             ['Member1', 'Member2'].should.deep.equal(task.members.map((member) => member.name));
+            done();
+        });
+
+        it('should have tags', function(done) {
+            ['Other1', 'Other3'].should.deep.equal(task.tags.map((tag) => tag.name));
+            done();
+        });
+
+        it('should have category', function(done) {
+            const category = task.category;
+            should.exist(category);
+            if (category) {
+                category.name.should.equal("BUG");
+            }
             done();
         });
     });
