@@ -1,8 +1,9 @@
-import { Node } from './Node';
 import { Document } from './Document';
 import { Tag } from './Tag';
 import { Area } from './Area';
 import { Task } from './Task';
+
+type Node = Document | Area | Task;
 
 export class ResultNode {
     childs: ResultNode[];

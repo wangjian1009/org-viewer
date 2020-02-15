@@ -1,6 +1,6 @@
 import { ChangeableValue, createChangeableValue, getChangeableValue } from './ChangeableValue';
 
-export class Node {
+export abstract class Node {
     private _title: ChangeableValue<string> | undefined;
     private _persistentId: ChangeableValue<string> | undefined;
 

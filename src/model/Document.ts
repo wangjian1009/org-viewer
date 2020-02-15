@@ -1,28 +1,29 @@
-import { Node } from './Node';
 import { State } from './State';
 import { Tag, TagType } from './Tag';
 import { Area } from './Area';
 import { Task } from './Task';
+import { ChangeableValue, createChangeableValue, getChangeableValue } from './ChangeableValue';
 
-export class Document extends Node {
+export class Document {
+    private _title: ChangeableValue<string> | undefined;
     private _areas: Area[];
     private _states: State[];
     private _tags: Map<TagType, Tag[]>;
     private _localIdMax: number;
     private _localIdToTask: Map<string, Task>;
+    private _persistentIdToTask: Map<string, Task>;
 
     priorityMin: string;
     priorityMax: string;
     priorityDft: string;
 
     constructor() {
-        super();
-
         this._localIdMax = 0;
         this._states = [];
         this._areas = [];
         this._tags = new Map();
         this._localIdToTask = new Map();
+        this._persistentIdToTask = new Map();
 
         this.priorityMin = 'A';
         this.priorityMax = 'C';
@@ -41,6 +42,14 @@ export class Document extends Node {
             }
         }
         console.assert(this._localIdToTask.size == 0);
+    }
+
+    get title(): string | undefined {
+        return getChangeableValue(this._title);
+    }
+
+    set originTitle(title: string | undefined) {
+        this._title = createChangeableValue(title);
     }
 
     get states(): State[] {
@@ -113,9 +122,33 @@ export class Document extends Node {
 
     _addTask(task: Task) {
         this._localIdToTask.set(task.localId, task);
+
+        const persistentId = task.persistentId;
+        if (persistentId) {
+            this._updateTagPersistentId(task, undefined, persistentId);
+        }
     }
 
     _removeTask(task: Task) {
+        const persistentId = task.persistentId;
+        if (persistentId) {
+            this._updateTagPersistentId(task, persistentId, undefined);
+        }
+
         this._localIdToTask.delete(task.localId);
+    }
+
+    _updateTagPersistentId(task: Task, fromId: string | undefined, toId: string | undefined) {
+        if (fromId) {
+            if (this._persistentIdToTask.get(fromId) == task) {
+                this._persistentIdToTask.delete(fromId);
+            }
+        }
+
+        if (toId) {
+            if (!this._persistentIdToTask.has(toId)) {
+                this._persistentIdToTask.set(toId, task);
+            }
+        }
     }
 }

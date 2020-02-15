@@ -1,15 +1,13 @@
-import { Node } from './Node';
 import { Document } from './Document'
 import { Task } from './Task'
+import { ChangeableValue, createChangeableValue, getChangeableValue } from './ChangeableValue';
 
-export class Area extends Node {
+export class Area {
+    private _title: ChangeableValue<string> | undefined;
     private _rootTasks: Task[];
 
     constructor(readonly document: Document) {
-        super();
-
         this._rootTasks = [];
-
         document._addArea(this);
     }
 
@@ -21,8 +19,12 @@ export class Area extends Node {
         this.document._removeArea(this);
     }
 
-    createTask(): Task {
-        return new Task(this.document, this, undefined);
+    get title(): string | undefined {
+        return getChangeableValue(this._title);
+    }
+
+    set originTitle(title: string | undefined) {
+        this._title = createChangeableValue(title);
     }
 
     get rootTasks(): Task[] {

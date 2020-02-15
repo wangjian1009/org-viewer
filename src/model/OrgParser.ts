@@ -1,8 +1,9 @@
-import { Node } from './Node';
 import { Document } from './Document';
 import { Area } from './Area';
 import { Task } from './Task';
 import { Tag, TagType } from './Tag';
+
+type Node = Document | Area | Task;
 
 class StackNode {
     constructor(
@@ -82,9 +83,12 @@ export class OrgParser {
 
     private _processLineDrawer(drawTag: string, left: string) {
         if (drawTag.toUpperCase() == "ID") {
-            // if (this._stackTop) {
-            //     this._stackTop.node.originPersistentId = left.trim();
-            // }
+            if (this._stackTop) {
+                const node = this._stackTop.node;
+                if ((<Task>node).originPersistentId) {
+                    (<Task>node).originPersistentId = left.trim();
+                }
+            }
         }
         else {
             console.log(`process draw ${drawTag}`);
@@ -153,7 +157,15 @@ export class OrgParser {
         const level = leader.length;
         this._stackPopToLevel(level);
 
-        const title = left;
+        const parts = left.split(/\s+/);
+
+        var title: string | undefined;
+
+        if (parts.length) {
+            title = parts[0].trim();
+
+
+        }
 
         if (level == 1) {
             const area = new Area(this.document);
