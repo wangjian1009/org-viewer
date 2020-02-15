@@ -2,28 +2,34 @@ import TaskView from './TaskView'
 import { ResultNode, Document, TagType, Area, Tag, Searcher, Task } from '@/model'
 
 export default class PageView {
-  areaFilters: string[] = []
-  tagFilters: string[] = []
-  memberFilters: string[] = []
+  areaFilter: string[] | undefined
+  tagFilter: string[] | undefined
+  memberFilter: string[] | undefined
+  categoryFilter: string[]  | undefined
 
   title: string | undefined = ""
   areas: string[] = []
   taskTags: string[] = []
   memberTags: string[] = []
+  categoryTags: string[] = []
 
   taskView?: TaskView
+  searcher: Searcher
 
   constructor(document: Document) {
     this.title = document.title
     this.areas = this.transferAreas(document.areas)
-    this.taskTags = this.transferTags(document.tags(TagType.Category))
+    this.categoryTags = this.transferTags(document.tags(TagType.Category))
     this.memberTags = this.transferTags(document.tags(TagType.Member))
+    this.taskTags = this.transferTags(document.tags(TagType.Other))
 
-    let searcher = new Searcher(document);
-    searcher.includeArea = false;
-    searcher.go();
+    document.tags(TagType.Category)
 
-    let rootNode = searcher.result
+    this.searcher = new Searcher(document);
+    this.searcher.includeArea = false;
+    this.searcher.go();
+
+    let rootNode = this.searcher.result
     this.taskView = this.generateTaskView(rootNode)
   }
 
@@ -103,5 +109,31 @@ export default class PageView {
     }
 
     return _tags
+  }
+
+  search() {
+    this.searcher.clearFilters()
+    
+    if (this.memberFilter && this.memberFilter.length > 0) {
+      this.searcher.memberFilter = this.memberFilter
+    }
+
+    if (this.areaFilter && this.areaFilter.length > 0) {
+      this.searcher.areaFilter = this.areaFilter
+    }
+
+    if (this.tagFilter && this.tagFilter.length > 0) {
+      this.searcher.tagFilter = this.tagFilter
+    }
+
+    if (this.categoryFilter && this.categoryFilter.length > 0) {
+      this.searcher.categoryFilter = this.categoryFilter
+    }
+
+    this.searcher.go()
+    let rootNode = this.searcher.result
+    this.taskView = this.generateTaskView(rootNode)
+    console.log(rootNode)
+    console.log(this.taskView)  
   }
 }

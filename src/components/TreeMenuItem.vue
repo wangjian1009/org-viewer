@@ -8,7 +8,7 @@
             <Icon v-if="isOpen" type="ios-arrow-down" />
           </em>
           <em v-if="!hasChild"></em>
-          <Tooltip :content="task.name" transfer="true" max-width="400">
+          <Tooltip :content="task.name" :transfer="true" max-width="400">
             <Icon type="md-folder-open" v-if="task.category == 'PROJECT'" />
             <Icon type="md-people" v-if="task.category == 'REQUIREMENT'" />
             <Icon type="md-git-branch" v-if="task.category == 'VERSION'" />

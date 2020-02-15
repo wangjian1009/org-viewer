@@ -109,4 +109,11 @@ export class Searcher {
 
         return true;
     }
+
+    public clearFilters() {
+        this.memberFilter = undefined
+        this.tagFilter = undefined
+        this.areaFilter = undefined
+        this.categoryFilter = undefined
+    }
 }

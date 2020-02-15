@@ -2,20 +2,25 @@
   <div id="app" v-if="!loading">
     <Row>
       <Col offset="3" span="18" class="container">
-        <Divider class="title">{{ page.title }}</Divider>
         <Row class="search-bar">
+          <Divider class="title">{{ page.title }}</Divider>
           <Col span="4" >
-            <Select v-model="page.areaFilters" prefix="ios-bookmarks" placeholder="请选择areas" class="selector" multiple>
+            <Select v-model="page.areaFilter" prefix="ios-bookmarks" placeholder="请选择areas" class="selector" multiple>
               <Option v-for="(area, index) in page.areas" :value="area" :key="index">{{ area }}</Option>
             </Select>
           </Col>
           <Col span="4">
-            <Select v-model="page.tagFilters" prefix="md-pricetags" placeholder="请选择标签" class="selector" multiple>
+            <Select v-model="page.tagFilter" prefix="md-pricetags" placeholder="请选择tag" class="selector" multiple>
               <Option v-for="(tag, index) in page.taskTags" :value="tag" :key="index">{{ tag }}</Option>
             </Select>
           </Col>
           <Col span="4">
-            <Select v-model="page.memberFilters" prefix="ios-person" placeholder="请选择成员" class="selector" multiple>
+            <Select v-model="page.categoryFilter" prefix="md-pricetags" placeholder="请选择category" class="selector" multiple>
+              <Option v-for="(category, index) in page.categoryTags" :value="category" :key="index">{{ category }}</Option>
+            </Select>
+          </Col>
+          <Col span="4">
+            <Select v-model="page.memberFilter" prefix="ios-person" placeholder="请选择member" class="selector" multiple>
               <Option v-for="(member, index) in page.memberTags" :value="member" :key="index">{{ member }}</Option>
             </Select>
           </Col>
@@ -23,6 +28,7 @@
             <Button type="success" icon="ios-search" @click="search">搜索</Button>
           </Col>
         </Row>
+        </Affix>
         <Divider></Divider>
         <TreeMenu class="tree-menu" :tasks="page.taskView.childs"></TreeMenu>
       </Col>
@@ -68,9 +74,9 @@ export default class App extends Vue {
   }
 
   search() {
-    console.log(this.page.areaFilters)
-    console.log(this.page.tagFilters)
-    console.log(this.page.memberFilters)
+    this.loading = true
+    this.page.search()
+    this.loading = false
   }
 }
 </script>
