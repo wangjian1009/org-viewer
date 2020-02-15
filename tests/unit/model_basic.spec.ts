@@ -58,6 +58,24 @@ describe("model.basic", function() {
         done();
     });
 
+    it('document done state ok', function(done) {
+        const stateDoneDft = document.stateDoneDft;
+        should.exist(stateDoneDft);
+        if (stateDoneDft) {
+            stateDoneDft.name.should.equal("DONE");
+        }
+        done();
+    });
+
+    it('document process state ok', function(done) {
+        const stateProcessDft = document.stateProcessDft;
+        should.exist(stateProcessDft);
+        if (stateProcessDft) {
+            stateProcessDft.name.should.equal("TODO");
+        }
+        done();
+    });
+
     it('document have connrect struct', function(done) {
         ['Area1', 'Area2'].should.deep.equal(document.areas.map((area) => area.title));
         done();

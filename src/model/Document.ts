@@ -111,6 +111,17 @@ export class Document {
 
     _addState(state: State) {
         this._states.push(state);
+
+        if (state.isDone) {
+            if (!this._stateDoneDft) {
+                this._stateDoneDft = state;
+            }
+        }
+        else {
+            if (!this._stateProcessDft) {
+                this._stateProcessDft = state;
+            }
+        }
     }
 
     _removeState(state: State) {
