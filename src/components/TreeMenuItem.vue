@@ -8,15 +8,18 @@
             <Icon v-if="isOpen" type="ios-arrow-down" />
           </em>
           <em v-if="!hasChild"></em>
-          <Icon type="md-folder-open" v-if="task.category == 'PROJECT'" />
-          <Icon type="md-people" v-if="task.category == 'REQUIREMENT'" />
-          <Icon type="md-git-branch" v-if="task.category == 'VERSION'" />
-          <Icon type="md-bug" v-if="task.category == 'BUG'" />
-          <Icon type="md-list" v-if="!task.category" />
+          <Tooltip :content="task.name" transfer="true" max-width="400">
+            <Icon type="md-folder-open" v-if="task.category == 'PROJECT'" />
+            <Icon type="md-people" v-if="task.category == 'REQUIREMENT'" />
+            <Icon type="md-git-branch" v-if="task.category == 'VERSION'" />
+            <Icon type="md-bug" v-if="task.category == 'BUG'" />
+            <Icon type="md-list" v-if="!task.category" />
+          </Tooltip>
           {{ task.name ? task.name : "-" }}
         </span>
       </Col>
-      <Col span="3">{{ task.priority ? task.priority : "-" }}</Col>
+      <Col span="3">{{ task.priority ? task.priority : "-" }} 
+      </Col>
       <Col span="3">{{ task.scheduled ? task.scheduled : "-" }}</Col>
       <Col span="3">{{ task.state ? task.state : "-" }}</Col>
       <Col span="3">{{ task.progress ? task.progress : "-" }}</Col>
@@ -59,23 +62,7 @@ export default class TreeMenuItem extends Vue {
   }
 }
 </script>
-
-
 <style lang="less" scoped>
-// ul {
-//   list-style: none;
-
-//   li {
-//     text-align: left;
-//     height: 100%;
-//     overflow: hidden;
-//     text-overflow: ellipsis;
-//     white-space: nowrap;
-//     word-break: break-all;
-//     width: 100%;
-//   }
-// }
-
 .task-row {
   display: inline-block;
   width: 100%;
@@ -93,16 +80,25 @@ export default class TreeMenuItem extends Vue {
 
   .name {
     text-align: left;
+    height: 100%;
     cursor: pointer;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    word-break: break-all;
   }
 }
 
 .sub-task {
   .sub-title {
-    width: 100%;
+    width: 95%;
     margin-left: 20px;
     display: block;
     height: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    word-break: break-all;
   }
 }
 
