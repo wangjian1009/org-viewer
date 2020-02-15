@@ -3,9 +3,9 @@
 :PROPERTIES:
 #+SEQ_TODO: TODO(t) NEXT(n!) WAITTING(w@/!) SOMEDAY(s!) INPROGRESS(p!) | DONE(d@/!) ABORT(a@/!)
 #+TAGS:
-#+TAGS: REFINE
 #+TAGS: Loki(l) 陈冲(c) 肖少星(s) 张鑫(x)
 #+TAGS: PROJECT(p) REQUIREMENT(r) BUG(b) VERSION(v)
+#+TAGS: REFINE
 #+STARTUP: logdrawer
 #+STARTUP: content
 #+STARTUP: hidestars
