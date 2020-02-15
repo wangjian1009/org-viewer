@@ -2,6 +2,7 @@ import { Document } from './Document';
 import { Area } from './Area';
 import { Task } from './Task';
 import { Tag, TagType } from './Tag';
+import { State } from './State';
 
 type Node = Document | Area | Task;
 
@@ -140,6 +141,25 @@ export class OrgParser {
                 new Tag(this.document, tagType, tagName);
             }
         }
+        else if (tag == "SEQ_TODO" || tag == "TODO") {
+            var isDone = false;
+            const states = content.split(/\s+/);
+            for (var stateName of states) {
+                if (stateName.length == 0) continue;
+
+                if (stateName == '|') {
+                    isDone = true;
+                    continue;
+                }
+
+                const stateNameMatcher = stateName.match(/^(.+)\(.*\)$/);
+                if (stateNameMatcher) {
+                    stateName = stateNameMatcher[1];
+                }
+
+                new State(this.document, stateName, isDone);
+            }
+        }
         else {
             if (this.debug) {
                 console.log(`ignore setup ${tag}`);
@@ -163,6 +183,7 @@ export class OrgParser {
         var members: Tag[] | undefined;
         var tags: Tag[] | undefined;
         var category: Tag | undefined;
+        var state: State | undefined;
 
         if (parts.length) {
             title = parts[0].trim();
@@ -206,6 +227,17 @@ export class OrgParser {
             }
         }
 
+        if (title) {
+            const stateLine = title.match(/^(\w+)\s+(.*)$/);
+            if (stateLine) {
+                const stateName = stateLine[1];
+                state = this.document.findState(stateName);
+                if (state) {
+                    title = stateLine[2];
+                }
+            }
+        }
+
         if (level == 1) {
             const area = new Area(this.document);
             area.originTitle = title;
@@ -215,11 +247,12 @@ export class OrgParser {
             const area = this._stackArea();
             if (area) {
                 const task = new Task(this.document, area, this._stackTask());
-                task.originTitle = title;
-                task.originCategory = category;
-                task.originMembers = members;
-                task.originTags = tags;
-                task.originCategory = category;
+                if (title) task.originTitle = title;
+                if (category) task.originCategory = category;
+                if (members) task.originMembers = members;
+                if (tags) task.originTags = tags;
+                if (category) task.originCategory = category;
+                if (state) task.originState = state;
                 this._stackPush(level, task);
             }
         }

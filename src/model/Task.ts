@@ -77,8 +77,16 @@ export class Task {
         this.document._updateTagPersistentId(this, fromId, persistentId);
     }
 
-    get sate(): State | undefined {
-        return getChangeableValue(this._state);
+    get state(): State | undefined {
+        const s = getChangeableValue(this._state);
+        if (s) return s;
+
+        return undefined;
+    }
+
+    get isDone(): boolean {
+        const s = this.state;
+        return s ? s.isDone : false;
     }
 
     set originState(state: State | undefined) {

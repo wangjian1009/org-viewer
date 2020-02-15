@@ -8,6 +8,8 @@ export class Document {
     private _title: ChangeableValue<string> | undefined;
     private _areas: Area[];
     private _states: State[];
+    private _stateDoneDft: State | undefined;
+    private _stateProcessDft: State | undefined;
     private _tags: Map<TagType, Tag[]>;
     private _localIdMax: number;
     private _localIdToTask: Map<string, Task>;
@@ -56,6 +58,18 @@ export class Document {
         return Array.from(this._states);
     }
 
+    get stateDoneDft(): State | undefined {
+        return this._stateDoneDft;
+    }
+
+    get stateProcessDft(): State | undefined {
+        return this._stateProcessDft;
+    }
+
+    findState(stateName: string): State | undefined {
+        return this._states.find((state) => state.name == stateName);
+    }
+
     get areas(): Area[] {
         return Array.from(this._areas);
     }
@@ -93,6 +107,25 @@ export class Document {
 
     _generateLocalId() {
         return (++this._localIdMax).toString();
+    }
+
+    _addState(state: State) {
+        this._states.push(state);
+    }
+
+    _removeState(state: State) {
+        const pos = this._states.findIndex((checkState) => checkState == state);
+        if (pos >= 0) {
+            this._states.slice(pos, 1);
+        }
+
+        if (this._stateDoneDft == state) {
+            this._stateDoneDft = undefined;
+        }
+
+        if (this._stateProcessDft == state) {
+            this._stateProcessDft = undefined;
+        }
     }
 
     _addTag(tag: Tag) {

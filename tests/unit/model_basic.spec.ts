@@ -11,6 +11,7 @@ describe("model.basic", function() {
         document = OrgParser.parseNewDocument(
             `#+TITLE: 测试文档
 :PROPERTIES:
+#+SEQ_TODO: TODO(t) NEXT(n!) WAITTING(w@/!) SOMEDAY(s!) INPROGRESS(p!) | DONE(d@/!) ABORT(a@/!)
 #+TAGS:
 #+TAGS: Member1(l) Member2(c) Member3(s) Member4(x)
 #+TAGS: PROJECT(p) REQUIREMENT(r) BUG(b) VERSION(v)
@@ -18,7 +19,7 @@ describe("model.basic", function() {
 #+TAGS: Other3
 :END:
 * Area1
-** Task1.1    :Member1:Member2:Other1:Other3:BUG:
+** TODO Task1.1    :Member1:Member2:Other1:Other3:BUG:
 :PROPERTIES:
 :ID:       DC7F5E66-20E3-42DA-BE24-172E670ED505
 :COOKIE_DATA: todo recursive
@@ -48,6 +49,12 @@ describe("model.basic", function() {
     it('document categories ok', function(done) {
         ["PROJECT", "REQUIREMENT", "BUG", "VERSION"]
             .should.deep.equal(document.tags(TagType.Category).map((tag) => tag.name));
+        done();
+    });
+
+    it('document states ok', function(done) {
+        ["TODO", "NEXT", "WAITTING", "SOMEDAY", "INPROGRESS", "DONE", "ABORT"]
+            .should.deep.equal(document.states.map((state) => state.name));
         done();
     });
 
@@ -100,6 +107,15 @@ describe("model.basic", function() {
             should.exist(category);
             if (category) {
                 category.name.should.equal("BUG");
+            }
+            done();
+        });
+
+        it('should have state', function(done) {
+            const state = task.state;
+            should.exist(state);
+            if (state) {
+                state.name.should.equal("TODO");
             }
             done();
         });
