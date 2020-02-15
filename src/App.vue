@@ -5,22 +5,22 @@
         <Divider class="title">{{ page.title }}</Divider>
         <Row class="search-bar">
           <Col span="4" >
-            <Select prefix="ios-bookmarks" placeholder="请选择areas" class="selector" multiple>
+            <Select v-model="page.areaFilters" prefix="ios-bookmarks" placeholder="请选择areas" class="selector" multiple>
               <Option v-for="(area, index) in page.areas" :value="area" :key="index">{{ area }}</Option>
             </Select>
           </Col>
           <Col span="4">
-            <Select prefix="md-pricetags" placeholder="请选择标签" class="selector" multiple>
+            <Select v-model="page.tagFilters" prefix="md-pricetags" placeholder="请选择标签" class="selector" multiple>
               <Option v-for="(tag, index) in page.taskTags" :value="tag" :key="index">{{ tag }}</Option>
             </Select>
           </Col>
           <Col span="4">
-            <Select prefix="ios-person" placeholder="请选择成员" class="selector" multiple>
+            <Select v-model="page.memberFilters" prefix="ios-person" placeholder="请选择成员" class="selector" multiple>
               <Option v-for="(member, index) in page.memberTags" :value="member" :key="index">{{ member }}</Option>
             </Select>
           </Col>
           <Col span="1">
-            <Button type="success" icon="ios-search">搜索</Button>
+            <Button type="success" icon="ios-search" @click="search">搜索</Button>
           </Col>
         </Row>
         <Divider></Divider>
@@ -56,15 +56,21 @@ export default class App extends Vue {
 
   async beforeCreate() {
     let orgContent = await OrgLoader.load(
-      "http://localhost:8080/SFOX项目工作.org"
+      "SFOX项目工作.org"
     );
     
     let document = OrgParser.parseNewDocument(orgContent);
     this.page = new PageView(document)
     this.loading = false
-    
+
     console.log(document)
     console.log(this.page)
+  }
+
+  search() {
+    console.log(this.page.areaFilters)
+    console.log(this.page.tagFilters)
+    console.log(this.page.memberFilters)
   }
 }
 </script>

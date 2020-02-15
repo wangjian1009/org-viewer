@@ -1,53 +1,759 @@
 #+LAST_MOBILE_CHANGE: 2020-01-15 23:40:43
 #+TITLE: SFOX项目工作安排
+:PROPERTIES:
 #+SEQ_TODO: TODO(t) NEXT(n!) WAITTING(w@/!) SOMEDAY(s!) INPROGRESS(p!) | DONE(d@/!) ABORT(a@/!)
 #+TAGS:
+#+TAGS: REFINE
 #+TAGS: Loki(l) 陈冲(c) 肖少星(s) 张鑫(x)
 #+TAGS: PROJECT(p) REQUIREMENT(r) BUG(b) VERSION(v)
-#+TAGS: REFINE
 #+STARTUP: logdrawer
 #+STARTUP: content
 #+STARTUP: hidestars
 #+STARTUP: indent
 #+ARCHIVE: Archive/%s::
 #+CATEGORY: SFOX
+:END:
 
 * 待处理 [0/0]
-* 近期工作 [4/10]
-** [#B] [4/8] 出一个windows矿机版本                                :PROJECT:
-*** [#B] [9/9] 生成Windows安装包并正常启动                    :REQUIREMENT:
-**** DONE [#C] 在Jekins中可以选择分支出版本                         :张鑫:
+:PROPERTIES:
+:ID:       E5E8A3B8-77F2-4644-B82D-EF5F35B0D0F8
+:END:
+* 近期工作 [18/51]
+:PROPERTIES:
+:ID:       DC7F5E66-20E3-42DA-BE24-172E670ED505
+:COOKIE_DATA: todo recursive
+:END:
+** 版本计划
+:PROPERTIES:
+:ID:       6E090367-600B-4623-95B2-25BD50EE1552
+:END:
+*** WAITTING Android Cooline v1.0.42(56)                          :VERSION:
+:PROPERTIES:
+:ID:       B7A1218E-79FC-4A94-82E0-0B8323A4E40E
+:END:
+** [#B] [15/31] 出一个windows矿机版本                              :PROJECT:
+:PROPERTIES:
+:ID:       4539B129-AFDC-4812-B893-E39627703B0B
+:COOKIE_DATA: todo recursive
+:END:
+*** [#B] [5/9] 生成Windows安装包并正常启动                    :REQUIREMENT:
+:PROPERTIES:
+:ID:       0AC5F175-1868-49F0-9A8C-D398E5422074
+:END:
+**** DONE 通过命令行编译出安装包                                    :陈冲:
+    SCHEDULED: <2020-01-08 Wed>
+    :PROPERTIES:
+    :ID:       0F220B8B-639B-4060-825E-287F3442BE44
+    :END:
+**** DONE 安装程序基础部分，支持将监控程序安装为服务                :陈冲:
+SCHEDULED: <2020-01-02 Thu>
+:PROPERTIES:
+:ID:       0DF6F65C-E485-4ACD-A0FD-488C04105DF9
+:END:
+:LOGBOOK:
+- State "DONE"       from "INPROGRESS" [2020-01-16 Thu 18:23]
+:END:
+**** DONE 矿机程序Windows环境编译通过                               :张鑫:
+:PROPERTIES:
+:ID:       6D580D07-6F06-4836-88A8-BDB1DD3DB104
+:END:
+:LOGBOOK:
+- State "DONE"       from "TODO"       [2020-01-10 Fri 12:20] \\
+  编译完成，下一步需要完成串联工作
+:END:
+**** DONE 通过构建环境能够自动生成安装包                            :张鑫:
+SCHEDULED: <2020-01-10 Fri>
+:PROPERTIES:
+:ID:       EF82DEF4-2D78-4E5A-8ED3-8655545A4DAC
+:END:
+:LOGBOOK:
+- State "TODO"       from              [2020-01-12 Sun 00:28]
+:END:
+**** DONE 生成的安装包提交到Github仓库                              :张鑫:
+SCHEDULED: <2020-01-19 Sun>
+:PROPERTIES:
+:ID:       06D7AAB1-E747-4CC4-9193-55BB08595405
+:END:
+:LOGBOOK:
+- State "DONE"       from "INPROGRESS" [2020-01-19 Sun 17:45]
+- State "INPROGRESS" from              [2020-01-19 Sun 11:08]
+:END:
+**** INPROGRESS [#C] 在Jekins中可以选择分支出版本                   :张鑫:
 SCHEDULED: <2020-02-07 Fri>
-**** DONE [#A] 安装包能够根据需要生成带有渠道、架构、版本的包       :张鑫:
+:LOGBOOK:
+- State "INPROGRESS" from "TODO"       [2020-02-10 Mon 10:41]
+:END:
+**** INPROGRESS [#A] 安装包能够根据需要生成带有渠道、架构、版本的包 :张鑫:
 SCHEDULED: <2020-02-07 Fri>
-**** DONE [#B] 修改进程启动方案后，Windows矿机保活                  :陈冲:
+:LOGBOOK:
+- State "INPROGRESS" from "TODO"       [2020-02-10 Mon 10:40]
+:END:
+**** INPROGRESS [#B] 修改进程启动方案后，Windows矿机保活            :陈冲:
 SCHEDULED: <2020-02-10 Mon>
-*** [#B] [0/3] 矿机能够自动升级                               :REQUIREMENT:
+:LOGBOOK:
+- State "INPROGRESS" from "TODO"       [2020-02-10 Mon 10:41]
+:END:
+**** INPROGRESS 给第一个WinMiner渠道分配新的用户并写入安装程序      :陈冲:
+SCHEDULED: <2020-02-11 Tue>
+:LOGBOOK:
+- State "INPROGRESS" from              [2020-02-11 Tue 10:14]
+:END:
+*** [#B] [6/6] 矿机能够正在运行并注册成功
+:PROPERTIES:
+:ID:       87B7F4CD-D058-405C-BE34-E0A453FEE123
+:END:
+**** DONE 监控程序支持版本号比对规则                                :陈冲:
+SCHEDULED: <2020-01-17 Fri>
+:PROPERTIES:
+:ID:       F2F78611-6A9C-4782-AEA7-8C1F7C78D553
+:END:
+:LOGBOOK:
+- State "DONE"       from "INPROGRESS" [2020-01-20 Mon 10:26]
+:END:
+**** DONE 调试情况下，监控程序支持 --env=dev 这样的设置参数指定运行环境，这个参数能够偷传到矿机 :陈冲:
+SCHEDULED: <2020-01-17 Fri>
+:PROPERTIES:
+:ID:       231B7880-13A2-451F-B4C1-A6AF245A2BA4
+:END:
+:LOGBOOK:
+- State "DONE"       from "INPROGRESS" [2020-01-21 Tue 10:16]
+- State "INPROGRESS" from "TODO"       [2020-01-20 Mon 10:27]
+- State "TODO"       from              [2020-01-16 Thu 18:33]
+:END:
+**** DONE 监控程序通过 --cache-dir 和 --log-dir 参数控制矿机        :张鑫:
+SCHEDULED: <2020-02-03 Mon>
+:PROPERTIES:
+:ID:       F4BCB492-2D0E-4B78-8EC9-A9918C81E770
+:END:
+:LOGBOOK:
+- State "DONE"       from "INPROGRESS" [2020-02-07 Fri 10:33]
+- State "INPROGRESS" from "TODO"       [2020-01-19 Sun 11:13]
+:END:
+最终形成这样的目录结构
+- ROOT
+  - log
+    - monitor
+    - miner
+  - cache
+
+**** DONE 矿机移除多余的参数调用, 支持--cache-dir, --log-dir --env  :张鑫:
+SCHEDULED: <2020-02-03 Mon>
+:PROPERTIES:
+:ID:       7640B434-ADE9-488E-AAB4-F095E2F8B40A
+:END:
+:LOGBOOK:
+- State "DONE"       from "INPROGRESS" [2020-02-08 Sat 17:22]
+- State "INPROGRESS" from "TODO"       [2020-01-19 Sun 11:14]
+- State "TODO"       from              [2020-01-16 Thu 18:34]
+:END:
+- [ ] --base-dir 移除，并修改CMakeList，将router-policy目录拷贝到生成目录中，确保现有方式可以运行
+- [ ] --user-name --user-passwd  编译参数
+- [ ] --share-ss  去除，使用随机端口
+- [ ] --share-acceptor-queue-size  编译参数
+- [ ] --share-crypto-method 编译参数，设置为chacha20
+- [ ] --share-crypto-passwd 去除，使用随机密码
+- --network-public  可选，保留现状
+- --network-addr    可选，保留现状
+- --debug-protocol  可选，保留现状
+**** DONE windows获取deviceId                                       :张鑫:
+SCHEDULED: <2020-02-03 Mon>
+:PROPERTIES:
+:ID:       D6B41460-994E-444F-9094-100EB94B7923
+:END:
+:LOGBOOK:
+- State "DONE"       from "INPROGRESS" [2020-02-04 Tue 10:13]
+- State "INPROGRESS" from "TODO"       [2020-02-03 Mon 10:26]
+- State "TODO"       from              [2020-01-16 Thu 22:42]
+:END:
+**** DONE 矿机程序移除对pthread.so的依赖                            :Loki:
+SCHEDULED: <2020-02-03 Mon>
+:PROPERTIES:
+:ID:       B324CAF7-1517-429A-A2C5-9357FB409AB4
+:END:
+:LOGBOOK:
+- State "DONE"       from "INPROGRESS" [2020-02-03 Mon 17:22] \\
+  Mingw默认链接pthread
+  没有找到修改这个特性的参数
+  目前通过-static指定静态链接
+- State "TODO"       from              [2020-01-16 Thu 17:26]
+:END:
+*** [#B] [3/9] 矿机能够自动升级                               :REQUIREMENT:
+:PROPERTIES:
+:ID:       E045157A-0FD8-49AF-A593-C2D7B8FE2E6B
+:END:
+**** DONE 版本管理的方案确定下来                                    :陈冲:
+SCHEDULED: <2020-02-03 Mon>
+:PROPERTIES:
+:ID:       534B6EE7-7546-4E08-805E-72FB53D92B91
+:END:
+:LOGBOOK:
+- State "DONE"       from "INPROGRESS" [2020-02-04 Tue 10:07]
+- State "INPROGRESS" from "TODO"       [2020-02-03 Mon 10:24]
+:END:
+**** DONE 版本管理服务器准备到位                                    :陈冲:
+SCHEDULED: <2020-02-04 Tue>
+:PROPERTIES:
+:ID:       233F6631-C6CD-488E-8150-EE2BC993BC80
+:END:
+:LOGBOOK:
+- State "DONE"       from "INPROGRESS" [2020-02-06 Thu 11:16]
+- State "INPROGRESS" from "TODO"       [2020-02-04 Tue 10:07]
+:END:
 **** INPROGRESS [#A] 版本服务器目录结构根据方案完成调整             :张鑫:
 SCHEDULED: <2020-02-06 Thu>
-**** [0/2] 矿机程序支持升级流程
-***** INPROGRESS 理清版本升级流程处理流程，输出文档，包括状态机和实现要点 :张鑫:
+:LOGBOOK:
+- State "INPROGRESS" from              [2020-02-06 Thu 11:50]
+:END:
+**** DONE 确定矿机版本发布流程                                      :Loki:
+SCHEDULED: <2020-02-06 Thu>
+:LOGBOOK:
+- State "DONE"       from "INPROGRESS" [2020-02-07 Fri 10:15]
+- State "INPROGRESS" from "TODO"       [2020-02-06 Thu 11:38]
+:END:
+**** INPROGRESS 实现矿机升级资源管理服务                            :陈冲:
+SCHEDULED: <2020-02-12 Wed>
+:PROPERTIES:
+:ID:       FCB09C60-208F-49F0-9AD1-3C8C577B2855
+:END:
+:LOGBOOK:
+- State "INPROGRESS" from "TODO"       [2020-02-07 Fri 10:14]
+:END:
+**** [0/4] 矿机程序支持升级流程
+:PROPERTIES:
+:ID:       F982F723-DE24-4A4F-8030-BF75B981380C
+:END:
+***** INPROGRESS 能够从版本服务器拉取到版本列表并下载好升级文件启动升级流程 :张鑫:
 SCHEDULED: <2020-02-13 Thu>
-***** TODO 能够从版本服务器拉取到版本列表并下载好升级文件启动升级流程 :张鑫:
-SCHEDULED: <2020-02-15 Sat>
+:LOGBOOK:
+- State "INPROGRESS" from              [2020-02-07 Fri 10:44]
+:END:
+***** TODO 矿机新版本下载成功以后能够比对MD5,确保下载正确,否则应该尝试重新下载
+***** TODO 矿机在运行中能发现版本回退并实现最终的版本回退
+注意，如果前置版本不存在，应该能主动下载前置版本后回退
+***** TODO 矿机下载情况能够形成日志并上报到日志系统
+*** [#C] [0/2] 矿机能够打包为单一的程序，可以在任何情况下执行 :REQUIREMENT:
+:PROPERTIES:
+:ID:       5745981E-9EE5-4C1C-8D6D-77ECFA14B154
+:END:
+**** TODO 打包工具支持将配置文件打包成压缩包
+:PROPERTIES:
+:ID:       F7915F36-D81D-4F41-A03E-8200516C7622
+:END:
+:LOGBOOK:
+- State "TODO"       from              [2020-01-12 Sun 00:37]
+:END:
+**** TODO 恢复通过tar.gz最为默认包
+:PROPERTIES:
+:ID:       92AA63AD-8F37-4EE4-9F77-16EB277D56F1
+:END:
+:LOGBOOK:
+- State "TODO"       from              [2020-01-12 Sun 00:38]
+:END:
 *** DONE Windows矿机接入日志库并生成文件日志                         :Loki:
 SCHEDULED: <2020-02-07 Fri>
+:PROPERTIES:
+:ID:       E0117ECA-36B4-4188-BBBC-1E2821E4F578
+:END:
+:LOGBOOK:
+- State "DONE"       from "INPROGRESS" [2020-02-11 Tue 11:02]
+- State "INPROGRESS" from "TODO"       [2020-02-07 Fri 10:38]
+- State "TODO"       from              [2020-01-16 Thu 17:26]
+:END:
 1. 接入zlog支持
 *** NEXT 矿机日志上报从firebase上切换出来                            :Loki:
+:PROPERTIES:
+:ID:       B4907363-C7E8-41DF-8891-6AE92745C9DB
+:END:
+*** NEXT 安装程序支持完整卸载                                        :陈冲:
+*** NEXT 安装程序支持重复安装                                        :陈冲:
+:PROPERTIES:
+:ID:       1BBC3CE3-3A58-4FA5-91BC-877131F9F557
+:END:
+*** NEXT 监控程序能够通知矿机正常退出                                :陈冲:
+:PROPERTIES:
+:ID:       00642F82-5CAA-43E5-8DF3-2242C5C88C0E
+:END:
+** [#A] [0/2] 提高现有产品用户留存                                 :PROJECT:
+:PROPERTIES:
+:ID:       554E06F5-3837-49E4-9B46-57D6EBE027AF
+:END:
+*** TODO [#C] Android版本根据控制加载广告模块                        :Loki:
+:PROPERTIES:
+:ID:       54D817EB-93A9-41CC-A9CF-6D7ED4BFCFE0
+:END:
+:LOGBOOK:
+- State "TODO"       from              [2020-01-10 Fri 10:49]
+:END:
+*** INPROGRESS [#B] 访问GooglePlay下载不流畅问题                     :Loki:
+SCHEDULED: <2020-02-03 Mon>
+:PROPERTIES:
+:ID:       6D5D029C-BF95-49EB-955E-FA0D33F33A81
+:END:
+:LOGBOOK:
+- State "INPROGRESS" from "TODO"       [2020-02-03 Mon 10:26]
+:END:
+** [#A] [3/4] 测试矿机的运营能力                                   :PROJECT:
+:PROPERTIES:
+:ID:       1BD35034-76E8-4461-8FF6-D401D6DF3FD1
+:END:
+*** DONE 搭建一个矿机测试目标                                      :肖少星:
+SCHEDULED: <2020-01-15 Wed>
+:PROPERTIES:
+:ID:       0756F61E-0D1B-4F6F-96C8-60A805CBF44C
+:END:
+:LOGBOOK:
+- State "DONE"       from "INPROGRESS" [2020-01-19 Sun 10:18]
+- State "TODO"       from              [2020-01-12 Sun 00:45]
+:END:
+*** DONE 矿机支持指定矿机连接                                        :Loki:
+SCHEDULED: <2020-01-13 Mon>
+:PROPERTIES:
+:ID:       FBE86FF9-EB7F-4014-8BD4-6C0667B9E06F
+:END:
+:LOGBOOK:
+- State "DONE"       from "INPROGRESS" [2020-01-15 Wed 21:47]
+- State "TODO"       from              [2020-01-12 Sun 00:46]
+:END:
+*** DONE 在单台及其上执行完整的测试用例并输出结果                  :肖少星:
+SCHEDULED: <2020-02-04 Tue>
+:PROPERTIES:
+:ID:       3028509E-DF81-4B3C-BD2E-E883262DE120
+:END:
+:LOGBOOK:
+- State "DONE"       from "INPROGRESS" [2020-02-06 Thu 11:17]
+:END:
+*** INPROGRESS 在多台及其上搭建测试环境，统一执行测试并输出测试结果 :肖少星:
+SCHEDULED: <2020-02-05 Wed>
+:PROPERTIES:
+:ID:       973B3CAF-3029-42F2-A051-20691635F9CB
+:END:
+:LOGBOOK:
+- State "INPROGRESS" from "TODO"       [2020-02-05 Wed 10:01]
+- State "TODO"       from              [2020-01-12 Sun 00:51]
+:END:
+** [0/2] 运营相关工作
+:PROPERTIES:
+:ID:       84F6B952-7D27-41A1-94CE-0B6D5FFE3C8D
+:END:
+*** WAITTING 广告账号恢复出来                                        :Loki:
+:PROPERTIES:
+:ID:       444A6AE1-0835-4988-9D55-42C94A22D1FF
+:END:
+*** INPROGRESS 展现次留和技术指标之间的对应表格，以便分析次留波动的原因（至少包括用户平均流量） :肖少星:
+SCHEDULED: <2020-02-10 Mon>
+:PROPERTIES:
+:ID:       A5912E45-49F8-4611-BAB7-7F0E93B7114A
+:END:
+:LOGBOOK:
+- State "INPROGRESS" from "TODO"       [2020-02-11 Tue 09:30]
+:END:
+** [0/0] 尽快解决的BUG
+:PROPERTIES:
+:ID:       701F93FB-D0B4-4BA3-A34F-56066B699D86
+:END:
+** [0/3] 清理数据库中不用的表格
+*** TODO 整理开发环境中所有的表信息，并确定清理计划                  :陈冲:
+*** TODO 开发环境清理结果同步到正式环境                              :陈冲:
+*** TODO 清理掉表 sys_country_custom ws_connect_mode                 :陈冲:
+:PROPERTIES:
+:ID:       60757CAA-45D1-4EF1-A1B2-7BF14157ACC4
+:END:
 ** TODO 搭建一个客户端版本管理平台                                  :肖少星:
-** 搭建项目进度展现平台
-*** INPROGRESS 项目任务展现界面基础版本                            :肖少星:
-SCHEDULED: <2020-02-13 Thu>
-* 下一步 [0/2]                                                       :REFINE:
+** [1/9] 其他工作                                                   :REFINE:
+:PROPERTIES:
+:ID:       D40C84B0-50AA-4F2C-8D5D-5E40054BFC57
+:END:
+*** WAITTING AutoMode大量分配到的矿机在新加坡                        :陈冲:
+:LOGBOOK:
+- State "WAITTING"   from "INPROGRESS" [2020-02-04 Tue 12:05] \\
+  修改后联通率下降，且没有产生最终的效果，等分配报表完成后再跟踪解决
+- State "INPROGRESS" from "TODO"       [2020-02-04 Tue 10:02]
+:END:
+  [2020-02-03 Mon]
+*** DONE 完成分配服务基础用例的补充                                  :陈冲:
+SCHEDULED: <2020-02-03 Mon>
+:LOGBOOK:
+- State "DONE"       from "INPROGRESS" [2020-02-10 Mon 10:48]
+- State "INPROGRESS" from "TODO"       [2020-02-03 Mon 10:34]
+:END:
+*** TODO 生成分配服务结果报表                                        :陈冲:
+*** TODO 测试一下入口点服务的http2的能力以及和curl的匹配问题       :肖少星:
+:PROPERTIES:
+:ID:       EA9C3BDE-D8DF-4F1C-B3E2-0D9EF2280C2B
+:END:
+:LOGBOOK:
+- State "TODO"       from "NEXT"       [2020-01-17 Fri 16:46]
+:END:
+[[file:~/workspace/vchain/client_android/coresdk/sfox_agent/src/sfox_chain_bu_http.c::return%20(int)req->m_id;]]
+*** TODO 做一个IOS包                                                   :Loki:
+   SCHEDULED: <2020-02-13 Thu>
+   :PROPERTIES:
+   :ID:       885CE4EC-2F0E-4328-8A5F-0B6632303D4B
+   :END:
+*** TODO [#A] 设计一个国情调查问卷                                   :Loki:
+:PROPERTIES:
+:ID:       02436553-2502-47F4-AF9B-D4DCC7819FC3
+:END:
+*** TODO 服务环境矿机管理方案同步到新的矿机升级方案                :肖少星:
+*** TODO 在运维后台能看到在线矿机列表                                :陈冲:
+*** TODO 在运维后台能看到在线矿机版本分布                            :陈冲:
+* 下一步 [0/49]                                                      :REFINE:
+:PROPERTIES:
+:ID:       944D5727-B275-4F1F-BEB3-E645D589DE0F
+:END:
 ** NEXT 拆分IP地址解析库到共享的Maven仓库                             :陈冲:
+:LOGBOOK:
+- State "NEXT"       from              [2020-02-05 Wed 11:31]
+:END:
+** NEXT 报表持久化数据中的国家名字去除，在展现层补充展现            :肖少星:
+:LOGBOOK:
+- State "NEXT"       from              [2020-02-05 Wed 11:40]
+:END:
+** NEXT [#C] ACL加载失败原因通过日志记录                              :Loki:
+:PROPERTIES:
+:ID:       72792061-C433-47CD-A90E-0E1BFAC9A8BA
+:END:
+:LOGBOOK:
+- State "NEXT"       from "TODO"       [2020-01-20 Mon 16:13]
+:END:
+** NEXT IOS开启创建Router的逻辑修改为使用selection host               :Loki:
+:PROPERTIES:
+:ID:       2746645F-5834-4C5B-9E7A-861303C39C4F
+:END:
+  [2020-01-15 Wed]
+  [[file:~/workspace/vchain/client_android/coresdk/sfox_agent_apple/src/apple_agent.m][file:~/workspace/vchain/client_android/coresdk/sfox_agent_apple/src/apple_agent.m]]
+** NEXT 研究一下 Google 家的协议进入了标准 – QUIC （Quick UDP Internet Connections）
+:PROPERTIES:
+:ID:       440EDD16-A657-4BDE-A54F-2A37635B50FF
+:END:
+https://coolshell.cn/articles/19840.html
+  [2020-01-15 Wed]
+  [[elfeed:coolshell.cn#https://coolshell.cn/?p=19840][HTTP的前世今生]]
+** NEXT 解决矿机退出时偶然出现的crash                                 :Loki:
+:PROPERTIES:
+:ID:       90A3D7EC-4B41-4C02-AE72-1FA031B5D0F1
+:END:
+  [2020-01-15 Wed]
+** NEXT 用户相关数据库调用次数缩减                                  :肖少星:
+:PROPERTIES:
+:ID:       38DF36CF-25F2-4871-9C42-FDD9E5690C56
+:END:
+*** 16309 UserMapper.selectByUser
+:PROPERTIES:
+:ID:       DCF3CF96-9D91-4D7F-A699-DA841E36B8F5
+:END:
+*** 14399 UserMapper.findUserWalletByUserName
+:PROPERTIES:
+:ID:       8165E13F-1969-4428-89E0-24F29C982F4E
+:END:
+*** 7237 UserTaskMapper.queryUserTaskByName
+:PROPERTIES:
+:ID:       0A684AA8-BA06-4617-93A8-DDAC12977948
+:END:
+*** 6100 UserMapper.queryUserByUserId
+:PROPERTIES:
+:ID:       08577D74-7052-4152-BC3A-1E8405D4B521
+:END:
+** NEXT 将Windows矿机管理方案同步到当前Linux环境                    :肖少星:
+:PROPERTIES:
+:ID:       8765A87B-24CB-444F-AB1D-9817833D535B
+:END:
+** NEXT [#B] 矿机打开socket失败（句柄满）日志正确上报                 :Loki:
+:PROPERTIES:
+:ID:       B38285F8-D1E9-4338-B64E-8688C014F89C
+:END:
+[2020-01-15 Wed 22:58]
+** NEXT Ignore矿机的标志从deviceID修改为端口                          :Loki:
+:PROPERTIES:
+:ID:       D088959D-8130-42E2-8BA2-40F50ADEF4ED
+:END:
+[2020-01-15 Wed 15:47]
+** NEXT 以国家为维度，看用户连接数到矿机的分布                      :肖少星:
+:PROPERTIES:
+:ID:       900437EC-9247-4129-8221-CD640B36110A
+:END:
+:LOGBOOK:
+- State "NEXT"       from "TODO"       [2020-02-03 Mon 00:09]
+:END:
+[2020-01-15 Wed 15:50]
+** NEXT 统计计算修改为根据逻辑时间进行，以便进一步降低同步间隔      :肖少星:
+:PROPERTIES:
+:ID:       9893EEC8-5EFC-42DD-A0DD-7EE44229DB71
+:END:
+** NEXT 监控系统迁移回国内                                          :肖少星:
+:PROPERTIES:
+:ID:       87F44BF2-B496-4862-A352-06F1A3244697
+:END:
+** NEXT 邮件发送服务和配置中心MQTT的连接不稳定                      :肖少星:
+SCHEDULED: <2020-02-15 Sat>
+:PROPERTIES:
+:ID:       EA04EFFF-0549-40CE-B83C-BEC74C1B0696
+:END:
+:LOGBOOK:
+- State "NEXT"       from "TODO"       [2020-02-03 Mon 00:09]
+:END:
+** NEXT Android客户端获取RemoteConfig支持运行时更新                   :Loki:
+:PROPERTIES:
+:ID:       1E5C2165-56A4-4313-B77E-D5D1479662B8
+:END:
+** NEXT CoolVpn获取广告请求大量异常问题                               :Loki:
+:PROPERTIES:
+:ID:       B0B83E83-7EE6-492B-BF55-77FE2C50A16A
+:END:
+** NEXT CoolVpn清理掉客户端UserInfo类                                 :Loki:
+   :PROPERTIES:
+   :ID:       91E047D7-6FD2-4194-B61F-C8F58BF07A49
+   :END:
+   [2020-01-13 Mon]
+   [[file:~/workspace/vchain/client_android/app/src/main/java/cc/shadowfox/client/data/UserInfo.java][file:~/workspace/vchain/client_android/app/src/main/java/cc/shadowfox/client/data/UserInfo.java]]
+** NEXT 项目规划文档记录下来                                          :Loki:
+:PROPERTIES:
+:ID:       4BE7F1D1-9510-41D5-8DB5-7379A1900B3F
+:END:
+** NEXT 恢复IOS版本上架能力                                           :Loki:
+:PROPERTIES:
+:ID:       E40244CF-51D2-4B8A-8ABC-285829DACA4B
+:END:
+** NEXT Android版本当速度为0时没有更新                                :Loki:
+:PROPERTIES:
+:ID:       2991D0CB-A808-402A-BF39-05357A28AE52
+:END:
+   [2020-01-11 Sat]
+** NEXT [#B] 建立用户成本计算模型                                   :肖少星:
+:PROPERTIES:
+:ID:       0AE99EB4-5B7E-4D5D-AE02-0DA336027068
+:END:
+** NEXT Flutter版本的客户端                                        :PROJECT:
+:PROPERTIES:
+:ID:       9C4EFDF0-377D-4724-826E-FFD98227941C
+:END:
+** NEXT 再提交一个不同的Android版本                                :PROJECT:
+:PROPERTIES:
+:ID:       0A5268FA-FF76-420C-90A9-F21B2BF39B7B
+:END:
+** NEXT [#B] 通过googleplay发布网络阻塞公告                           :Loki:
+:PROPERTIES:
+:ID:       D2B88BFD-BDC9-4AC2-A6EA-DCBF49DFDBF6
+:END:
+** NEXT 做一个面向初级用户的默认版本                                   :Loki:
+:PROPERTIES:
+:ID:       6E4B1D83-A1F8-453C-8B30-D272E2BAAB1B
+:END:
+** NEXT [#A] 资产查询性能提升                                         :陈冲:
+:PROPERTIES:
+:ID:       46F14542-0930-4521-8EF9-54E042240F0B
+:END:
+
+** NEXT [#B] agent的日志入口点没有切换到专用日志入口点                :Loki:
+:PROPERTIES:
+:ID:       7AC6EFCD-B476-4443-8B3A-2570D3FFA69D
+:END:
+** NEXT 资产服务缓冲更新策略和持久化策略分离                          :陈冲:
+SCHEDULED: <2020-02-13 Thu>
+:PROPERTIES:
+:ID:       5E40BC4C-4783-426B-B6F3-5ACD5BE8221E
+:END:
+:LOGBOOK:
+- State "NEXT"       from "TODO"       [2020-02-03 Mon 00:09]
+:END:
+** NEXT [#B] 数据采集服务支持配置多个广告账号                       :肖少星:
+:PROPERTIES:
+:ID:       1310C3FC-80E6-41CA-BA2E-4CB265120919
+:END:
+** NEXT GooglePlay支付接收支付和过期通知                              :陈冲:
+:PROPERTIES:
+:ID:       5CFF8ABE-4F4C-4B9F-BFC6-947B920C35C4
+:END:
+** NEXT 任务奖励重复发放问题                                          :陈冲:
+:PROPERTIES:
+:ID:       8BB10DEB-F9BE-4DEE-8BBD-982853AFEFE9
+:END:
+
+** NEXT [#A] 提供一个sfox/http2协议                                   :Loki:
+:PROPERTIES:
+:ID:       5E44763F-2DF8-47AD-AC0A-66DB5BFEAB5C
+:END:
+** NEXT [#B] 重构注册、登录、找回密码的流程                         :肖少星:
+:PROPERTIES:
+:ID:       BF037FF9-EC24-4593-A5BF-26FB2C035282
+:END:
+
+** NEXT IOS去除服务器加密调用                                         :Loki:
+:PROPERTIES:
+:ID:       3CEFBC1B-DD8B-444C-8BD8-8E4042D60EA3
+:END:
+
+** NEXT IOS客户端操作上报和Android对齐                                :Loki:
+:PROPERTIES:
+:ID:       21DD7E7B-FA52-4089-91E4-D801620262CF
+:END:
+** NEXT [#C] 接入穿透库                                               :张鑫:
+:PROPERTIES:
+:ID:       A6F08FE5-5822-4EC3-BC29-4DC8A826E1C7
+:END:
+** NEXT [#B] 接入UPNP方式的分享                                       :张鑫:
+:PROPERTIES:
+:ID:       56779725-D332-4DA8-AD13-8863F040E019
+:END:
+
+** NEXT [#A] 公司账户资产查询性能提升                                 :陈冲:
+:PROPERTIES:
+:ID:       19C608EA-71F0-49DD-81AE-C1EB44440E10
+:END:
+** NEXT 服务器做一个压力测试                                          :陈冲:
+:PROPERTIES:
+:ID:       8AB62FA5-C5BB-4C1E-B102-6FF6798EB4F0
+:END:
+** NEXT K8S后续版本升级如何操作                                     :肖少星:
+:PROPERTIES:
+:ID:       4AADBD3E-1693-420F-A3CC-1732689F3CC4
+:END:
+** NEXT 网络类型探测使用自己部署的stun服务                            :张鑫:
+:PROPERTIES:
+:ID:       0694DB8D-EF44-440B-9C36-2058CE5F950F
+:END:
+- 每一个入口点都部署一个stun服务器，锁定我们需要的stun服务的版本，确保穿透过程能够成果
+** NEXT GooglePlay发布自动化                                        :肖少星:
+:PROPERTIES:
+:ID:       C812690F-E36B-49F8-B8BE-E9B003E7C423
+:END:
+** NEXT 广告配置错误会导致客户端退出，应该修改为日志上报              :Loki:
+:PROPERTIES:
+:ID:       BCF15037-941D-4FE7-91D8-3349460C992E
+:END:
+** NEXT 收集BigQuery上的数据到日志系统，用于服务器请求错误分析      :肖少星:
+:PROPERTIES:
+   :ID:       CC1A160F-3F0E-46AC-A487-8C6F957F81BE
+   :END:
+** NEXT Android版本通过官方的接口记录页面跳转，跟踪连接状态界面的显示 :Loki:
+:PROPERTIES:
+:ID:       498FA6F9-2116-4D8D-AEBC-D9B00FE947BB
+:END:
+** NEXT Paypal支付成功提示失败重试                                    :陈冲:
+:PROPERTIES:
+:ID:       FAF38B4E-11B8-4B4D-94C1-E8D602D200B4
+:END:
 ** NEXT 日志数据类型梳理正确                                        :肖少星:
-* 将来/也许 [0/1]
+:PROPERTIES:
+:ID:       16867D39-C27B-4942-AE4F-AAA074F2BAA6
+:END:
+* 将来/也许 [0/19]
+:PROPERTIES:
+:ID:       05838765-342C-41A8-81E4-FD13C5906B28
+:END:
 ** SOMEDAY 内部管理的接口只能由内部的应用使用，避免系统外部直接访问到
-* 跟踪工作 [0/0]
+:PROPERTIES:
+:ID:       42CFA1F6-2682-4216-B4FF-7370C59F8732
+:END:
+** SOMEDAY 恢复http2的连接能力
+:PROPERTIES:
+:ID:       EC929493-23E2-4518-A89E-40F2E6F3B041
+:END:
+** SOMEDAY 服务端入口接口调用成功率监控
+:PROPERTIES:
+:ID:       2FF93E82-C2B3-445C-A43E-D5696A8A659D
+:END:
+- 收益: 现有cat服务监控到的是本服务本身的错误，二入口点监控可以监控到整个部署环境的错误
+
+** SOMEDAY IOS/Android调试功能重新组织并实现一致
+:PROPERTIES:
+:ID:       A57D9499-89A5-49B6-9291-31E30E2DBA06
+:END:
+** SOMEDAY 每日构建环境定时更新会失败
+:PROPERTIES:
+:ID:       45A66288-94C0-4C80-867A-B8F98FA8F27D
+:END:
+** SOMEDAY 开发一个根据设置参数应用矿机分配规律的工具
+:PROPERTIES:
+:ID:       24C7D047-4F42-44F0-9C8A-293262483B3F
+:END:
+** SOMEDAY 组织一次关于Docker/K8S/编译脚本的技术培训
+:PROPERTIES:
+:ID:       9E75C32D-9F11-4A41-ADAB-3C302C1D49D5
+:END:
+** SOMEDAY 后台赠送资产界面
+:PROPERTIES:
+:ID:       B6C886DF-CB62-44A0-A0C3-80621C797F46
+:END:
+** SOMEDAY Key充值
+:PROPERTIES:
+:ID:       A2FD947A-D953-45DE-BAF6-A29AAD8A088F
+:END:
+** SOMEDAY 支持在管理后台编辑树形的配置文件
+:PROPERTIES:
+:ID:       B0D322E7-8ECA-4559-94C3-4A9545A92A94
+:END:
+** SOMEDAY 开发一个手机端的监控程序
+:PROPERTIES:
+:ID:       11538059-361D-4426-A31D-E0C3991607CF
+:END:
+** SOMEDAY 矿机支持自动切换运行时端口
+:PROPERTIES:
+:ID:       B56A66C2-6BC1-4BF1-95F7-70AFCA63DA75
+:END:
+- 为什么: 在运行时切换端口可以进一步降低被墙的风险
+- 细节:
+  1. 在切换端口的过程中，需要为老连接保留一段时间，避免用户体验下降
+** SOMEDAY 日志收集结合订阅，提升及时性
+:PROPERTIES:
+:ID:       57E45A63-1ACC-4115-BA81-8C16242070A0
+:END:
+** SOMEDAY 提供一个自动选择矿机的Shadowsicks服务器
+:PROPERTIES:
+:ID:       B5C3D995-68EE-413C-8C42-7095A3E9BC9B
+:END:
+** SOMEDAY 接入Ping功能
+:PROPERTIES:
+:ID:       9C864132-1BEE-4C5A-9F63-F7C3B3B642E5
+:END:
+** SOMEDAY 能够一键部署一个空的服务器环境
+:PROPERTIES:
+:ID:       F761936B-D07D-45CF-8493-07F1119CE0A4
+:END:
+** SOMEDAY 通过sdk支持分应用代理
+:PROPERTIES:
+:ID:       E56B129C-33D3-44DF-AAD8-48FBBDE804D0
+:END:
+* 跟踪工作 [0/4]
+:PROPERTIES:
+:ID:       90CDB9AE-970B-42B5-94DD-405C75F6D930
+:END:
 ** [1/3] 矿机升级服务器切换为CDN
 *** DONE 启动域名申请和备案流程                                      :陈冲:
 SCHEDULED: <2020-02-06 Thu>
+:LOGBOOK:
+- State "DONE"       from "INPROGRESS" [2020-02-07 Fri 10:33]
+- State "INPROGRESS" from              [2020-02-06 Thu 11:42]
+:END:
 api.celery123.cc
 *** WAITTING CDN服务器准备到位                                       :陈冲:
 SCHEDULED: <2020-02-21 Fri>
+:LOGBOOK:
+- State "WAITTING"   from              [2020-02-06 Thu 11:45] \\
+  等待域名申请
+:END:
 *** WAITTING 升级线上版本使用CDN                                     :陈冲:
+:LOGBOOK:
+- State "WAITTING"   from              [2020-02-06 Thu 11:46]
+:END:
+** WAITTING 底层stream在拼写字符串时，偶然出现内存错乱
+:PROPERTIES:
+:ID:       09841324-87DB-49C0-BCF2-5C956956002E
+:END:
+** WAITTING IOS矿机连接成功率远低于Android 矿机连接成功率
+:PROPERTIES:
+:ID:       15677774-6D10-42D7-BC78-A86562D8D934
+:END:
+** WAITTING 确认域名是否续费成功
+SCHEDULED: <2020-05-15 Fri>
+:PROPERTIES:
+:ID:       75BBCDC4-69EF-43A3-9CF4-5B9173D158EA
+:END:
+** INPROGRESS 确认降成本效果                                        :肖少星:
+SCHEDULED: <2020-02-10 Mon>
+:PROPERTIES:
+:ID:       8F779C70-EEAA-4381-B019-B1D342EAAF2A
+:END:
+:LOGBOOK:
+- State "INPROGRESS" from "WAITTING"   [2020-02-10 Mon 10:40]
+:END:
