@@ -184,6 +184,7 @@ export class OrgParser {
         var tags: Tag[] | undefined;
         var category: Tag | undefined;
         var state: State | undefined;
+        var priority: string | undefined;
 
         if (parts.length) {
             title = parts[0].trim();
@@ -238,6 +239,26 @@ export class OrgParser {
             }
         }
 
+        while (title) {
+            const argMatcher = title.match(/^\[(.*)\]\s+(.*)$/);
+            if (!argMatcher) break;
+
+            const arg = argMatcher[1];
+            title = argMatcher[2];
+
+            const priorityMatcher = arg.match(/^#(\w)$/);
+            if (priorityMatcher) {
+                priority = priorityMatcher[1];
+                continue;
+            }
+        }
+
+        while (title) {
+            const argMatcher = title.match(/^(.*)\s+\[(.*)\]\s*$/);
+            if (!argMatcher) break;
+            title = argMatcher[2];
+        }
+
         if (level == 1) {
             const area = new Area(this.document);
             area.originTitle = title;
@@ -253,6 +274,7 @@ export class OrgParser {
                 if (tags) task.originTags = tags;
                 if (category) task.originCategory = category;
                 if (state) task.originState = state;
+                if (priority) task.originPriority = priority;
                 this._stackPush(level, task);
             }
         }

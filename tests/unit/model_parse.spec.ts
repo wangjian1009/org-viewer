@@ -4,7 +4,7 @@ import { OrgParser } from '../../src/model/OrgParser'
 
 const should = chai.should();
 
-describe("model.basic", function() {
+describe("model.parse", function() {
     var document: Document;
 
     this.beforeAll(function() {
@@ -19,7 +19,7 @@ describe("model.basic", function() {
 #+TAGS: Other3
 :END:
 * Area1
-** TODO Task1.1    :Member1:Member2:Other1:Other3:BUG:
+** TODO [#C] Task1.1    :Member1:Member2:Other1:Other3:BUG:
 :PROPERTIES:
 :ID:       DC7F5E66-20E3-42DA-BE24-172E670ED505
 :COOKIE_DATA: todo recursive
@@ -126,6 +126,11 @@ describe("model.basic", function() {
             if (category) {
                 category.name.should.equal("BUG");
             }
+            done();
+        });
+
+        it('should priority ok', function(done) {
+            "C".should.equal(task.priority);
             done();
         });
 
