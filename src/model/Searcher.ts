@@ -16,6 +16,7 @@ export class ResultNode {
 export class Searcher {
     memberFilter: Tag[] | undefined;
     tagFilter: Tag[] | undefined;
+    categoryFilter: Tag[] | undefined;
     areaFilter: Area[] | undefined;
     includeArea: boolean;
     _result: ResultNode | undefined;
@@ -70,6 +71,22 @@ export class Searcher {
         if (this.tagFilter) {
             for (const tag of this.tagFilter) {
                 if (task.hasTag(tag)) {
+                    return true;
+                }
+            }
+        }
+
+        if (this.memberFilter) {
+            for (const member of this.memberFilter) {
+                if (task.hasMember(member)) {
+                    return true;
+                }
+            }
+        }
+
+        if (this.categoryFilter) {
+            for (const category of this.categoryFilter) {
+                if (task.category == category) {
                     return true;
                 }
             }
