@@ -1,24 +1,22 @@
 <template>
-  <div id="app">
-    <!-- 
-    <textarea class="content-view" v-model="menuContent"></textarea>-->
+  <div id="app" v-if="!loading">
     <Row>
       <Col offset="3" span="18" class="container">
-        <Divider class="title">{{ title }}</Divider>
+        <Divider class="title">{{ page.title }}</Divider>
         <Row class="search-bar">
           <Col span="4" >
             <Select prefix="ios-bookmarks" placeholder="请选择areas" class="selector" multiple>
-              <Option v-for="(area, index) in areas" :value="area" :key="index">{{ area }}</Option>
+              <Option v-for="(area, index) in page.areas" :value="area" :key="index">{{ area }}</Option>
             </Select>
           </Col>
           <Col span="4">
             <Select prefix="md-pricetags" placeholder="请选择标签" class="selector" multiple>
-              <Option v-for="(tag, index) in taskTags" :value="tag" :key="index">{{ tag }}</Option>
+              <Option v-for="(tag, index) in page.taskTags" :value="tag" :key="index">{{ tag }}</Option>
             </Select>
           </Col>
           <Col span="4">
             <Select prefix="ios-person" placeholder="请选择成员" class="selector" multiple>
-              <Option v-for="(member, index) in memberTags" :value="member" :key="index">{{ member }}</Option>
+              <Option v-for="(member, index) in page.memberTags" :value="member" :key="index">{{ member }}</Option>
             </Select>
           </Col>
           <Col span="1">
@@ -26,32 +24,7 @@
           </Col>
         </Row>
         <Divider></Divider>
-        <Row class="top-bar">
-          <Col span="6">列表</Col>
-          <Col span="6" push="1">任务名</Col>
-          <Col span="3" push="1">进度</Col>
-          <Col span="5" push="1">人员</Col>
-        </Row>
-        <Row class="content">
-          <Col span="6">
-            <TreeMenu class="tree-menu" :nodes="nodes"></TreeMenu>
-          </Col>
-          <Col span="14" push="1">
-            <Row class="task" v-for="(task, index) in tasks" :value="task" :key="index">
-              <Col span="10" class="task-name">
-              <b>{{ task.name }}</b>
-              </Col>
-              <Col span="6">
-                <Tag color="success">{{ task.progress }}</Tag>
-              </Col>
-              <Col span="8  ">
-                <span v-for="(member, index) in task.members" :key="index" :value="member" >
-                  <Tag>{{ member }}</Tag>
-                </span>
-              </Col>
-            </Row>
-          </Col>
-        </Row>
+        <TreeMenu class="tree-menu" :tasks="page.taskView.childs"></TreeMenu>
       </Col>
     </Row>
     
@@ -67,8 +40,8 @@ import Menu from "./Menu";
 import EventManger from "./EventManger";
 import OrgLoader from "./model/OrgLoader";
 import { OrgParser } from "./model/OrgParser";
-import { Task } from './viewmodel/ViewModel'
 import { TagType, Tag, Area, Searcher, ResultNode } from './model';
+import { PageView } from './viewmodel'
 
 @Component({
   components: {
@@ -78,120 +51,21 @@ import { TagType, Tag, Area, Searcher, ResultNode } from './model';
 
 export default class App extends Vue {
 
-  title: string | undefined = ""
-  areas: string[] = []
-  taskTags: string[] = []
-  memberTags: string[] = []
-  nodes: ResultNode[] = []
+  page!: PageView
+  loading = true
 
-  tasks: Task[] = [
-    {
-      name: "出一个windows矿机版本",
-      members: ["陈冲"],
-      progress: "Done"
-    },
-    {
-      name: "生成Windows安装包并正常启动",
-      members: ["陈冲"],
-      progress: "Done"
-    },
-    {
-      name: "测试测试",
-      members: ["汪键", "肖少星", "陈冲", "张鑫"],
-      progress: "Done"
-    },
-    {
-      name: "开发OrgViewer",
-      members: ["汪键", "肖少星"],
-      progress: "Done"
-    },
-  ]
-
-  mounted() {
-  }
-
-  transferAreas(areas: Area[]) {
-    let _areas: string[] = []
-
-    for (const area of areas) {
-      if (area.title) {
-        _areas.push(area.title)
-      }
-    }
-
-    return _areas
-  }
-
-  transferTags(tags: Tag[]) {
-    let _tags: string[] = []
-
-    for (const tag of tags) {
-      if (tag.name) {
-        _tags.push(tag.name)
-      }
-    }
-
-    return _tags
-  }
-
-  async created() {
+  async beforeCreate() {
     let orgContent = await OrgLoader.load(
       "http://localhost:8080/SFOX项目工作.org"
     );
+    
     let document = OrgParser.parseNewDocument(orgContent);
-
-    this.title = document.title
-    this.areas = this.transferAreas(document.areas)
-    this.taskTags = this.transferTags(document.tags(TagType.Category))
-    this.memberTags = this.transferTags(document.tags(TagType.Member))
-
-    let searcher = new Searcher(document);
-    searcher.includeArea = false;
-    searcher.go();
-
-    let rootNode = searcher.result
-
-    if (rootNode) {
-      this.nodes = rootNode.childs
-      console.log(this.nodes)
-    }
+    this.page = new PageView(document)
+    this.loading = false
+    
+    console.log(document)
+    console.log(this.page)
   }
-
-  menus: Menu[] = [
-    {
-      name: "节点1",
-      content: "节点1的内容",
-      children: [
-        {
-          name: "节点1-1",
-          content: "节点1-1-1的内容",
-          children: [
-            {
-              name: "节点1-1-1",
-              content: "节点1-1-1的内容",
-              children: []
-            }
-          ]
-        }
-      ]
-    },
-    {
-      name: "节点2",
-      content: "节点2的内容",
-      children: [
-        {
-          name: "节点2-1",
-          content: "节点2-1的内容",
-          children: []
-        },
-        {
-          name: "节点2-2",
-          content: "节点2-2的内容",
-          children: []
-        }
-      ]
-    }
-  ];
 }
 </script>
 
