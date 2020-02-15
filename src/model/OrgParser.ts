@@ -42,7 +42,7 @@ export class OrgParser {
     }
 
     private _processLine(line: string) {
-        if (line.match(Syntax.blank)) return;
+        if (line.length == 0) return;
 
         const setupLine = line.match(/^\s*#\+(TITLE|TAG|STARTUP|SEQ_TODO|TODO|TAGS|CATEGORY):(.*)$/i);
         if (setupLine) {
@@ -71,13 +71,52 @@ export class OrgParser {
                     this._processLineDrawer(drawerLineTag, drawerLine[2]);
                 }
             }
+            return;
         }
-        else {
-            if (this._drawerName) {
-                if (this.debug) console.log(`ignore in drawer ${this._drawerName}: ${line}`);
+
+        if (this._drawerName) {
+            if (this.debug) console.log(`ignore in drawer ${this._drawerName}: ${line}`);
+            return;
+        }
+
+        const scheduleRegex = /^\s*(SCHEDULED|DEADLINE):\s+<([^>]*)>(.*)$/i;
+        var scheduleLine = line.match(scheduleRegex);
+        if (scheduleLine) {
+            while (scheduleLine) {
+                line = scheduleLine[3];
+                this._processScheduleTime(scheduleLine[1].toUpperCase(), scheduleLine[2]);
+                scheduleLine = line.match(scheduleRegex);
+            }
+            return;
+        }
+
+        this._processLineNormal(line);
+    }
+
+    private _processScheduleTime(scheduleType: string, scheduleValue: string) {
+        if (!this._stackTop) return;
+
+        const task = <Task>this._stackTop.node;
+        if (!task) return;
+
+        const timeMatcher = scheduleValue.match(/^(\d{4})-(\d{2})-(\d{2})\s+\w+$/);
+        if (timeMatcher) {
+            const scheduleDate = new Date(Number(timeMatcher[1]), Number(timeMatcher[2]), Number(timeMatcher[3]));
+            if (scheduleType == "SCHEDULED") {
+                task.originScheduled = scheduleDate;
+            }
+            else if (scheduleType == "DEADLINE") {
+                task.originDeadline = scheduleDate;
             }
             else {
-                this._processLineNormal(line);
+                if (console.debug) {
+                    console.log(`ignore unknown schedule type ${scheduleType}`);
+                }
+            }
+        }
+        else {
+            if (console.debug) {
+                console.log(`ignore unknown schedule value ${scheduleValue}`);
             }
         }
     }
@@ -314,19 +353,5 @@ export class OrgParser {
         }
         return top;
     }
-}
-
-class Syntax {
-    static header = /^(\*+)\s+(.*)$/; // m[1] => level, m[2] => content
-    //     Syntax.define("preformatted", /^(\s*):(?: (.*)$|$)/); // m[1] => indentation, m[2] => content
-    // Syntax.define("unorderedListElement", /^(\s*)(?:-|\+|\s+\*)\s+(.*)$/); // m[1] => indentation, m[2] => content
-    // Syntax.define("orderedListElement", /^(\s*)(\d+)(?:\.|\))\s+(.*)$/); // m[1] => indentation, m[2] => number, m[3] => content
-    // Syntax.define("tableSeparator", /^(\s*)\|((?:\+|-)*?)\|?$/); // m[1] => indentation, m[2] => content
-    // Syntax.define("tableRow", /^(\s*)\|(.*?)\|?$/); // m[1] => indentation, m[2] => content
-    static blank = /^$/;
-    // Syntax.define("horizontalRule", /^(\s*)-{5,}$/); //
-    // Syntax.define("directive", /^(\s*)#\+(?:(begin|end)_)?(.*)$/i); // m[1] => indentation, m[2] => type, m[3] => content
-    static comment = /^(\s*)#(.*)$/;
-    static line = /^(\s*)(.*)$/;
 }
 

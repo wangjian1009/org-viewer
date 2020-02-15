@@ -24,6 +24,7 @@ describe("model.parse", function() {
 :ID:       DC7F5E66-20E3-42DA-BE24-172E670ED505
 :COOKIE_DATA: todo recursive
 :END:
+SCHEDULED: <2020-02-03 Mon> DEADLINE: <2020-02-15 Sat>
 *** Task1.1.1
 ** Task1.2
 * Area2
@@ -139,6 +140,24 @@ describe("model.parse", function() {
             should.exist(state);
             if (state) {
                 state.name.should.equal("TODO");
+            }
+            done();
+        });
+
+        it('should have scheduled', function(done) {
+            const scheduledDate = task.scheduled;
+            should.exist(scheduledDate);
+            if (scheduledDate) {
+                scheduledDate.should.deep.equal(new Date(2020, 2, 3));
+            }
+            done();
+        });
+
+        it('should have deadline', function(done) {
+            const deadlineDate = task.deadline;
+            should.exist(deadlineDate);
+            if (deadlineDate) {
+                deadlineDate.should.deep.equal(new Date(2020, 2, 15));
             }
             done();
         });
