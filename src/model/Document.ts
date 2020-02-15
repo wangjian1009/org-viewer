@@ -83,6 +83,14 @@ export class Document {
         return undefined;
     }
 
+    findTaskByPersistentId(id: string): Task | undefined {
+        return this._persistentIdToTask.get(id);
+    }
+
+    findTaskByLocalId(id: string): Task | undefined {
+        return this._localIdToTask.get(id);
+    }
+
     _generateLocalId() {
         return (++this._localIdMax).toString();
     }

@@ -28,8 +28,8 @@ export class Task {
     private _members: ChangeableValue<Tag[]> | undefined;
     private _stateLogs: ChangeableValue<StateLog[]> | undefined;
 
-    constructor(readonly docuent: Document, area: Area, parent: Task | undefined) {
-        this.localId = docuent._generateLocalId();
+    constructor(readonly document: Document, area: Area, parent: Task | undefined) {
+        this.localId = document._generateLocalId();
         this._area = area;
         this._subTasks = [];
         this._parent = parent;
@@ -72,7 +72,9 @@ export class Task {
     }
 
     set originPersistentId(persistentId: string | undefined) {
+        const fromId = getChangeableValue(this._persistentId);
         this._persistentId = createChangeableValue(persistentId);
+        this.document._updateTagPersistentId(this, fromId, persistentId);
     }
 
     get sate(): State | undefined {
@@ -111,7 +113,7 @@ export class Task {
             return this._parent.priority;
         }
         else {
-            return this.docuent.priorityDft;
+            return this.document.priorityDft;
         }
     }
 

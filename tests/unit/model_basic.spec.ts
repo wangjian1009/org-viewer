@@ -17,7 +17,7 @@ describe("model.basic", function() {
 #+TAGS: REFINE
 :END:
 * Area1
-** Task1.1
+** Task1.1    :Member1:Member2:
 :PROPERTIES:
 :ID:       DC7F5E66-20E3-42DA-BE24-172E670ED505
 :COOKIE_DATA: todo recursive
@@ -66,6 +66,26 @@ describe("model.basic", function() {
 
         it('should have correct struct', function(done) {
             ['Task1.1', 'Task1.2'].should.deep.equal(area1.rootTasks.map((task) => task.title));
+            done();
+        });
+    });
+
+    describe("task1.1", function() {
+        var task: Task;
+
+        this.beforeAll(function() {
+            const found = document.findTaskByPersistentId("DC7F5E66-20E3-42DA-BE24-172E670ED505");
+            should.exist(found);
+            if (found) task = found;
+        });
+
+        it('should title ok', function(done) {
+            "Task1.1".should.equal(task.title);
+            done();
+        });
+
+        it('should have member', function(done) {
+            ['Member1', 'Member2'].should.deep.equal(task.members.map((member) => member.name));
             done();
         });
     });

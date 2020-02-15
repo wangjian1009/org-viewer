@@ -85,7 +85,7 @@ export class OrgParser {
         if (drawTag.toUpperCase() == "ID") {
             if (this._stackTop) {
                 const node = this._stackTop.node;
-                if ((<Task>node).originPersistentId) {
+                if ((<Task>node)) {
                     (<Task>node).originPersistentId = left.trim();
                 }
             }
@@ -157,14 +157,53 @@ export class OrgParser {
         const level = leader.length;
         this._stackPopToLevel(level);
 
-        const parts = left.split(/\s+/);
+        const parts = left.split(/\s*:\s*/);
 
         var title: string | undefined;
+        var members: Tag[] | undefined;
+        var tags: Tag[] | undefined;
+        var category: Tag | undefined;
 
         if (parts.length) {
             title = parts[0].trim();
 
+            for (var i = 1; i < parts.length; ++i) {
+                const tagName = parts[i].trim();
+                if (tagName.length == 0) continue;
 
+                const tag = this.document.findTag(tagName);
+                if (!tag) {
+                    if (this.debug) {
+                        console.log(`ignore not exist tag ${tagName}`);
+                    }
+                    continue;
+                }
+
+                switch (tag.type) {
+                    case TagType.Category:
+                        if (!category) {
+                            category = tag;
+                        }
+                        else {
+                            if (this.debug) {
+                                console.log(`ignore duplicate category ${tag.name}`);
+                            }
+                        }
+                        break;
+                    case TagType.Member:
+                        if (!members) {
+                            members = [];
+                        }
+                        members.push(tag);
+                        break;
+                    case TagType.Other:
+                        if (!tags) {
+                            tags = [];
+                        }
+                        tags.push(tag);
+                        break;
+                }
+            }
         }
 
         if (level == 1) {
@@ -177,6 +216,9 @@ export class OrgParser {
             if (area) {
                 const task = new Task(this.document, area, this._stackTask());
                 task.originTitle = title;
+                task.originCategory = category;
+                task.originMembers = members;
+                task.originCategory = category;
                 this._stackPush(level, task);
             }
         }
