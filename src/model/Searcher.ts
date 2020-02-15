@@ -1,5 +1,5 @@
 import { Document } from './Document';
-import { Tag } from './Tag';
+import { TagType } from './Tag';
 import { Area } from './Area';
 import { Task } from './Task';
 
@@ -14,10 +14,10 @@ export class ResultNode {
 }
 
 export class Searcher {
-    memberFilter: Tag[] | undefined;
-    tagFilter: Tag[] | undefined;
-    categoryFilter: Tag[] | undefined;
-    areaFilter: Area[] | undefined;
+    memberFilter: string[] | undefined;
+    tagFilter: string[] | undefined;
+    categoryFilter: string[] | undefined;
+    areaFilter: string[] | undefined;
     includeArea: boolean;
     _result: ResultNode | undefined;
 
@@ -60,36 +60,51 @@ export class Searcher {
     }
 
     private _taskNeedProxes(task: Task): boolean {
-        if (this.memberFilter) {
-            for (const member of this.memberFilter) {
-                if (task.hasMember(member)) {
-                    return true;
+        if (this.areaFilter) {
+            var areaFound = false;
+            for (const areaName of this.areaFilter) {
+                if (task.area.title != areaName) {
+                    areaFound = true;
+                    break;
                 }
             }
+            if (!areaFound) return false;
         }
 
         if (this.tagFilter) {
-            for (const tag of this.tagFilter) {
-                if (task.hasTag(tag)) {
-                    return true;
+            var tagFound = false;
+            for (const tagName of this.tagFilter) {
+                const tag = this.document.findTag(TagType.Other, tagName);
+                if (tag && task.hasTag(tag)) {
+                    tagFound = true;
+                    break;
                 }
             }
+            if (!tagFound) return false;
         }
 
         if (this.memberFilter) {
-            for (const member of this.memberFilter) {
-                if (task.hasMember(member)) {
-                    return true;
+            var memberFound = false;
+            for (const memberName of this.memberFilter) {
+                const member = this.document.findTag(TagType.Member, memberName);
+                if (member && task.hasMember(member)) {
+                    memberFound = true;
+                    break;
                 }
             }
+            if (!memberFound) return false;
         }
 
         if (this.categoryFilter) {
-            for (const category of this.categoryFilter) {
-                if (task.category == category) {
-                    return true;
+            var categoryFound = false;
+            for (const categoryName of this.categoryFilter) {
+                const category = task.category;
+                if (category && category.name == categoryName) {
+                    categoryFound = true;
+                    break;
                 }
             }
+            if (!categoryFound) return false;
         }
 
         return true;

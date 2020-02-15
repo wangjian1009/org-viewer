@@ -232,7 +232,7 @@ export class OrgParser {
                 const tagName = parts[i].trim();
                 if (tagName.length == 0) continue;
 
-                const tag = this.document.findTag(tagName);
+                const tag = this.document.findTagByName(tagName);
                 if (!tag) {
                     if (this.debug) {
                         console.log(`ignore not exist tag ${tagName}`);

@@ -88,7 +88,17 @@ export class Document {
         }
     }
 
-    findTag(name: string): Tag | undefined {
+    findTag(type: TagType, name: string): Tag | undefined {
+        const tags = this._tags.get(type);
+        if (tags) {
+            const tag = tags.find((t) => t.name == name);
+            if (tag) return tag;
+        }
+
+        return undefined;
+    }
+
+    findTagByName(name: string): Tag | undefined {
         for (const tags of this._tags.values()) {
             const tag = tags.find((t) => t.name == name);
             if (tag) return tag;
