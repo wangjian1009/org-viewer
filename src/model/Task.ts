@@ -34,6 +34,8 @@ export class Task {
         this._subTasks = [];
         this._parent = parent;
 
+        this.document._addTask(this);
+
         if (parent) {
             parent._addSubTask(this);
         }
@@ -53,6 +55,8 @@ export class Task {
         else {
             this.area._removeRootTask(this);
         }
+
+        this.document._removeTask(this);
     }
 
     get area(): Area {
@@ -87,6 +91,26 @@ export class Task {
     get isDone(): boolean {
         const s = this.state;
         return s ? s.isDone : false;
+    }
+
+    get taskCount(): [number, number] {
+        const summary: [number, number] = [0, 0];
+
+        for (const subTask of this._subTasks) {
+            const subSummary = subTask.taskCount;
+            summary[0] += subSummary[0];
+            summary[1] += subSummary[1];
+        }
+
+        const s = getChangeableValue(this._state);
+        if (s) {
+            summary[1]++;
+            if (s.isDone) {
+                summary[0]++;
+            }
+        }
+
+        return summary;
     }
 
     set originState(state: State | undefined) {
