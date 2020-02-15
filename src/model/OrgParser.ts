@@ -272,6 +272,7 @@ export class OrgParser {
             if (stateLine) {
                 const stateName = stateLine[1];
                 state = this.document.findState(stateName);
+                console.log(`xxxx find state ${stateName} ==> ${state}`);
                 if (state) {
                     title = stateLine[2];
                 }
@@ -295,7 +296,7 @@ export class OrgParser {
         while (title) {
             const argMatcher = title.match(/^(.*)\s+\[(.*)\]\s*$/);
             if (!argMatcher) break;
-            title = argMatcher[2];
+            title = argMatcher[1];
         }
 
         if (level == 1) {

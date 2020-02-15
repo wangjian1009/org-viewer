@@ -18,7 +18,7 @@ describe("model.parse", function() {
 #+TAGS: Other1 Other2
 #+TAGS: Other3
 :END:
-* Area1
+* Area1 [1/2]
 ** TODO [#C] Task1.1    :Member1:Member2:Other1:Other3:BUG:
 :PROPERTIES:
 :ID:       DC7F5E66-20E3-42DA-BE24-172E670ED505
