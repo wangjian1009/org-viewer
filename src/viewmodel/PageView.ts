@@ -44,17 +44,17 @@ export default class PageView {
     this.search();
   }
 
-  generateTaskView(node: ResultNode | undefined): TaskView | undefined {
+  generateTaskView(node: ResultNode | undefined, level: number): TaskView | undefined {
     if (!node) return;
 
     let task = <Task>node.value
     if (!task) return;
 
-    let taskView = new TaskView(this.document, this.baseDate, task);
+    let taskView = new TaskView(this.document, this.baseDate, task, level);
 
     if (node.childs && node.childs.length > 0) {
       for (const child of node.childs) {
-        let childTaskView = this.generateTaskView(child)
+        let childTaskView = this.generateTaskView(child, level + 1)
         if (childTaskView) {
           taskView.childs.push(childTaskView);
         }
@@ -89,12 +89,12 @@ export default class PageView {
   }
 
   private setupToDoday() {
-    this.resete();
+    this.reset();
     this.dateFilterType = DateRangeType.Day;
     this.dateFilter = [new Date(Date.now()), new Date(Date.now())];
   }
 
-  private resete() {
+  private reset() {
     this.dateFilterType = undefined;
     this.areaFilter = undefined;
     this.tagFilter = undefined;
@@ -145,7 +145,7 @@ export default class PageView {
 
     searcher.go()
     let rootNode = searcher.result
-    this.taskView = this.generateTaskView(rootNode)
+    this.taskView = this.generateTaskView(rootNode, 0)
     console.log(rootNode)
     console.log(this.taskView)
   }

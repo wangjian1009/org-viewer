@@ -8,7 +8,7 @@
       <Col span="3">进度</Col>
       <Col span="3">人员</Col>
     </Row>
-    <TreeMenuItem :task="task" :key="index" v-for="(task, index) in tasks" />
+    <TreeMenuItem :class="{ odd: index % 2 == 0 }" :task="task" :key="task.name" v-for="(task, index) in tasks" />
   </div>
 </template>
 
@@ -39,6 +39,14 @@ ul {
     text-align: left;
     padding-left: 10px;
   }
+}
+
+.odd {
+  background: #eee;
+}
+
+.even {
+  background: #ddd;
 }
 
 </style>

@@ -1,8 +1,8 @@
 <template>
-  <div>
-    <Row class="task-row">
+  <div class="item-container">
+    <Row class="task-row" >
       <Col span="9" class="name">
-        <span class="sub-title" @click="toggle">
+        <span class="sub-title" :style="{marginLeft: (task.level * 24) + 'px'}" @click="toggle">
           <em v-if="hasChild" class="icon">
             <Icon v-if="!isOpen" type="ios-arrow-forward" />
             <Icon v-if="isOpen" type="ios-arrow-down" />
@@ -13,7 +13,7 @@
             <Icon type="md-people" v-if="task.category == 'REQUIREMENT'" />
             <Icon type="md-git-branch" v-if="task.category == 'VERSION'" />
             <Icon type="md-bug" v-if="task.category == 'BUG'" />
-            <Icon type="ios-list-box-outline" v-if="!task.category" />
+            <Icon type="ios-book" v-if="!task.category" />
           </Tooltip>
           {{ task.name ? task.name : "-" }}
         </span>
@@ -21,10 +21,12 @@
       <Col span="3">{{ task.priority ? task.priority : "-" }} 
       </Col>
       <Col span="3">{{ task.scheduled ? task.scheduled : "-" }}</Col>
-      <Col span="3">{{ task.state ? task.state : "-" }}</Col>
+      <Col span="3">
+        <Tag :class="lineStyle">{{ task.state ? task.state : "-" }}</Tag>
+      </Col>
       <Col span="3">{{ task.progress ? task.progress : "-" }}</Col>
       <Col span="3">
-      <Tag color="success" v-for="(member, index) in isOpen ? (task.members || []) : (task.membersWithChilds || []) " :key="index">{{ member }}</Tag>
+      <Tag v-for="(member, index) in isOpen ? (task.members || []) : (task.membersWithChilds || []) " :key="index">{{ member }}</Tag>
       </Col>
     </Row>
     <transition name="fade">
@@ -57,6 +59,38 @@ export default class TreeMenuItem extends Vue {
     this.isOpen = !this.isOpen;
   }
 
+  get lineStyle() {
+    let lineStyle = ""
+
+    if (this.task.state) {
+      switch(this.task.state) {
+        case "TODO":
+          lineStyle = "todo"
+          break
+        case "NEXT":
+          lineStyle = "next"
+          break
+        case "SOMEDAY":
+          lineStyle = "someday"
+          break
+        case "INPROGRESS":
+          lineStyle = "inprogress"
+          break
+        case "WAITTING":
+          lineStyle = "waiting"
+          break
+        case "DONE":
+          lineStyle = "done"
+          break
+        case "ABORT":
+          lineStyle = "abort"
+          break
+      }
+    }
+
+    return lineStyle
+  }
+
   get hasChild() {
     return this.task.childs && this.task.childs.length > 0;
   }
@@ -69,7 +103,6 @@ export default class TreeMenuItem extends Vue {
   margin-right: 5px;
   background-repeat: no-repeat;
   vertical-align: middle;
-  border-top: 1px solid #c7c7c7;
   height: 50px;
   line-height: 50px;
   
@@ -89,10 +122,41 @@ export default class TreeMenuItem extends Vue {
   }
 }
 
+.todo {
+  background: #02C874;
+  color: #fff;
+}
+
+.next {
+  background: #A8D695;
+  color: #fff;
+}
+
+.someday {
+  background: #BBFFBB;
+  color: #fff;
+}
+
+.inprogress {
+  background: #FFE153;
+  color: #fff;
+}
+
+.waiting {
+  background: #c5c8ce;
+}
+
+.done {
+  background: #c5c8ce;
+} 
+
+.abort {
+  background: #c5c8ce;
+}
+
 .sub-task {
   .sub-title {
     width: 95%;
-    margin-left: 20px;
     display: block;
     height: 100%;
     overflow: hidden;
@@ -102,8 +166,13 @@ export default class TreeMenuItem extends Vue {
   }
 }
 
+.ivu-tooltip {
+  margin-right: 8px;
+}
+
 .task-row:hover {
   background: #eeeeee;
+  color: #515a6e;
 }
 
 .fade-enter-active,

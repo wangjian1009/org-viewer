@@ -3,9 +3,11 @@ import { formatDate } from '../utils'
 
 export default class TaskView {
   childs: TaskView[];
+  level: number
 
-  constructor(readonly document: Document, readonly baseDate: Date, readonly innerTask: Task) {
+  constructor(readonly document: Document, readonly baseDate: Date, readonly innerTask: Task, level: number) {
     this.childs = [];
+    this.level = level
   }
 
   get name(): string | undefined {
