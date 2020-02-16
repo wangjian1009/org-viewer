@@ -111,15 +111,15 @@ export default class PageView {
     return _tags
   }
 
-  formatDate(date: Date, fmt: string) { 
+  formatDate(date: Date, fmt: string) {
     var o: any = {
-      "M+": date.getMonth() + 1, 
-      "d+": date.getDate(), 
-      "h+": date.getHours(), 
-      "m+": date.getMinutes(), 
-      "s+": date.getSeconds(), 
-      "q+": Math.floor((date.getMonth() + 3) / 3), 
-      "S": date.getMilliseconds() 
+      "M+": date.getMonth() + 1,
+      "d+": date.getDate(),
+      "h+": date.getHours(),
+      "m+": date.getMinutes(),
+      "s+": date.getSeconds(),
+      "q+": Math.floor((date.getMonth() + 3) / 3),
+      "S": date.getMilliseconds()
     }
 
     if (/(y+)/.test(fmt)) {
@@ -134,7 +134,7 @@ export default class PageView {
   }
 
   search() {
-    this.searcher.clearFilters()
+    this.searcher.clearFilters();
 
     if (this.memberFilter && this.memberFilter.length > 0) {
       this.searcher.memberFilter = this.memberFilter

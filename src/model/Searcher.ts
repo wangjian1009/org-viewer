@@ -118,7 +118,7 @@ export class Searcher {
         return true;
     }
 
-    public clearFilters() {
+    clearFilters() {
         this.memberFilter = undefined
         this.tagFilter = undefined
         this.areaFilter = undefined
