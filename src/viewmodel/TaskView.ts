@@ -61,6 +61,17 @@ export default class TaskView {
     }
   }
 
+  get taskCount(): [number, number] | undefined {
+    const taskCont = this.innerTask.taskCount;
+
+    if (taskCont[1] == 0) {
+      return undefined;
+    }
+    else {
+      return taskCont;
+    }
+  }
+
   get progress(): number | undefined {
     const taskCont = this.innerTask.taskCount;
 
