@@ -18,7 +18,7 @@
 :PROPERTIES:
 :ID:       E5E8A3B8-77F2-4644-B82D-EF5F35B0D0F8
 :END:
-* 近期工作 [28/63]
+* 近期工作 [29/72]
 :PROPERTIES:
 :ID:       DC7F5E66-20E3-42DA-BE24-172E670ED505
 :COOKIE_DATA: todo recursive
@@ -363,20 +363,9 @@ SCHEDULED: <2020-02-10 Mon>
 - State "DONE"       from "INPROGRESS" [2020-02-14 Fri 10:04]
 - State "INPROGRESS" from "TODO"       [2020-02-11 Tue 09:30]
 :END:
-** [2/2] 尽快解决的BUG
+** [0/0] 尽快解决的BUG
 :PROPERTIES:
 :ID:       701F93FB-D0B4-4BA3-A34F-56066B699D86
-:END:
-*** DONE sfox_console通过指定矿机方式运行，有环境出现开启失败的问题 :Loki:BUG:
-SCHEDULED: <2020-02-12 Wed>
-:LOGBOOK:
-- State "DONE"       from "TODO"       [2020-02-13 Thu 10:28]
-:END:
-*** DONE sfox_console只使用连接端时，出现矿机频繁启动问题        :Loki:BUG:
-SCHEDULED: <2020-02-13 Thu>
-:LOGBOOK:
-- State "DONE"       from "INPROGRESS" [2020-02-14 Fri 10:08]
-- State "INPROGRESS" from              [2020-02-13 Thu 10:28]
 :END:
 ** [0/3] 清理数据库中不用的表格
 *** TODO 整理开发环境中所有的表信息，并确定清理计划                  :陈冲:
@@ -387,28 +376,55 @@ SCHEDULED: <2020-02-13 Thu>
 :END:
 ** TODO 搭建一个客户端版本管理平台                                  :肖少星:
 ** 搭建项目进度展现平台
-*** [0/4] 项目任务展现界面基础版本                                 :肖少星:
+*** [2/5] 项目任务展现界面基础版本                                 :肖少星:
 SCHEDULED: <2020-02-13 Thu>
 :LOGBOOK:
 - State "INPROGRESS" from              [2020-02-13 Thu 09:44]
 :END:
-**** INPROGRESS 任务树形结构通过树表格式展现                      :肖少星:
+**** DONE 任务树形结构通过树表格式展现                            :肖少星:
 :LOGBOOK:
+- State "DONE"       from "INPROGRESS" [2020-02-16 Sun 08:21]
 - State "INPROGRESS" from              [2020-02-15 Sat 14:41]
 :END:
-**** TODO 通过一个统一的数据结构定义当前的过滤状态                :肖少星:
-**** TODO 通过一个统一的数据结构定义当前树的展开状态              :肖少星:
-**** TODO 通过明确的方式展现任务的类型(ICON)                      :肖少星:
+**** DONE 通过明确的方式展现任务的类型(ICON)                      :肖少星:
+:LOGBOOK:
+- State "DONE"       from "TODO"       [2020-02-16 Sun 08:12]
+:END:
+**** TODO 行的背景根据任务状态渲染不同颜色                        :肖少星:
+- TODO 未开始，绿色
+- NEXT 未开始，淡绿色
+- SOMEDAY 未开始，更加淡的绿色
+- INPROGRESS 进行中, 黄色
+- WAITTING 灰色
+- DONE 灰色
+- ABORT 已取消，灰色
+**** TODO 任务描述出现换行后和下一行混乱的问题                :肖少星:BUG:
+SCHEDULED: <2020-02-16 Sun>
+**** TODO 项目名字设置为文档的名字，以方便在浏览器中查找          :肖少星:
 *** DONE 项目任务数据模型定义完整                                    :Loki:
 SCHEDULED: <2020-02-13 Thu>
 :LOGBOOK:
 - State "DONE"       from "INPROGRESS" [2020-02-15 Sat 14:40]
 - State "INPROGRESS" from              [2020-02-13 Thu 09:44]
 :END:
-*** INPROGRESS 项目任务数据从文件解析为模型                          :Loki:
+*** DONE 项目任务数据从文件解析为模型                                :Loki:
 :LOGBOOK:
+- State "DONE"       from "INPROGRESS" [2020-02-16 Sun 08:20]
 - State "INPROGRESS" from              [2020-02-13 Thu 09:46]
 :END:
+*** TODO 展现平台部署到正式环境                                    :肖少星:
+*** TODO 搜索条件操作优化为一次点击执行                            :肖少星:
+**** TODO 过滤条件的区域转换为在右侧常驻                          :肖少星:
+*** TODO 任务树的展开状态在过滤后能够保留用户操作结果                :Loki:
+**** TODO 通过一个统一的数据结构定义当前的过滤状态                  :Loki:
+**** TODO 通过一个统一的数据结构定义当前树的展开状态              :肖少星:
+*** TODO 任务能够根据时间范围进行过滤                                :Loki:
+**** TODO 时间格式展现优化                                        :肖少星:
+**** TODO 提供一个时间格式化函数                                    :Loki:
+- [ ] 今天/昨天/明天
+- [ ] n天前/后
+- [ ] 同年不显示年份
+*** TODO 能够根据指定条件排序（文档顺序/优先级）                     :Loki:
 ** [1/9] 其他工作                                                   :REFINE:
 :PROPERTIES:
 :ID:       D40C84B0-50AA-4F2C-8D5D-5E40054BFC57

@@ -18,6 +18,8 @@ export class Searcher {
     tagFilter: string[] | undefined;
     categoryFilter: string[] | undefined;
     areaFilter: string[] | undefined;
+    dateRangeBegin: Date | undefined;
+    dateRangeEnd: Date | undefined;
     includeArea: boolean;
     _result: ResultNode | undefined;
 
@@ -105,6 +107,12 @@ export class Searcher {
                 }
             }
             if (!categoryFound) return false;
+        }
+
+        if (this.dateRangeBegin || this.dateRangeEnd) {
+            if (!task.scheduled && !task.deadline) {
+                return false;
+            }
         }
 
         return true;
