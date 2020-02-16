@@ -42,6 +42,7 @@
 <script lang="ts">
 import "view-design/dist/styles/iview.css";
 
+import moment from 'moment';
 import { Component, Vue } from "vue-property-decorator";
 import TreeMenu from "./components/TreeMenu.vue";
 import Menu from "./Menu";
@@ -50,6 +51,8 @@ import OrgLoader from "./model/OrgLoader";
 import { OrgParser } from "./model/OrgParser";
 import { TagType, Tag, Area, Searcher, ResultNode } from './model';
 import { PageView } from './viewmodel'
+
+moment.locale("zh-cn");
 
 @Component({
   components: {

@@ -93,6 +93,50 @@ export class Task {
     return s ? s.isDone : false;
   }
 
+  get stateWithChilds(): State | undefined {
+    const s = getChangeableValue(this._state);
+    if (s) return s;
+
+    var waiting_count = 0;
+    var processing_count = 0;
+    var done_count = 0;
+    var todo_count = 0;
+
+    for (const subTask of this._subTasks) {
+      const subState = subTask.stateWithChilds;
+      if (subState) {
+        if (subState.isDone) {
+          done_count++;
+        }
+        else if (subState == this.document.stateProcessDft) {
+          processing_count++;
+        }
+        else if (subState == this.document.stateWaitingDft) {
+          waiting_count++;
+        }
+        else {
+          todo_count++;
+        }
+      }
+    }
+
+    if (processing_count > 0) {
+      return this.document.stateProcessDft;
+    }
+    else if (todo_count > 0) {
+      return this.document.stateTodoDft;
+    }
+    else if (waiting_count > 0) {
+      return this.document.stateWaitingDft;
+    }
+    else if (done_count > 0) {
+      return this.document.stateDoneDft;
+    }
+    else {
+      return undefined;
+    }
+  }
+
   get taskCount(): [number, number] {
     const summary: [number, number] = [0, 0];
 
@@ -131,6 +175,13 @@ export class Task {
 
   set originDeadline(date: Date | undefined) {
     this._deadline = createChangeableValue(date);
+  }
+
+  get done(): Date | undefined {
+    const s = this.state;
+    if (!s || !s.isDone) return undefined;
+
+    return this.scheduled;
   }
 
   get parent(): Task | undefined {

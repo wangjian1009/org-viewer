@@ -1,2 +1,2 @@
-import { formatDate, formatDateBasic } from './Date'
-export { formatDate, formatDateBasic }
+import { formatDate } from './Date'
+export { formatDate }

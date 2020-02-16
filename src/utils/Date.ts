@@ -1,26 +1,22 @@
+import moment from 'moment';
 
-export function formatDate(date: Date, baseDate: Date): string {
-  return formatDateBasic(date, "yyyy-mm-dd");
-}
+export function formatDate(date: Date, base: Date): string {
+  const target = moment(date);
+  target.calendar(undefined, {
+    sameDay: '[今天]',
+    nextDay: '[明天]',
+    nextWeek: 'dddd',
+    lastDay: '[昨天]',
+    lastWeek: '[上个] dddd',
+    sameElse: 'DD/MM/YYYY'
+  });
 
-export function formatDateBasic(date: Date, fmt: string): string {
-  var o: any = {
-    "M+": date.getMonth() + 1,
-    "d+": date.getDate(),
-    "h+": date.getHours(),
-    "m+": date.getMinutes(),
-    "s+": date.getSeconds(),
-    "q+": Math.floor((date.getMonth() + 3) / 3),
-    "S": date.getMilliseconds()
-  }
-
-  if (/(y+)/.test(fmt)) {
-    fmt = fmt.replace(RegExp.$1, (date.getFullYear() + "").substr(4 - RegExp.$1.length));
-  }
-
-  for (var k in o) {
-    if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
-  }
-
-  return fmt;
+  return target.calendar(base);
+  // const diffDay = target.diff(base, 'days');
+  // if (diffDay == 0) {
+  //   return "今天";
+  // }
+  // else {
+  //   return target.format("YYYY年MM月DD日");
+  // }
 }

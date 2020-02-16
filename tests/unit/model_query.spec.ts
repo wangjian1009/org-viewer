@@ -67,7 +67,6 @@ describe("model.query", function() {
   });
 });
 
-
 function searchResults(searcher: Searcher): any[] {
   const results: any[] = [];
 

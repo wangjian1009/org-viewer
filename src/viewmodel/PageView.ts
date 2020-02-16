@@ -105,7 +105,7 @@ export default class PageView {
           continue;
         }
 
-        if (this.hideWaiting && state.name == "WAITING") {
+        if (this.hideWaiting && state == this.document.stateWaitingDft) {
           continue;
         }
 

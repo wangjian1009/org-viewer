@@ -1,3 +1,4 @@
+import moment from 'moment';
 import { Document } from './Document';
 import { TagType } from './Tag';
 import { Area } from './Area';
@@ -118,8 +119,20 @@ export class Searcher {
     }
 
     if (this.dateRangeBegin || this.dateRangeEnd) {
-      if (!task.scheduled && !task.deadline) {
-        return false;
+      const rangeBegin = this.dateRangeBegin ? moment(this.dateRangeBegin) : moment(this.dateRangeEnd);
+      const rangeEnd = this.dateRangeEnd ? moment(this.dateRangeEnd) : moment(this.dateRangeBegin);
+
+      const taskBegin = task.scheduled ? moment(task.scheduled) : undefined;
+      var taskEnd = task.done ? moment(task.done) : undefined;
+
+      if (!taskBegin && !taskEnd) return false;
+
+      if (taskBegin) {
+        if (taskBegin.isAfter(rangeEnd, 'day')) return false;
+      }
+
+      if (taskEnd) {
+        if (taskEnd.isBefore(rangeBegin, 'day')) return false;
       }
     }
 
