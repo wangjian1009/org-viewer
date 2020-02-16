@@ -36,8 +36,8 @@ export default class PageView {
     this.categoryTags = this.transferTags(document.tags(TagType.Category))
     this.memberTags = this.transferTags(document.tags(TagType.Member))
     this.taskTags = this.transferTags(document.tags(TagType.Other))
-    this.hideCompleted = false;
-    this.hideWaiting = false;
+    this.hideCompleted = true;
+    this.hideWaiting = true;
 
     this.setupToDoday();
     this.search();

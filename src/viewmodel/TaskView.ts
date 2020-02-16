@@ -42,34 +42,8 @@ export default class TaskView {
   }
 
   get state(): string | undefined {
-    if (this.innerTask.state) {
-      return this.innerTask.state.name;
-    }
-
-    const taskCont = this.innerTask.taskCount;
-
-    if (taskCont[1] == 0) {
-      return undefined;
-    }
-
-    var state: State | undefined;
-
-    if (taskCont[0] == 0) {
-      state = this.document.stateTodoDft;
-    }
-    else if (taskCont[0] == taskCont[1]) {
-      state = this.document.stateDoneDft;
-    }
-    else {
-      state = this.document.stateProcessDft;
-    }
-
-    if (state) {
-      return state.name;
-    }
-    else {
-      return undefined;
-    }
+    const s = this.innerTask.stateWithChilds;
+    return s ? s.name : undefined;
   }
 
   get taskCount(): [number, number] | undefined {
