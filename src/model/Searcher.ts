@@ -2,6 +2,7 @@ import { Document } from './Document';
 import { TagType } from './Tag';
 import { Area } from './Area';
 import { Task } from './Task';
+import { State } from './State';
 
 type Node = Document | Area | Task;
 
@@ -20,7 +21,7 @@ export class Searcher {
   areaFilter: string[] | undefined;
   dateRangeBegin: Date | undefined;
   dateRangeEnd: Date | undefined;
-  stateFilter: string[] | undefined;
+  stateFilter: State[] | undefined;
   includeArea: boolean | undefined;
   _result: ResultNode | undefined;
 
@@ -110,17 +111,10 @@ export class Searcher {
     }
 
     if (this.stateFilter) {
-      var stateFound = false;
-
-      for (const stateName of this.stateFilter) {
-        const state = task.state;
-        if (state && state.name == stateName) {
-          stateFound = true;
-          break;
-        }
+      const state = task.state;
+      if (!state || !this.stateFilter.includes(state)) {
+        return false;
       }
-
-      if (!stateFound) return false;
     }
 
     if (this.dateRangeBegin || this.dateRangeEnd) {

@@ -21,9 +21,8 @@ export default class PageView {
 
   /*控件 */
   taskView?: TaskView
-  searcher: Searcher
 
-  constructor(document: Document, readonly baseDate: Date) {
+  constructor(readonly document: Document, readonly baseDate: Date) {
     this.title = document.title
     this.areas = this.transferAreas(document.areas)
     this.categoryTags = this.transferTags(document.tags(TagType.Category))
@@ -33,8 +32,6 @@ export default class PageView {
     this.hideWaiting = true;
 
     document.tags(TagType.Category)
-
-    this.searcher = new Searcher(document);
 
     this.setupToDoday();
     this.search();
@@ -49,6 +46,7 @@ export default class PageView {
     let name = value.title
     let priority = value.priority
     let members: string[] = []
+    let membersWithChilds: string[] = []
     let scheduled
     let state
     let category
@@ -71,10 +69,17 @@ export default class PageView {
       }
     }
 
+    if (value.membersWithChilds) {
+      for (const member of value.membersWithChilds) {
+        membersWithChilds.push(member.name)
+      }
+    }
+
     let tv: TaskView = {
       name,
       priority,
       members,
+      membersWithChilds,
       scheduled,
       state,
       category,
@@ -142,11 +147,7 @@ export default class PageView {
 
   private setupToDoday() {
     this.resete();
-
-    // areaFilter: string[] | undefined
-    // tagFilter: string[] | undefined
-    // memberFilter: string[] | undefined
-    // categoryFilter: string[] | undefined
+    this.dateFilter = new Date();
   }
 
   private resete() {
@@ -157,30 +158,43 @@ export default class PageView {
   }
 
   search() {
-    this.searcher.reset();
-    this.searcher.includeArea = false;
+    const searcher = new Searcher(this.document);
+    searcher.includeArea = false;
 
     if (this.hideCompleted || this.hideWaiting) {
+      searcher.stateFilter = [];
+
+      for (const state of this.document.states) {
+        if (this.hideCompleted && state.isDone) {
+          continue;
+        }
+
+        if (this.hideWaiting && state.name == "WAITING") {
+          continue;
+        }
+
+        searcher.stateFilter.push(state);
+      }
     }
 
     if (this.memberFilter && this.memberFilter.length > 0) {
-      this.searcher.memberFilter = this.memberFilter
+      searcher.memberFilter = this.memberFilter
     }
 
     if (this.areaFilter && this.areaFilter.length > 0) {
-      this.searcher.areaFilter = this.areaFilter
+      searcher.areaFilter = this.areaFilter
     }
 
     if (this.tagFilter && this.tagFilter.length > 0) {
-      this.searcher.tagFilter = this.tagFilter
+      searcher.tagFilter = this.tagFilter
     }
 
     if (this.categoryFilter && this.categoryFilter.length > 0) {
-      this.searcher.categoryFilter = this.categoryFilter
+      searcher.categoryFilter = this.categoryFilter
     }
 
-    this.searcher.go()
-    let rootNode = this.searcher.result
+    searcher.go()
+    let rootNode = searcher.result
     this.taskView = this.generateTaskView(rootNode)
     console.log(rootNode)
     console.log(this.taskView)

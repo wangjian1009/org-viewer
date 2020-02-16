@@ -24,7 +24,7 @@
       <Col span="3">{{ task.state ? task.state : "-" }}</Col>
       <Col span="3">{{ task.progress ? task.progress : "-" }}</Col>
       <Col span="3">
-        <Tag color="success" v-for="(member, index) in task.members" :key="index">{{ member }}</Tag>
+      <Tag color="success" v-for="(member, index) in isOpen ? (task.members || []) : (task.membersWithChilds || []) " :key="index">{{ member }}</Tag>
       </Col>
     </Row>
     <transition name="fade">
