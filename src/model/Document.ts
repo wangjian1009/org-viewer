@@ -9,7 +9,9 @@ export class Document {
     private _areas: Area[];
     private _states: State[];
     private _stateDoneDft: State | undefined;
+    private _stateTodoDft: State | undefined;
     private _stateProcessDft: State | undefined;
+    private _stateWaitingDft: State | undefined;
     private _tags: Map<TagType, Tag[]>;
     private _localIdMax: number;
     private _localIdToTask: Map<string, Task>;
@@ -62,8 +64,16 @@ export class Document {
         return this._stateDoneDft;
     }
 
+    get stateTodoDft(): State | undefined {
+        return this._stateTodoDft;
+    }
+
     get stateProcessDft(): State | undefined {
         return this._stateProcessDft;
+    }
+
+    get stateWaitingDft(): State | undefined {
+        return this._stateWaitingDft;
     }
 
     findState(stateName: string): State | undefined {
@@ -128,9 +138,12 @@ export class Document {
             }
         }
         else {
-            if (!this._stateProcessDft) {
-                this._stateProcessDft = state;
+            if (!this._stateTodoDft) {
+                this._stateTodoDft = state;
             }
+
+            this._stateProcessDft = this._stateWaitingDft;
+            this._stateWaitingDft = state;
         }
     }
 

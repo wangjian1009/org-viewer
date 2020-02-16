@@ -43,7 +43,7 @@ export default class PageView {
     let task = <Task>node.value
     if (!task) return;
 
-    let taskView = new TaskView(this.baseDate, task);
+    let taskView = new TaskView(this.document, this.baseDate, task);
 
     if (node.childs && node.childs.length > 0) {
       for (const child of node.childs) {
