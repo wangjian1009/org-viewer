@@ -38,65 +38,23 @@ export default class PageView {
   }
 
   generateTaskView(node: ResultNode | undefined): TaskView | undefined {
-    if (!node) {
-      return
-    }
+    if (!node) return;
 
-    let value = <Task>node.value
-    let name = value.title
-    let priority = value.priority
-    let members: string[] = []
-    let membersWithChilds: string[] = []
-    let scheduled
-    let state
-    let category
+    let task = <Task>node.value
+    if (!task) return;
 
-    if (value.scheduled) {
-      scheduled = this.formatDate(value.scheduled, "yyyy-MM-dd")
-    }
-
-    if (value.state) {
-      state = value.state.name
-    }
-
-    if (value.category) {
-      category = value.category.name
-    }
-
-    if (value.members) {
-      for (const member of value.members) {
-        members.push(member.name)
-      }
-    }
-
-    if (value.membersWithChilds) {
-      for (const member of value.membersWithChilds) {
-        membersWithChilds.push(member.name)
-      }
-    }
-
-    let tv: TaskView = {
-      name,
-      priority,
-      members,
-      membersWithChilds,
-      scheduled,
-      state,
-      category,
-      childs: []
-    }
+    let taskView = new TaskView(this.baseDate, task);
 
     if (node.childs && node.childs.length > 0) {
       for (const child of node.childs) {
-        let t = this.generateTaskView(child)
-
-        if (t) {
-          tv.childs.push(t)
+        let childTaskView = this.generateTaskView(child)
+        if (childTaskView) {
+          taskView.childs.push(childTaskView);
         }
       }
     }
 
-    return tv
+    return taskView;
   }
 
   transferAreas(areas: Area[]) {
@@ -121,28 +79,6 @@ export default class PageView {
     }
 
     return _tags
-  }
-
-  formatDate(date: Date, fmt: string) {
-    var o: any = {
-      "M+": date.getMonth() + 1,
-      "d+": date.getDate(),
-      "h+": date.getHours(),
-      "m+": date.getMinutes(),
-      "s+": date.getSeconds(),
-      "q+": Math.floor((date.getMonth() + 3) / 3),
-      "S": date.getMilliseconds()
-    }
-
-    if (/(y+)/.test(fmt)) {
-      fmt = fmt.replace(RegExp.$1, (date.getFullYear() + "").substr(4 - RegExp.$1.length));
-    }
-
-    for (var k in o) {
-      if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
-    }
-
-    return fmt;
   }
 
   private setupToDoday() {
