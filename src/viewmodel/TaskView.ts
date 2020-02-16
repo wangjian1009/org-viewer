@@ -58,14 +58,7 @@ export default class TaskView {
   }
 
   get progress(): number | undefined {
-    const taskCont = this.innerTask.taskCount;
-
-    if (taskCont[1] == 0) {
-      return undefined;
-    }
-    else {
-      return taskCont[0] / taskCont[1];
-    }
+    return this.innerTask.progress;
   }
 
   get category(): string | undefined {

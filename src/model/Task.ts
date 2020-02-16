@@ -138,6 +138,22 @@ export class Task {
     }
   }
 
+  get progress(): number {
+    const s = this.state;
+    if (s && s.isDone) return 1;
+
+    if (this._subTasks.length) {
+      var progress = 0;
+      for (const subTask of this._subTasks) {
+        progress += subTask.progress;
+      }
+      return progress / this._subTasks.length;
+    }
+    else {
+      return 0;
+    }
+  }
+
   get taskCount(): [number, number] {
     const summary: [number, number] = [0, 0];
 
