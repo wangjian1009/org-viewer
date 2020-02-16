@@ -6,6 +6,7 @@ export default class PageView {
   hideCompleted: boolean;
   hideWaiting: boolean;
 
+  dateFilter: Date | [Date, Date] | undefined;
   areaFilter: string[] | undefined
   tagFilter: string[] | undefined
   memberFilter: string[] | undefined
