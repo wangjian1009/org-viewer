@@ -17,7 +17,18 @@ export default class TaskView {
   }
 
   get membersWithChilds(): string[] {
-    return this.innerTask.membersWithChilds.map((member) => member.name);
+    const members = this.members;
+
+    for (const subTask of this.childs) {
+      const subMembers = subTask.membersWithChilds;
+      for (const member of subMembers) {
+        if (!members.includes(member)) {
+          members.push(member);
+        }
+      }
+    }
+
+    return members;
   }
 
   get priority(): string | undefined {
