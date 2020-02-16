@@ -1,5 +1,5 @@
 import chai from 'chai';
-import { Document, Area, Task, Tag, TagType } from '../../src/model'
+import { Document, Area, Task, TagType } from '../../src/model'
 import { OrgParser } from '../../src/model/OrgParser'
 
 const should = chai.should();
