@@ -6,122 +6,140 @@ import { Task } from './Task';
 type Node = Document | Area | Task;
 
 export class ResultNode {
-    childs: ResultNode[];
+  childs: ResultNode[];
 
-    constructor(readonly parent: ResultNode | undefined, readonly value: Node) {
-        this.childs = [];
-    }
+  constructor(readonly parent: ResultNode | undefined, readonly value: Node) {
+    this.childs = [];
+  }
 }
 
 export class Searcher {
-    memberFilter: string[] | undefined;
-    tagFilter: string[] | undefined;
-    categoryFilter: string[] | undefined;
-    areaFilter: string[] | undefined;
-    dateRangeBegin: Date | undefined;
-    dateRangeEnd: Date | undefined;
-    includeArea: boolean;
-    _result: ResultNode | undefined;
+  memberFilter: string[] | undefined;
+  tagFilter: string[] | undefined;
+  categoryFilter: string[] | undefined;
+  areaFilter: string[] | undefined;
+  dateRangeBegin: Date | undefined;
+  dateRangeEnd: Date | undefined;
+  stateFilter: string[] | undefined;
+  includeArea: boolean | undefined;
+  _result: ResultNode | undefined;
 
-    constructor(readonly document: Document) {
-        this.includeArea = false;
+  constructor(readonly document: Document) {
+  }
+
+  get result(): ResultNode | undefined {
+    return this._result;
+  }
+
+  go() {
+    const rootNode = new ResultNode(undefined, this.document);
+
+    for (const area of this.document.areas) {
+      var areaNode = rootNode;
+      if (this.includeArea) {
+        areaNode = new ResultNode(rootNode, area);
+        rootNode.childs.push(areaNode);
+      }
+
+      for (const task of area.rootTasks) {
+        this._process(areaNode, task);
+      }
     }
 
-    get result(): ResultNode | undefined {
-        return this._result;
+    this._result = rootNode;
+  }
+
+  private _process(parentNode: ResultNode, task: Task) {
+    const taskNode = new ResultNode(parentNode, task);
+
+    for (const subTask of task.subTasks) {
+      this._process(taskNode, subTask);
     }
 
-    go() {
-        const rootNode = new ResultNode(undefined, this.document);
+    if (taskNode.childs.length > 0 || this._taskNeedProxes(task)) {
+      parentNode.childs.push(taskNode);
+    }
+  }
 
-        for (const area of this.document.areas) {
-            var areaNode = rootNode;
-            if (this.includeArea) {
-                areaNode = new ResultNode(rootNode, area);
-                rootNode.childs.push(areaNode);
-            }
-
-            for (const task of area.rootTasks) {
-                this._process(areaNode, task);
-            }
+  private _taskNeedProxes(task: Task): boolean {
+    if (this.areaFilter) {
+      var areaFound = false;
+      for (const areaName of this.areaFilter) {
+        if (task.area.title != areaName) {
+          areaFound = true;
+          break;
         }
-
-        this._result = rootNode;
+      }
+      if (!areaFound) return false;
     }
 
-    private _process(parentNode: ResultNode, task: Task) {
-        const taskNode = new ResultNode(parentNode, task);
-
-        for (const subTask of task.subTasks) {
-            this._process(taskNode, subTask);
+    if (this.tagFilter) {
+      var tagFound = false;
+      for (const tagName of this.tagFilter) {
+        const tag = this.document.findTag(TagType.Other, tagName);
+        if (tag && task.hasTag(tag)) {
+          tagFound = true;
+          break;
         }
-
-        if (taskNode.childs.length > 0 || this._taskNeedProxes(task)) {
-            parentNode.childs.push(taskNode);
-        }
+      }
+      if (!tagFound) return false;
     }
 
-    private _taskNeedProxes(task: Task): boolean {
-        if (this.areaFilter) {
-            var areaFound = false;
-            for (const areaName of this.areaFilter) {
-                if (task.area.title != areaName) {
-                    areaFound = true;
-                    break;
-                }
-            }
-            if (!areaFound) return false;
+    if (this.memberFilter) {
+      var memberFound = false;
+      for (const memberName of this.memberFilter) {
+        const member = this.document.findTag(TagType.Member, memberName);
+        if (member && task.hasMember(member)) {
+          memberFound = true;
+          break;
         }
-
-        if (this.tagFilter) {
-            var tagFound = false;
-            for (const tagName of this.tagFilter) {
-                const tag = this.document.findTag(TagType.Other, tagName);
-                if (tag && task.hasTag(tag)) {
-                    tagFound = true;
-                    break;
-                }
-            }
-            if (!tagFound) return false;
-        }
-
-        if (this.memberFilter) {
-            var memberFound = false;
-            for (const memberName of this.memberFilter) {
-                const member = this.document.findTag(TagType.Member, memberName);
-                if (member && task.hasMember(member)) {
-                    memberFound = true;
-                    break;
-                }
-            }
-            if (!memberFound) return false;
-        }
-
-        if (this.categoryFilter) {
-            var categoryFound = false;
-            for (const categoryName of this.categoryFilter) {
-                const category = task.category;
-                if (category && category.name == categoryName) {
-                    categoryFound = true;
-                    break;
-                }
-            }
-            if (!categoryFound) return false;
-        }
-
-        if (this.dateRangeBegin || this.dateRangeEnd) {
-            if (!task.scheduled && !task.deadline) {
-                return false;
-            }
-        }
-
-        return true;
+      }
+      if (!memberFound) return false;
     }
 
-    clearFilters() {
-        this.memberFilter = undefined
-        this.tagFilter = undefined
-        this.areaFilter = undefined
-        this.categoryFilter = undefined
+    if (this.categoryFilter) {
+      var categoryFound = false;
+      for (const categoryName of this.categoryFilter) {
+        const category = task.category;
+        if (category && category.name == categoryName) {
+          categoryFound = true;
+          break;
+        }
+      }
+      if (!categoryFound) return false;
     }
+
+    if (this.stateFilter) {
+      var stateFound = false;
+
+      for (const stateName of this.stateFilter) {
+        const state = task.state;
+        if (state && state.name == stateName) {
+          stateFound = true;
+          break;
+        }
+      }
+
+      if (!stateFound) return false;
+    }
+
+    if (this.dateRangeBegin || this.dateRangeEnd) {
+      if (!task.scheduled && !task.deadline) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  reset() {
+    this.dateRangeBegin = undefined;
+    this.dateRangeEnd = undefined;
+    this.includeArea = undefined;
+    this.memberFilter = undefined;
+    this.tagFilter = undefined;
+    this.areaFilter = undefined;
+    this.categoryFilter = undefined;
+    this._result = undefined;
+  }
 }

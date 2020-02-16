@@ -68,7 +68,7 @@ export default class App extends Vue {
     );
     
     let document = OrgParser.parseNewDocument(orgContent);
-    this.page = new PageView(document)
+    this.page = new PageView(document, new Date())
     this.loading = false
 
     console.log(document)

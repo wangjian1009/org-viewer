@@ -2,35 +2,41 @@ import TaskView from './TaskView'
 import { ResultNode, Document, TagType, Area, Tag, Searcher, Task } from '@/model'
 
 export default class PageView {
+  /*过滤条件 */
+  hideCompleted: boolean;
+  hideWaiting: boolean;
+
   areaFilter: string[] | undefined
   tagFilter: string[] | undefined
   memberFilter: string[] | undefined
   categoryFilter: string[] | undefined
 
+  /*基础数据*/
   title: string | undefined = ""
   areas: string[] = []
   taskTags: string[] = []
   memberTags: string[] = []
   categoryTags: string[] = []
 
+  /*控件 */
   taskView?: TaskView
   searcher: Searcher
 
-  constructor(document: Document) {
+  constructor(document: Document, readonly baseDate: Date) {
     this.title = document.title
     this.areas = this.transferAreas(document.areas)
     this.categoryTags = this.transferTags(document.tags(TagType.Category))
     this.memberTags = this.transferTags(document.tags(TagType.Member))
     this.taskTags = this.transferTags(document.tags(TagType.Other))
+    this.hideCompleted = true;
+    this.hideWaiting = true;
 
     document.tags(TagType.Category)
 
     this.searcher = new Searcher(document);
-    this.searcher.includeArea = false;
-    this.searcher.go();
 
-    let rootNode = this.searcher.result
-    this.taskView = this.generateTaskView(rootNode)
+    this.setupToDoday();
+    this.search();
   }
 
   generateTaskView(node: ResultNode | undefined): TaskView | undefined {
@@ -133,8 +139,28 @@ export default class PageView {
     return fmt;
   }
 
+  private setupToDoday() {
+    this.resete();
+
+    // areaFilter: string[] | undefined
+    // tagFilter: string[] | undefined
+    // memberFilter: string[] | undefined
+    // categoryFilter: string[] | undefined
+  }
+
+  private resete() {
+    this.areaFilter = undefined;
+    this.tagFilter = undefined;
+    this.memberFilter = undefined;
+    this.categoryFilter = undefined;
+  }
+
   search() {
-    this.searcher.clearFilters();
+    this.searcher.reset();
+    this.searcher.includeArea = false;
+
+    if (this.hideCompleted || this.hideWaiting) {
+    }
 
     if (this.memberFilter && this.memberFilter.length > 0) {
       this.searcher.memberFilter = this.memberFilter
