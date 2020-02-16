@@ -1,12 +1,19 @@
 import TaskView from './TaskView'
 import { ResultNode, Document, TagType, Area, Tag, Searcher, Task } from '@/model'
 
+export enum DateRangeType {
+  Day,
+  Week,
+  Monty,
+}
+
 export default class PageView {
   /*过滤条件 */
   hideCompleted: boolean;
   hideWaiting: boolean;
 
-  dateFilter: Date | [Date, Date] | undefined;
+  dateFilterType: DateRangeType | undefined;
+  dateFilter: [Date, Date] | undefined;
   areaFilter: string[] | undefined
   tagFilter: string[] | undefined
   memberFilter: string[] | undefined
@@ -83,10 +90,12 @@ export default class PageView {
 
   private setupToDoday() {
     this.resete();
-    this.dateFilter = new Date();
+    this.dateFilterType = DateRangeType.Day;
+    this.dateFilter = [new Date(Date.now()), new Date(Date.now())];
   }
 
   private resete() {
+    this.dateFilterType = undefined;
     this.areaFilter = undefined;
     this.tagFilter = undefined;
     this.memberFilter = undefined;
@@ -111,6 +120,11 @@ export default class PageView {
 
         searcher.stateFilter.push(state);
       }
+    }
+
+    if (this.dateFilterType && this.dateFilter) {
+      searcher.dateRangeBegin = this.dateFilter[0];
+      searcher.dateRangeEnd = this.dateFilter[1];
     }
 
     if (this.memberFilter && this.memberFilter.length > 0) {
