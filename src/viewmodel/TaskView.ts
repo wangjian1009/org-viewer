@@ -1,13 +1,11 @@
+import { Moment } from 'moment'
 import { Document, State, Task } from '@/model'
-import { formatDate } from '../utils'
 
 export default class TaskView {
   childs: TaskView[];
-  level: number
 
-  constructor(readonly document: Document, readonly baseDate: Date, readonly innerTask: Task, level: number) {
+  constructor(readonly document: Document, readonly baseDate: Moment, readonly innerTask: Task, readonly level: number) {
     this.childs = [];
-    this.level = level
   }
 
   get name(): string | undefined {
@@ -40,7 +38,7 @@ export default class TaskView {
   get scheduled(): string | undefined {
     const scheduled = this.innerTask.scheduled;
     if (!scheduled) return undefined;
-    return formatDate(scheduled, this.baseDate);
+    return scheduled.calendar(this.baseDate);
   }
 
   get state(): string | undefined {

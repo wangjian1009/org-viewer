@@ -1,3 +1,4 @@
+import { Moment } from 'moment';
 import { Document } from './Document';
 import { Area } from './Area';
 import { State } from './State';
@@ -20,8 +21,8 @@ export class Task {
   private _persistentId: ChangeableValue<string> | undefined;
   private _state: ChangeableValue<State> | undefined;
   private _content: ChangeableValue<string> | undefined;
-  private _scheduled: ChangeableValue<Date> | undefined;
-  private _deadline: ChangeableValue<Date> | undefined;
+  private _scheduled: ChangeableValue<Moment> | undefined;
+  private _deadline: ChangeableValue<Moment> | undefined;
   private _priority: ChangeableValue<string> | undefined;
   private _category: ChangeableValue<Tag> | undefined;
   private _tags: ChangeableValue<Tag[]> | undefined;
@@ -161,23 +162,23 @@ export class Task {
     this._state = createChangeableValue(state);
   }
 
-  get scheduled(): Date | undefined {
+  get scheduled(): Moment | undefined {
     return getChangeableValue(this._scheduled);
   }
 
-  set originScheduled(date: Date | undefined) {
+  set originScheduled(date: Moment | undefined) {
     this._scheduled = createChangeableValue(date);
   }
 
-  get deadline(): Date | undefined {
+  get deadline(): Moment | undefined {
     return getChangeableValue(this._deadline);
   }
 
-  set originDeadline(date: Date | undefined) {
+  set originDeadline(date: Moment | undefined) {
     this._deadline = createChangeableValue(date);
   }
 
-  get done(): Date | undefined {
+  get done(): Moment | undefined {
     const s = this.state;
     if (!s || !s.isDone) return undefined;
 

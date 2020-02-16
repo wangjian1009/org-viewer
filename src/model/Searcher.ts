@@ -1,4 +1,4 @@
-import moment from 'moment';
+import moment, { Moment } from 'moment';
 import { Document } from './Document';
 import { TagType } from './Tag';
 import { Area } from './Area';
@@ -20,8 +20,8 @@ export class Searcher {
   tagFilter: string[] | undefined;
   categoryFilter: string[] | undefined;
   areaFilter: string[] | undefined;
-  dateRangeBegin: Date | undefined;
-  dateRangeEnd: Date | undefined;
+  dateRangeBegin: Moment | undefined;
+  dateRangeEnd: Moment | undefined;
   stateFilter: State[] | undefined;
   includeArea: boolean | undefined;
   _result: ResultNode | undefined;
@@ -119,21 +119,29 @@ export class Searcher {
     }
 
     if (this.dateRangeBegin || this.dateRangeEnd) {
+      var checked = false;
       const rangeBegin = this.dateRangeBegin ? moment(this.dateRangeBegin) : moment(this.dateRangeEnd);
       const rangeEnd = this.dateRangeEnd ? moment(this.dateRangeEnd) : moment(this.dateRangeBegin);
 
-      const taskBegin = task.scheduled ? moment(task.scheduled) : undefined;
-      var taskEnd = task.done ? moment(task.done) : undefined;
-
-      if (!taskBegin && !taskEnd) return false;
-
+      const taskBegin = task.scheduled;
       if (taskBegin) {
         if (taskBegin.isAfter(rangeEnd, 'day')) return false;
+        checked = true;
       }
 
-      if (taskEnd) {
-        if (taskEnd.isBefore(rangeBegin, 'day')) return false;
+      var taskEnd: moment.Moment | undefined;
+      const state = task.state;
+      if (state) {
+        if (state.isDone) {
+          taskEnd = task.done ? moment(task.done) : undefined;
+          if (taskEnd) {
+            if (taskEnd.isBefore(rangeBegin, 'day')) return false;
+          }
+          checked = true;
+        }
       }
+
+      if (!checked) return false;
     }
 
     return true;

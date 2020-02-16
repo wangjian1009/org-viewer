@@ -1,7 +1,9 @@
 import chai from 'chai';
+import chai_moment from 'chai-moment';
 import { Document, Area, Task, TagType } from '../../src/model'
 import { OrgParser } from '../../src/model/OrgParser'
 
+chai.use(chai_moment);
 const should = chai.should();
 
 describe("model.parse", function() {
@@ -98,7 +100,7 @@ SCHEDULED: <2020-02-03 Mon> DEADLINE: <2020-02-15 Sat>
     this.beforeAll(function() {
       const found = document.findArea("Area1");
       should.exist(found);
-      if (found) area1 = found;
+      area1 = found!;
     });
 
     it('should have correct struct', function(done) {
@@ -113,7 +115,7 @@ SCHEDULED: <2020-02-03 Mon> DEADLINE: <2020-02-15 Sat>
     this.beforeAll(function() {
       const found = document.findTaskByPersistentId("DC7F5E66-20E3-42DA-BE24-172E670ED505");
       should.exist(found);
-      if (found) task = found;
+      task = found!;
     });
 
     it('should title ok', function(done) {
@@ -134,9 +136,7 @@ SCHEDULED: <2020-02-03 Mon> DEADLINE: <2020-02-15 Sat>
     it('should have category', function(done) {
       const category = task.category;
       should.exist(category);
-      if (category) {
-        category.name.should.equal("BUG");
-      }
+      category!.name.should.equal("BUG");
       done();
     });
 
@@ -148,27 +148,21 @@ SCHEDULED: <2020-02-03 Mon> DEADLINE: <2020-02-15 Sat>
     it('should have state', function(done) {
       const state = task.state;
       should.exist(state);
-      if (state) {
-        state.name.should.equal("TODO");
-      }
+      state!.name.should.equal("TODO");
       done();
     });
 
     it('should have scheduled', function(done) {
       const scheduledDate = task.scheduled;
       should.exist(scheduledDate);
-      if (scheduledDate) {
-        scheduledDate.should.deep.equal(new Date(2020, 2, 3));
-      }
+      scheduledDate!.should.be.sameMoment('2020-02-03');
       done();
     });
 
     it('should have deadline', function(done) {
       const deadlineDate = task.deadline;
       should.exist(deadlineDate);
-      if (deadlineDate) {
-        deadlineDate.should.deep.equal(new Date(2020, 2, 15));
-      }
+      deadlineDate!.should.be.sameMoment('2020-02-15');
       done();
     });
   });

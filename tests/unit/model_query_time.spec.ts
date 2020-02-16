@@ -1,55 +1,80 @@
 import chai from 'chai';
 import { Searcher } from '../../src/model';
 import { OrgParser } from '../../src/model/OrgParser';
-import moment from 'moment';
+import moment, { Moment } from 'moment';
 
 chai.should();
 
 describe("model.query.time", function() {
-  it("no scheduled should ignore", function(done) {
-    queryByTimeRange(`** TODO T1`, [2020, 2, 16], undefined)
-      .should.deep.equals([]);
-    done();
-  });
+  const checkDate = moment('2020-02-16');
+  const caseGroup: [string, Moment | undefined, Moment | undefined][] = [
+    ["start", checkDate, undefined],
+    ["end", undefined, checkDate],
+    ["ragne", checkDate, checkDate]
+  ];
 
-  it("scheduled not complete should found", function(done) {
-    queryByTimeRange(`** TODO T1
-SCHEDULED: <2020-02-16 Wed>`, [2020, 2, 16], undefined)
-      .should.deep.equals(["T1"]);
-    done();
-  });
+  for (const testCase of caseGroup) {
+    describe(testCase[0], function() {
+      it("no scheduled should ignore", function(done) {
+        queryByTimeRange(`** TODO T1`, testCase[1], testCase[2])
+          .should.deep.equals([]);
+        done();
+      });
 
-  it("scheduled after start should not found", function(done) {
-    queryByTimeRange(`** TODO T1
-SCHEDULED: <2020-02-17 Wed>`, [2020, 2, 16], undefined)
-      .should.deep.equals([]);
-    done();
-  });
+      it("todo at check should found", function(done) {
+        queryByTimeRange(`** TODO T1
+SCHEDULED: <2020-02-16 Wed>`, testCase[1], testCase[2])
+          .should.deep.equals(["T1"]);
+        done();
+      });
 
-  it("done before start should not found", function(done) {
-    queryByTimeRange(`** DONE T1
-SCHEDULED: <2020-02-15 Wed>`, [2020, 2, 16], undefined)
-      .should.deep.equals([]);
-    done();
-  });
+      it("todo before check should found", function(done) {
+        queryByTimeRange(`** TODO T1
+SCHEDULED: <2020-02-15 Wed>`, testCase[1], testCase[2])
+          .should.deep.equals(["T1"]);
+        done();
+      });
 
-  it("done at start should found", function(done) {
-    queryByTimeRange(`** DONE T1
-SCHEDULED: <2020-02-16 Wed>`, [2020, 2, 16], undefined)
-      .should.deep.equals(['T1']);
-    done();
-  });
+      it("todo after check should not found", function(done) {
+        queryByTimeRange(`** TODO T1
+SCHEDULED: <2020-02-17 Wed>`, testCase[1], testCase[2])
+          .should.deep.equals([]);
+        done();
+      });
+
+      it("done before check should not found", function(done) {
+        queryByTimeRange(`** DONE T1
+SCHEDULED: <2020-02-15 Wed>`, testCase[1], testCase[2])
+          .should.deep.equals([]);
+        done();
+      });
+
+      it("done at check should found", function(done) {
+        queryByTimeRange(`** DONE T1
+SCHEDULED: <2020-02-16 Wed>`, testCase[1], testCase[2])
+          .should.deep.equals(['T1']);
+        done();
+      });
+
+      it("done after check should not found", function(done) {
+        queryByTimeRange(`** DONE T1
+SCHEDULED: <2020-02-17 Wed>`, testCase[1], testCase[2])
+          .should.deep.equals([]);
+        done();
+      });
+    });
+  }
 });
 
-function queryByTimeRange(taskDef: string, begin: number[] | undefined, end: number[] | undefined): string[] {
+function queryByTimeRange(taskDef: string, begin: Moment | undefined, end: Moment | undefined): string[] {
   const document = OrgParser.parseNewDocument(
     `#+TODO: TODO | DONE
 * Area1
 ${taskDef}`);
   const searcher = new Searcher(document);
 
-  searcher.dateRangeBegin = begin ? moment(begin).toDate() : undefined;
-  searcher.dateRangeEnd = end ? moment(end).toDate() : undefined;
+  searcher.dateRangeBegin = begin;
+  searcher.dateRangeEnd = end;
   searcher.go();
 
   var result: string[] | undefined;

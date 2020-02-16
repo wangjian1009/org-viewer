@@ -1,8 +1,9 @@
+import moment, { Moment } from 'moment';
 import TaskView from './TaskView'
 import { ResultNode, Document, TagType, Area, Tag, Searcher, Task } from '@/model'
 
 export enum DateRangeType {
-  Day,
+  Day = 1,
   Week,
   Monty,
 }
@@ -13,14 +14,14 @@ export default class PageView {
   hideWaiting: boolean;
 
   dateFilterType: DateRangeType | undefined;
-  dateFilter: [Date, Date] | undefined;
+  dateFilter: [Moment, Moment] | undefined;
   areaFilter: string[] | undefined
   tagFilter: string[] | undefined
   memberFilter: string[] | undefined
   categoryFilter: string[] | undefined
 
   /*基础数据*/
-  title: string | undefined = ""
+  title: string = ""
   areas: string[] = []
   taskTags: string[] = []
   memberTags: string[] = []
@@ -29,16 +30,14 @@ export default class PageView {
   /*控件 */
   taskView?: TaskView
 
-  constructor(readonly document: Document, readonly baseDate: Date) {
-    this.title = document.title
+  constructor(readonly document: Document, readonly baseDate: Moment) {
+    this.title = document.title || ""
     this.areas = this.transferAreas(document.areas)
     this.categoryTags = this.transferTags(document.tags(TagType.Category))
     this.memberTags = this.transferTags(document.tags(TagType.Member))
     this.taskTags = this.transferTags(document.tags(TagType.Other))
-    this.hideCompleted = true;
-    this.hideWaiting = true;
-
-    document.tags(TagType.Category)
+    this.hideCompleted = false;
+    this.hideWaiting = false;
 
     this.setupToDoday();
     this.search();
@@ -91,7 +90,7 @@ export default class PageView {
   private setupToDoday() {
     this.reset();
     this.dateFilterType = DateRangeType.Day;
-    this.dateFilter = [new Date(Date.now()), new Date(Date.now())];
+    this.dateFilter = [moment(moment.now()), moment(moment.now())];
   }
 
   private reset() {
@@ -142,6 +141,8 @@ export default class PageView {
     if (this.categoryFilter && this.categoryFilter.length > 0) {
       searcher.categoryFilter = this.categoryFilter
     }
+
+    console.log(searcher);
 
     searcher.go()
     let rootNode = searcher.result
