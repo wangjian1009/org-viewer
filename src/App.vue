@@ -2,7 +2,7 @@
   <div id="app" v-if="!loading">
     <Row>
       <Col span="3" push="1" class="container">
-        <Divider class="title">请设置条件</Divider>
+        <Divider class="title">过滤条件</Divider>
         <Row class="filter">
           <Col span="22" push="1">
             <Card class="who-card">
@@ -43,7 +43,7 @@
         <Row class="filter">
           <Col span="22" push="1">
             <Card>
-              <p slot="title">自定义</p>
+              <p slot="title">重置为</p>
               <ButtonGroup>
                 <Button @click="resetToToday">当日</Button>
                 <Button>未分配</Button>
@@ -90,7 +90,6 @@
             </Card>
           </Col>
         </Row>
-        
       </Col>
       <Col span="19" push="1" class="container">
         <Divider class="title">{{ page.title }}</Divider>
