@@ -131,10 +131,10 @@ export default class App extends Vue {
   areaFilter: string[] = [];
 
   async beforeCreate() {
-    let orgContent = await OrgLoader.load(
-      "SFOX项目工作.org"
-    );
-    
+    let orgContent = await OrgLoader.loadFromGitlab(
+      "/gitlab/api/v4/projects/335/repository/files/SFOX项目工作.org?private_token=t_qdgdriLGRp3hpPrtqz&ref=master"
+    )
+
     let document = OrgParser.parseNewDocument(orgContent);
     this.page = new PageView(document, moment(moment.now()))
     this.loading = false
