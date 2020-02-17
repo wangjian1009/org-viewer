@@ -33,6 +33,7 @@ export default class PageView {
 
   constructor(readonly document: Document, readonly baseDate: Moment) {
     this.title = document.title || ""
+    window.document.title = this.title
     this.areas = this.transferAreas(document.areas)
     this.categoryTags = this.transferTags(document.tags(TagType.Category))
     this.memberTags = this.transferTags(document.tags(TagType.Member))
