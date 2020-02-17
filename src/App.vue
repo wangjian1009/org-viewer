@@ -16,19 +16,17 @@
         <Row class="filter">
           <Col span="22" push="1">
             <Card>
-              <CheckboxGroup> 
-                <Checkbox label="yesterday">
-                  <ButtonGroup>
-                    <Button size="small" @click="previewDate">
-                      <Icon type="md-arrow-dropleft"></Icon>
-                    </Button>
-                    <Button size="small" disabled>今天</Button>
-                    <Button size="small" @click="nextDate">
-                      <Icon type="md-arrow-dropright"></Icon>
-                    </Button>
-                  </ButtonGroup>
-                </Checkbox>
-              </CheckboxGroup>
+              <Checkbox v-model="page.dateFilter">
+                <ButtonGroup>
+                  <Button size="small" @click="previewDate">
+                    <Icon type="md-arrow-dropleft"></Icon>
+                  </Button>
+                  <Button size="small" disabled>今天</Button>
+                  <Button size="small" @click="nextDate">
+                    <Icon type="md-arrow-dropright"></Icon>
+                  </Button>
+                </ButtonGroup>
+              </Checkbox>
             </Card>
           </Col>
         </Row>
