@@ -4,9 +4,7 @@ node("master") {
     image = "registry.cn-hangzhou.aliyuncs.com/adups/org-viewer:${tag}"
 
     stage('build') {
-        dir('proxy-tester') {
-            sh "docker build -t ${image} ."
-        }
+      sh "docker build -t ${image} ."
     }
 
     stage('deploy') {
