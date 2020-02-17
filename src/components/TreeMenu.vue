@@ -2,9 +2,9 @@
   <div>
     <Row class="top-bar">
       <Col span="9">任务</Col>
-      <Col span="3">优先级</Col>
-      <Col span="3">开始时间</Col>
-      <Col span="3">持续时间</Col>
+      <Col span="2">优先级</Col>
+      <Col span="2">开始时间</Col>
+      <Col span="2">持续时间</Col>
       <Col span="3">状态</Col>
       <Col span="3">进度</Col>
       <Col span="3">人员</Col>

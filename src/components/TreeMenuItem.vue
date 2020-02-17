@@ -18,10 +18,10 @@
           {{ task.name || "-" }}
         </span>
       </Col>
-      <Col span="3">{{ task.priority || "-" }} 
+      <Col span="2">{{ task.priority || "-" }} 
       </Col>
-      <Col span="3">{{ task.scheduled || "-" }}</Col>
-      <Col span="3">{{ task.duration || "-" }}</Col>
+      <Col span="2">{{ task.scheduled || "-" }}</Col>
+      <Col span="2">{{ task.duration || "-" }}</Col>
       <Col span="3">
         <Tag :class="lineStyle">{{ task.state || "-" }}</Tag>
       </Col>
