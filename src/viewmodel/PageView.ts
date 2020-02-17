@@ -13,8 +13,9 @@ export default class PageView {
   hideCompleted: boolean;
   hideWaiting: boolean;
 
+  dateFilter: boolean;
   dateFilterType: DateRangeType | undefined;
-  dateFilter: [Moment, Moment] | undefined;
+  dateFilterRange: [Moment, Moment] | undefined;
   areaFilter: string[] | undefined
   tagFilter: string[] | undefined
   memberFilter: string[] | undefined
@@ -38,6 +39,7 @@ export default class PageView {
     this.taskTags = this.transferTags(document.tags(TagType.Other))
     this.hideCompleted = true;
     this.hideWaiting = true;
+    this.dateFilter = true;
 
     this.setupToDoday();
     this.search();
@@ -87,10 +89,11 @@ export default class PageView {
     return _tags
   }
 
-  private setupToDoday() {
+  setupToDoday() {
     this.reset();
+    this.dateFilter = true;
     this.dateFilterType = DateRangeType.Day;
-    this.dateFilter = [moment(moment.now()), moment(moment.now())];
+    this.dateFilterRange = [moment(moment.now()), moment(moment.now())];
   }
 
   private reset() {
@@ -121,9 +124,9 @@ export default class PageView {
       }
     }
 
-    if (this.dateFilterType && this.dateFilter) {
-      searcher.dateRangeBegin = this.dateFilter[0];
-      searcher.dateRangeEnd = this.dateFilter[1];
+    if (this.dateFilter && this.dateFilterType && this.dateFilterRange) {
+      searcher.dateRangeBegin = this.dateFilterRange[0];
+      searcher.dateRangeEnd = this.dateFilterRange[1];
     }
 
     if (this.memberFilter && this.memberFilter.length > 0) {

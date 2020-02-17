@@ -3,7 +3,7 @@ import { Document } from './Document';
 import { Area } from './Area';
 import { State } from './State';
 import { Tag } from './Tag';
-import { StateLog } from './StateLog';
+import { TaskLog, TaskStateChangeLog } from './TaskLog';
 import { ChangeableValue, createChangeableValue, getChangeableValue } from './ChangeableValue';
 
 export enum TaskIdType {
@@ -31,7 +31,7 @@ export class Task {
   private _category: ChangeableValue<Tag> | undefined;
   private _tags: ChangeableValue<Tag[]> | undefined;
   private _members: ChangeableValue<Tag[]> | undefined;
-  private _stateLogs: ChangeableValue<StateLog[]> | undefined;
+  private _logs: ChangeableValue<TaskLog[]> | undefined;
 
   constructor(readonly document: Document, area: Area, parent: Task | undefined) {
     this.localId = document._generateLocalId();
@@ -224,6 +224,21 @@ export class Task {
     const s = this.state;
     if (!s || !s.isDone) return undefined;
 
+    const logs = this.logs;
+    if (logs) {
+      for (const log of logs) {
+        const stateChangeLog = <TaskStateChangeLog>log;
+        if (!stateChangeLog) continue;
+
+        if (stateChangeLog.stateTo.isDone) {
+          return stateChangeLog.date;
+        }
+        else {
+          break;
+        }
+      }
+    }
+
     return this.scheduled;
   }
 
@@ -329,13 +344,16 @@ export class Task {
     return Array.from(this._subTasks);
   }
 
-  get stateLogs(): StateLog[] {
-    const selfStateLogs = getChangeableValue(this._stateLogs);
-    if (selfStateLogs) {
-      return Array.from(selfStateLogs);
+  get logs(): TaskLog[] {
+    const logs = getChangeableValue(this._logs);
+    if (logs) {
+      return Array.from(logs);
     }
-
     return [];
+  }
+
+  set originLogs(logs: TaskLog[] | undefined) {
+    this._logs = createChangeableValue(logs);
   }
 
   _addSubTask(task: Task) {

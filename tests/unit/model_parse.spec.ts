@@ -26,6 +26,11 @@ describe("model.parse", function() {
 :ID:       DC7F5E66-20E3-42DA-BE24-172E670ED505
 :COOKIE_DATA: todo recursive
 :END:
+:LOGBOOK:
+- State "DONE"       from "INPROGRESS" [2020-02-11 Tue 11:02]
+- State "INPROGRESS" from "TODO"       [2020-02-07 Fri 10:38]
+- State "TODO"       from              [2020-01-16 Thu 17:26]
+:END:
 SCHEDULED: <2020-02-03 Mon> DEADLINE: <2020-02-15 Sat>
 *** Task1.1.1
 ** Task1.2

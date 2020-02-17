@@ -143,7 +143,6 @@ export default class App extends Vue {
     }
   }
 
-
   changeFilter() {
     this.page.memberFilter = this.memberFilter
     this.page.categoryFilter = this.categoryFilter
