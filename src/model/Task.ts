@@ -186,6 +186,21 @@ export class Task {
     this._scheduled = createChangeableValue(date);
   }
 
+  get scheduledWithChilds(): Moment | undefined {
+    var scheduled = this.scheduled;
+
+    if (!scheduled) {
+      for (const subTask of this._subTasks) {
+        const subScheduled = subTask.scheduledWithChilds;
+        if (subScheduled && (!scheduled || subScheduled.isBefore(scheduled))) {
+          scheduled = subScheduled;
+        }
+      }
+    }
+
+    return scheduled;
+  }
+
   get deadline(): Moment | undefined {
     return getChangeableValue(this._deadline);
   }

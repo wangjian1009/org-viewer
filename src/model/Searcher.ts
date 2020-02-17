@@ -123,14 +123,14 @@ export class Searcher {
       const rangeBegin = this.dateRangeBegin ? moment(this.dateRangeBegin) : moment(this.dateRangeEnd);
       const rangeEnd = this.dateRangeEnd ? moment(this.dateRangeEnd) : moment(this.dateRangeBegin);
 
-      const taskBegin = task.scheduled;
+      const taskBegin = task.scheduledWithChilds;
       if (taskBegin) {
         if (taskBegin.isAfter(rangeEnd, 'day')) return false;
         checked = true;
       }
 
       var taskEnd: moment.Moment | undefined;
-      const state = task.state;
+      const state = task.stateWithChilds;
       if (state) {
         if (state.isDone) {
           taskEnd = task.done ? moment(task.done) : undefined;

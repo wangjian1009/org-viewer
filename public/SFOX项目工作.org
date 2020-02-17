@@ -1,7 +1,7 @@
 #+LAST_MOBILE_CHANGE: 2020-01-15 23:40:43
 #+TITLE: SFOX项目工作安排
 :PROPERTIES:
-#+SEQ_TODO: TODO(t) NEXT(n!) SOMEDAY(s!) INPROGRESS(p!) WAITTING(w@/!) | DONE(d@/!) ABORT(a@/!)
+#+SEQ_TODO: TODO(t) NEXT(n) SOMEDAY(s) INPROGRESS(p!) WAITTING(w@/!) | DONE(d@/!) ABORT(a@/!)
 #+TAGS:
 #+TAGS: Loki(l) 陈冲(c) 肖少星(s) 张鑫(x)
 #+TAGS: PROJECT(p) REQUIREMENT(r) BUG(b) VERSION(v)
@@ -18,7 +18,7 @@
 :PROPERTIES:
 :ID:       E5E8A3B8-77F2-4644-B82D-EF5F35B0D0F8
 :END:
-* 近期工作 [29/72]
+* 近期工作 [32/74]
 :PROPERTIES:
 :ID:       DC7F5E66-20E3-42DA-BE24-172E670ED505
 :COOKIE_DATA: todo recursive
@@ -231,15 +231,16 @@ SCHEDULED: <2020-02-13 Thu>
 :LOGBOOK:
 - State "INPROGRESS" from              [2020-02-13 Thu 09:52]
 :END:
-***** TODO 能够从版本服务器拉取到版本列表并下载好升级文件启动升级流程 :张鑫:
+***** INPROGRESS 能够从版本服务器拉取到版本列表并下载好升级文件启动升级流程 :张鑫:
 SCHEDULED: <2020-02-15 Sat>
 :LOGBOOK:
+- State "INPROGRESS" from "TODO"       [2020-02-17 Mon 09:27]
 - State "INPROGRESS" from              [2020-02-07 Fri 10:44]
 :END:
-***** TODO 矿机新版本下载成功以后能够比对MD5,确保下载正确,否则应该尝试重新下载
-***** TODO 矿机在运行中能发现版本回退并实现最终的版本回退
+***** TODO 矿机新版本下载成功以后能够比对MD5,确保下载正确,否则应该尝试重新下载 :张鑫:
+***** TODO 矿机在运行中能发现版本回退并实现最终的版本回退          :张鑫:
 注意，如果前置版本不存在，应该能主动下载前置版本后回退
-***** TODO 矿机下载情况能够形成日志并上报到日志系统
+***** TODO 矿机下载情况能够形成日志并上报到日志系统                :张鑫:
 *** [#C] [0/2] 矿机能够打包为单一的程序，可以在任何情况下执行 :REQUIREMENT:
 :PROPERTIES:
 :ID:       5745981E-9EE5-4C1C-8D6D-77ECFA14B154
@@ -293,7 +294,7 @@ SCHEDULED: <2020-02-07 Fri>
 :LOGBOOK:
 - State "TODO"       from              [2020-01-10 Fri 10:49]
 :END:
-*** INPROGRESS [#B] 访问GooglePlay下载不流畅问题                     :Loki:
+*** INPROGRESS [#A] 访问GooglePlay下载不流畅问题                     :Loki:
 SCHEDULED: <2020-02-03 Mon>
 :PROPERTIES:
 :ID:       6D5D029C-BF95-49EB-955E-FA0D33F33A81
@@ -375,9 +376,8 @@ SCHEDULED: <2020-02-10 Mon>
 :ID:       60757CAA-45D1-4EF1-A1B2-7BF14157ACC4
 :END:
 ** TODO 搭建一个客户端版本管理平台                                  :肖少星:
-** 搭建项目进度展现平台
-*** [2/5] 项目任务展现界面基础版本                                 :肖少星:
-SCHEDULED: <2020-02-13 Thu>
+** [7/19] 搭建项目进度展现平台
+*** [4/6] 项目任务展现界面基础版本                                 :肖少星:
 :LOGBOOK:
 - State "INPROGRESS" from              [2020-02-13 Thu 09:44]
 :END:
@@ -390,7 +390,11 @@ SCHEDULED: <2020-02-13 Thu>
 :LOGBOOK:
 - State "DONE"       from "TODO"       [2020-02-16 Sun 08:12]
 :END:
-**** TODO 行的背景根据任务状态渲染不同颜色                        :肖少星:
+**** DONE 行的背景根据任务状态渲染不同颜色                        :肖少星:
+SCHEDULED: <2020-02-16 Sun>
+:LOGBOOK:
+- State "DONE"       from "TODO"       [2020-02-17 Mon 08:15]
+:END:
 - TODO 未开始，绿色
 - NEXT 未开始，淡绿色
 - SOMEDAY 未开始，更加淡的绿色
@@ -398,9 +402,23 @@ SCHEDULED: <2020-02-13 Thu>
 - WAITTING 灰色
 - DONE 灰色
 - ABORT 已取消，灰色
-**** TODO 任务描述出现换行后和下一行混乱的问题                :肖少星:BUG:
+**** DONE 任务描述出现换行后和下一行混乱的问题                :肖少星:BUG:
 SCHEDULED: <2020-02-16 Sun>
-**** TODO 项目名字设置为文档的名字，以方便在浏览器中查找          :肖少星:
+:LOGBOOK:
+- State "DONE"       from "TODO"       [2020-02-17 Mon 08:15]
+:END:
+**** INPROGRESS 任务通过明确的方式展现任务进度                    :肖少星:
+SCHEDULED: <2020-02-17 Mon>
+:LOGBOOK:
+- State "INPROGRESS" from              [2020-02-17 Mon 08:58]
+:END:
+- [ ] 最终任务通过一个CheckBoxk来表示是否已经完成
+- [ ] 对于有子任务的，通过一个进度条来表示是否已经完成，进度条上显示 [已完成 / 总任务]
+**** INPROGRESS 项目名字设置为文档的名字，以方便在浏览器中查找    :肖少星:
+SCHEDULED: <2020-02-16 Sun>
+:LOGBOOK:
+- State "INPROGRESS" from "TODO"       [2020-02-17 Mon 08:54]
+:END:
 *** DONE 项目任务数据模型定义完整                                    :Loki:
 SCHEDULED: <2020-02-13 Thu>
 :LOGBOOK:
@@ -412,19 +430,44 @@ SCHEDULED: <2020-02-13 Thu>
 - State "DONE"       from "INPROGRESS" [2020-02-16 Sun 08:20]
 - State "INPROGRESS" from              [2020-02-13 Thu 09:46]
 :END:
-*** TODO 展现平台部署到正式环境                                    :肖少星:
-*** TODO 搜索条件操作优化为一次点击执行                            :肖少星:
+*** INPROGRESS 展现平台部署到正式环境                              :肖少星:
+SCHEDULED: <2020-02-16 Sun>
+:LOGBOOK:
+- State "INPROGRESS" from "TODO"       [2020-02-17 Mon 08:53]
+:END:
+*** INPROGRESS 搜索条件操作优化为一次点击执行                      :肖少星:
+SCHEDULED: <2020-02-17 Mon>
+:LOGBOOK:
+- State "INPROGRESS" from "TODO"       [2020-02-17 Mon 08:53]
+:END:
 **** TODO 过滤条件的区域转换为在右侧常驻                          :肖少星:
-*** TODO 任务树的展开状态在过滤后能够保留用户操作结果                :Loki:
+*** INPROGRESS 任务树的展开状态在过滤后能够保留用户操作结果          :Loki:
+SCHEDULED: <2020-02-17 Mon>
+:LOGBOOK:
+- State "INPROGRESS" from "TODO"       [2020-02-17 Mon 08:53]
+:END:
 **** TODO 通过一个统一的数据结构定义当前的过滤状态                  :Loki:
-**** TODO 通过一个统一的数据结构定义当前树的展开状态              :肖少星:
-*** TODO 任务能够根据时间范围进行过滤                                :Loki:
-**** TODO 时间格式展现优化                                        :肖少星:
+**** TODO 通过一个统一的数据结构定义当前树的展开状态                :Loki:
+*** DONE 任务能够根据时间范围进行过滤                                :Loki:
+:LOGBOOK:
+- State "DONE"       from "TODO"       [2020-02-17 Mon 08:17]
+:END:
+**** TODO 时间格式展现优化                                          :Loki:
 **** TODO 提供一个时间格式化函数                                    :Loki:
 - [ ] 今天/昨天/明天
 - [ ] n天前/后
 - [ ] 同年不显示年份
-*** TODO 能够根据指定条件排序（文档顺序/优先级）                     :Loki:
+*** [0/2] 用户能够明确在界面上看到自己的任务                  :REQUIREMENT:
+**** INPROGRESS 在选择面板上可以指定自己的身份，并且通过本地cookie持久化 :肖少星:
+SCHEDULED: <2020-02-17 Mon>
+:LOGBOOK:
+- State "INPROGRESS" from              [2020-02-17 Mon 09:29]
+:END:
+**** INPROGRESS 在人员展现上，如果是自己，用特殊的颜色给予展现    :肖少星:
+SCHEDULED: <2020-02-17 Mon>
+:LOGBOOK:
+- State "INPROGRESS" from              [2020-02-17 Mon 09:30]
+:END:
 ** [1/9] 其他工作                                                   :REFINE:
 :PROPERTIES:
 :ID:       D40C84B0-50AA-4F2C-8D5D-5E40054BFC57
@@ -467,6 +510,8 @@ SCHEDULED: <2020-02-03 Mon>
 :PROPERTIES:
 :ID:       944D5727-B275-4F1F-BEB3-E645D589DE0F
 :END:
+** NEXT 项目管理工具支持自动在gitlab上创建任务并做好关联              :Loki:
+** NEXT [#C] 项目进度展现平台能够根据指定条件排序（文档顺序/优先级） :Loki:REQUIREMENT:
 ** NEXT 拆分IP地址解析库到共享的Maven仓库                             :陈冲:
 :LOGBOOK:
 - State "NEXT"       from              [2020-02-05 Wed 11:31]
@@ -551,7 +596,7 @@ https://coolshell.cn/articles/19840.html
 :ID:       87F44BF2-B496-4862-A352-06F1A3244697
 :END:
 ** NEXT 邮件发送服务和配置中心MQTT的连接不稳定                      :肖少星:
-SCHEDULED: <2020-02-15 Sat>
+SCHEDULED: <2020-02-20 Thu>
 :PROPERTIES:
 :ID:       EA04EFFF-0549-40CE-B83C-BEC74C1B0696
 :END:
@@ -615,7 +660,7 @@ SCHEDULED: <2020-02-15 Sat>
 :ID:       7AC6EFCD-B476-4443-8B3A-2570D3FFA69D
 :END:
 ** NEXT 资产服务缓冲更新策略和持久化策略分离                          :陈冲:
-SCHEDULED: <2020-02-16 Sun>
+SCHEDULED: <2020-02-20 Thu>
 :PROPERTIES:
 :ID:       5E40BC4C-4783-426B-B6F3-5ACD5BE8221E
 :END:

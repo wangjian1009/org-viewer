@@ -36,7 +36,7 @@ export default class TaskView {
   }
 
   get scheduled(): string | undefined {
-    const scheduled = this.innerTask.scheduled;
+    const scheduled = this.innerTask.scheduledWithChilds;
     if (!scheduled) return undefined;
     return scheduled.calendar(this.baseDate);
   }
