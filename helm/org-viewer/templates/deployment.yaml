@@ -14,7 +14,7 @@ spec:
         app: org-viewer
     spec:
       nodeSelector:
-        node-type: master
+        node-env: master
 
       containers:
         - image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
