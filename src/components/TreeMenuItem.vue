@@ -99,7 +99,7 @@ export default class TreeMenuItem extends Vue {
   }
 
   getMemberColor(name: string) {
-    let whoami = sessionStorage.getItem("whoami")
+    let whoami = localStorage.getItem("whoami")
 
     if (name == whoami) {
       return "#FF9797"

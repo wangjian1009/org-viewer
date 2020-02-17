@@ -34,12 +34,20 @@
         </Row>
         <Row class="filter">
           <Col span="22" push="1">
+            <Card class="hide-condition">
+                <Checkbox v-model="page.hideCompleted" @on-change="changeFilter">隐藏已完成</Checkbox>
+                <Checkbox v-model="page.hideWaiting" @on-change="changeFilter">隐藏等待中</Checkbox>
+            </Card>
+          </Col>
+        </Row>
+        <Row class="filter">
+          <Col span="22" push="1">
             <Card>
-              <p slot="title">范围</p>
-              <CheckboxGroup v-model="areaFilter" @on-change="changeFilter">
-                <Checkbox v-for="(area, index) in page.areas" :label="area" :key="index">
-                </Checkbox>
-              </CheckboxGroup>
+              <p slot="title">自定义</p>
+              <ButtonGroup>
+                <Button @click="resetToToday">当日</Button>
+                <Button>未分配</Button>
+              </ButtonGroup>
             </Card>
           </Col>
         </Row>
@@ -49,6 +57,17 @@
               <p slot="title">人员</p>
               <CheckboxGroup v-model="memberFilter" @on-change="changeFilter">
                 <Checkbox v-for="(member, index) in page.memberTags" :label="member" :key="index">
+                </Checkbox>
+              </CheckboxGroup>
+            </Card>
+          </Col>
+        </Row>
+        <Row class="filter">
+          <Col span="22" push="1">
+            <Card>
+              <p slot="title">范围</p>
+              <CheckboxGroup v-model="areaFilter" @on-change="changeFilter">
+                <Checkbox v-for="(area, index) in page.areas" :label="area" :key="index">
                 </Checkbox>
               </CheckboxGroup>
             </Card>
@@ -71,21 +90,11 @@
             </Card>
           </Col>
         </Row>
-        <Row class="filter">
-          <Col span="22" push="1">
-            <Card>
-              <p slot="title">自定义</p>
-              <ButtonGroup>
-                <Button @click="resetToToday">当日</Button>
-                <Button>未分配</Button>
-              </ButtonGroup>
-            </Card>
-          </Col>
-        </Row>
+        
       </Col>
       <Col span="19" push="1" class="container">
         <Divider class="title">{{ page.title }}</Divider>
-        <TreeMenu v-if="!refreshing" class="tree-menu" :tasks="page.taskView.childs"></TreeMenu>
+        <TreeMenu class="tree-menu" :tasks="page.taskView.childs"></TreeMenu>
       </Col>
     </Row>
     
@@ -117,7 +126,6 @@ export default class App extends Vue {
 
   page!: PageView
   loading = true
-  refreshing = true
   whoami = ""
 
   // 页面上直接绑定page.memberFilter会有bug，暂未查明原因
@@ -133,9 +141,8 @@ export default class App extends Vue {
     let document = OrgParser.parseNewDocument(orgContent);
     this.page = new PageView(document, moment(moment.now()))
     this.loading = false
-    this.refreshing = false
 
-    let _whoami = sessionStorage.getItem("whoami")
+    let _whoami = localStorage.getItem("whoami")
   
     if (_whoami) {
       this.whoami = _whoami
@@ -146,13 +153,12 @@ export default class App extends Vue {
     this.page.memberFilter = this.memberFilter
     this.page.categoryFilter = this.categoryFilter
     this.page.areaFilter = this.areaFilter
+
     this.search()
   }
 
   search() {
-    this.refreshing = true
     this.page.search()
-    this.refreshing = false
   }
 
   resetToToday() {
@@ -170,7 +176,7 @@ export default class App extends Vue {
   }
 
   changeWhoami(data: any) {
-    sessionStorage.setItem("whoami", data)
+    localStorage.setItem("whoami", data)
     this.search()
   }
 }
@@ -233,6 +239,12 @@ html, body, #app {
 
   .filter {
     margin-bottom: 16px;
+
+    .hide-condition {
+      .ivu-card-body {
+        padding: 6px;
+      }
+    }
   }
 
   .who-card {
@@ -273,6 +285,11 @@ html, body, #app {
   display: block;
   text-align: left;
   line-height: 32px;
+  height: 32px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  word-break: break-all;
 
   span {
     margin-right: 2px;
@@ -283,5 +300,15 @@ html, body, #app {
   }
 }
 
+.ivu-card-head {
+  padding: 6px 16px 0px 16px;
+}
 
+.ivu-card-body {
+  padding: 8px 16px;
+
+  .ivu-btn {
+    padding: 4px;
+  }
+}
 </style>
