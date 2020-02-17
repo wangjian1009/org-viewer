@@ -91,6 +91,8 @@ export default class PageView {
 
   setupToDoday() {
     this.reset();
+    this.hideCompleted = false;
+    this.hideWaiting = false;
     this.dateFilter = true;
     this.dateFilterType = DateRangeType.Day;
     this.dateFilterRange = [moment(moment.now()), moment(moment.now())];

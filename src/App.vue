@@ -140,19 +140,11 @@ export default class App extends Vue {
     let document = OrgParser.parseNewDocument(orgContent);
     this.page = new PageView(document, moment(moment.now()))
     this.loading = false
-
-    let _whoami = localStorage.getItem("whoami")
-  
-    if (_whoami) {
-      this.whoami = _whoami
-    }
+    this.whoami = localStorage.getItem("whoami") || this.whoami
   }
 
   changeFilter() {
-    this.page.memberFilter = this.memberFilter
-    this.page.categoryFilter = this.categoryFilter
-    this.page.areaFilter = this.areaFilter
-
+    this.filterToSearcher();
     this.search()
   }
 
@@ -163,12 +155,22 @@ export default class App extends Vue {
   resetToToday() {
     console.log("resetToToday");
     this.page.setupToDoday();
-    this.memberFilter = this.page.memberFilter || [];
-    this.categoryFilter = this.page.categoryFilter || [];
-    this.areaFilter = this.page.areaFilter || [];
+    this.filterFromSearcher();
     this.search();
   }
 
+  filterToSearcher() {
+    this.page.memberFilter = this.memberFilter.length ? this.memberFilter : undefined;
+    this.page.categoryFilter = this.categoryFilter.length ? this.categoryFilter : undefined;
+    this.page.areaFilter = this.areaFilter.length ? this.areaFilter : undefined;
+  }
+
+  filterFromSearcher() {
+    this.memberFilter = this.page.memberFilter || [];
+    this.categoryFilter = this.page.categoryFilter || [];
+    this.areaFilter = this.page.areaFilter || [];
+  }
+  
   previewDate() {
     console.log("previewDate")
   }
