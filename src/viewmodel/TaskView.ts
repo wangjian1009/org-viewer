@@ -4,7 +4,11 @@ import { Document, State, Task } from '@/model'
 export default class TaskView {
   childs: TaskView[];
 
-  constructor(readonly document: Document, readonly baseDate: Moment, readonly innerTask: Task, readonly level: number) {
+  constructor(
+    readonly document: Document,
+    readonly baseDate: Moment,
+    readonly innerTask: Task,
+    readonly level: number) {
     this.childs = [];
   }
 
@@ -74,5 +78,9 @@ export default class TaskView {
   get category(): string | undefined {
     const c = this.innerTask.category;
     return c ? c.name : undefined;
+  }
+
+  get suggestOpen(): boolean {
+    return this.innerTask.stateWithChilds == this.document.stateProcessDft;
   }
 }

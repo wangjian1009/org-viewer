@@ -52,7 +52,7 @@ export default class TreeMenuItem extends Vue {
   @Prop()
   task!: TaskView;
 
-  isOpen: boolean = false;
+  isOpen: boolean = this.task.suggestOpen;
 
   toggle(): void {
     console.log(this.isOpen);

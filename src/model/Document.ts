@@ -1,7 +1,7 @@
 import { State } from './State';
 import { Tag, TagType } from './Tag';
 import { Area } from './Area';
-import { Task } from './Task';
+import { Task, TaskID, TaskIdType } from './Task';
 import { ChangeableValue, createChangeableValue, getChangeableValue } from './ChangeableValue';
 
 export class Document {
@@ -115,6 +115,15 @@ export class Document {
     }
 
     return undefined;
+  }
+
+  findTask(id: TaskID): Task | undefined {
+    switch (id.type) {
+      case TaskIdType.Local:
+        return this.findTaskByLocalId(id.id);
+      case TaskIdType.Persistent:
+        return this.findTaskByPersistentId(id.id);
+    }
   }
 
   findTaskByPersistentId(id: string): Task | undefined {

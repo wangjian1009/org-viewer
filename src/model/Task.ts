@@ -6,10 +6,14 @@ import { Tag } from './Tag';
 import { StateLog } from './StateLog';
 import { ChangeableValue, createChangeableValue, getChangeableValue } from './ChangeableValue';
 
-export enum TaskType {
-  Task,
-  Project,
-  Requirement,
+export enum TaskIdType {
+  Local,
+  Persistent,
+}
+
+export class TaskID {
+  constructor(readonly type: TaskIdType, readonly id: string) {
+  }
 }
 
 export class Task {
@@ -62,6 +66,13 @@ export class Task {
 
   get area(): Area {
     return this._area;
+  }
+
+  get id(): TaskID {
+    const persistentId = this.persistentId;
+    return persistentId
+      ? new TaskID(TaskIdType.Persistent, persistentId)
+      : new TaskID(TaskIdType.Local, this.localId);
   }
 
   get title(): string | undefined {
