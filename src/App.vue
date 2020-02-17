@@ -128,9 +128,9 @@ export default class App extends Vue {
   whoami = ""
 
   // 页面上直接绑定page.memberFilter会有bug，暂未查明原因
-  memberFilter = []
-  categoryFilter = []
-  areaFilter = []
+  memberFilter: string[] = [];
+  categoryFilter: string[] = [];
+  areaFilter: string[] = [];
 
   async beforeCreate() {
     let orgContent = await OrgLoader.load(
@@ -163,6 +163,9 @@ export default class App extends Vue {
   resetToToday() {
     console.log("resetToToday");
     this.page.setupToDoday();
+    this.memberFilter = this.page.memberFilter || [];
+    this.categoryFilter = this.page.categoryFilter || [];
+    this.areaFilter = this.page.areaFilter || [];
     this.search();
   }
 
