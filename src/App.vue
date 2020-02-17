@@ -1,38 +1,92 @@
 <template>
   <div id="app" v-if="!loading">
     <Row>
-      <Col offset="3" span="18" class="container">
-        <Affix>
-          <div class="search-bar-top"></div>
-          <Row class="search-bar">
-            <Divider class="title">{{ page.title }}</Divider>
-            <Col span="4" >
-              <Select v-model="page.areaFilter" prefix="ios-bookmarks" placeholder="请选择areas" class="selector" multiple>
-                <Option v-for="(area, index) in page.areas" :value="area" :key="index">{{ area }}</Option>
-              </Select>
-            </Col>
-            <Col span="4">
-              <Select v-model="page.tagFilter" prefix="md-pricetags" placeholder="请选择tag" class="selector" multiple>
-                <Option v-for="(tag, index) in page.taskTags" :value="tag" :key="index">{{ tag }}</Option>
-              </Select>
-            </Col>
-            <Col span="4">
-              <Select v-model="page.categoryFilter" prefix="md-pricetags" placeholder="请选择category" class="selector" multiple>
-                <Option v-for="(category, index) in page.categoryTags" :value="category" :key="index">{{ category }}</Option>
-              </Select>
-            </Col>
-            <Col span="4">
-              <Select v-model="page.memberFilter" prefix="ios-person" placeholder="请选择member" class="selector" multiple>
+      <Col span="3" push="1" class="container">
+        <Divider class="title">请设置条件</Divider>
+        <Row class="filter">
+          <Col span="22" push="1">
+            <Card class="who-card">
+              <span>我是</span>
+              <Select v-model="whoami" @on-change="changeWhoami">
                 <Option v-for="(member, index) in page.memberTags" :value="member" :key="index">{{ member }}</Option>
               </Select>
-            </Col>
-            <Col span="1">
-              <Button type="success" icon="ios-search" @click="search">搜索</Button>
-            </Col>
-          </Row>
-          <div class="search-bar-bottom"></div>
-        </Affix>
-        <TreeMenu class="tree-menu" :tasks="page.taskView.childs"></TreeMenu>
+            </Card>
+          </Col>
+        </Row>
+        <Row class="filter">
+          <Col span="22" push="1">
+            <Card>
+              <CheckboxGroup> 
+                <Checkbox label="yesterday">
+                  <ButtonGroup>
+                    <Button size="small" @click="previewDate">
+                      <Icon type="md-arrow-dropleft"></Icon>
+                    </Button>
+                    <Button size="small" disabled>今天</Button>
+                    <Button size="small" @click="nextDate">
+                      <Icon type="md-arrow-dropright"></Icon>
+                    </Button>
+                  </ButtonGroup>
+                </Checkbox>
+              </CheckboxGroup>
+            </Card>
+          </Col>
+        </Row>
+        <Row class="filter">
+          <Col span="22" push="1">
+            <Card>
+              <p slot="title">范围</p>
+              <CheckboxGroup v-model="areaFilter" @on-change="changeFilter">
+                <Checkbox v-for="(area, index) in page.areas" :label="area" :key="index">
+                </Checkbox>
+              </CheckboxGroup>
+            </Card>
+          </Col>
+        </Row>
+        <Row class="filter">
+          <Col span="22" push="1">
+            <Card>
+              <p slot="title">人员</p>
+              <CheckboxGroup v-model="memberFilter" @on-change="changeFilter">
+                <Checkbox v-for="(member, index) in page.memberTags" :label="member" :key="index">
+                </Checkbox>
+              </CheckboxGroup>
+            </Card>
+          </Col>
+        </Row>
+        <Row class="filter">
+          <Col span="22" push="1">
+            <Card>
+              <p slot="title">类型</p>
+              <CheckboxGroup v-model="categoryFilter" @on-change="changeFilter">
+                <Checkbox v-for="(category, index) in page.categoryTags" :label="category" :key="index">
+                  <Icon type="md-folder-open" v-if="category == 'PROJECT'"></Icon>
+                  <Icon type="md-people" v-if="category == 'REQUIREMENT'" />
+                  <Icon type="md-git-branch" v-if="category == 'VERSION'" />
+                  <Icon type="md-bug" v-if="category == 'BUG'" />
+                  <Icon type="ios-book" v-if="!category" />
+                  <span>{{ category }}</span>
+                </Checkbox>
+              </CheckboxGroup>
+            </Card>
+          </Col>
+        </Row>
+        <Row class="filter">
+          <Col span="22" push="1">
+            <Card>
+              <p slot="title">自定义</p>
+              <ButtonGroup>
+                <Button>当日</Button>
+                <Button>晨会</Button>
+                <Button>未分配</Button>
+              </ButtonGroup>
+            </Card>
+          </Col>
+        </Row>
+      </Col>
+      <Col span="19" push="1" class="container">
+        <Divider class="title">{{ page.title }}</Divider>
+        <TreeMenu v-if="!refreshing" class="tree-menu" :tasks="page.taskView.childs"></TreeMenu>
       </Col>
     </Row>
     
@@ -43,7 +97,7 @@
 import "view-design/dist/styles/iview.css";
 
 import moment from 'moment';
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Vue, Watch } from "vue-property-decorator";
 import TreeMenu from "./components/TreeMenu.vue";
 import Menu from "./Menu";
 import EventManger from "./EventManger";
@@ -64,6 +118,13 @@ export default class App extends Vue {
 
   page!: PageView
   loading = true
+  refreshing = true
+  whoami = ""
+
+  // 页面上直接绑定page.memberFilter会有bug，暂未查明原因
+  memberFilter = []
+  categoryFilter = []
+  areaFilter = []
 
   async beforeCreate() {
     let orgContent = await OrgLoader.load(
@@ -73,15 +134,40 @@ export default class App extends Vue {
     let document = OrgParser.parseNewDocument(orgContent);
     this.page = new PageView(document, moment(moment.now()))
     this.loading = false
+    this.refreshing = false
 
-    console.log(document)
-    console.log(this.page)
+    let _whoami = sessionStorage.getItem("whoami")
+  
+    if (_whoami) {
+      this.whoami = _whoami
+    }
+  }
+
+
+  changeFilter() {
+    this.page.memberFilter = this.memberFilter
+    this.page.categoryFilter = this.categoryFilter
+    this.page.areaFilter = this.areaFilter
+    this.search()
   }
 
   search() {
-    this.loading = true
+    this.refreshing = true
     this.page.search()
-    this.loading = false
+    this.refreshing = false
+  }
+
+  previewDate() {
+    console.log("previewDate")
+  }
+
+  nextDate() {
+    console.log("nextDate")
+  }
+
+  changeWhoami(data: any) {
+    sessionStorage.setItem("whoami", data)
+    this.search()
   }
 }
 </script>
@@ -92,7 +178,6 @@ html, body, #app {
   height: 100%;
   background-color: #eee;
 }
-
 
 .container {
   min-height: 800px;
@@ -141,6 +226,19 @@ html, body, #app {
       background: #eeeeee;
     }
   }
+
+  .filter {
+    margin-bottom: 16px;
+  }
+
+  .who-card {
+    text-align: left;
+
+    .ivu-select {
+      width: 60%;
+      margin-left: 12px;
+    }
+  }
 }
 
 #app {
@@ -149,6 +247,7 @@ html, body, #app {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  padding-top: 24px;
 }
 
 .tree-menu {
@@ -165,4 +264,20 @@ html, body, #app {
   float: left;
   margin-left: 100px;
 }
+
+.ivu-checkbox-group-item {
+  display: block;
+  text-align: left;
+  line-height: 32px;
+
+  span {
+    margin-right: 2px;
+  }
+
+  i {
+    margin-right: 6px;
+  }
+}
+
+
 </style>

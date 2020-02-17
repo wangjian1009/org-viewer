@@ -27,7 +27,9 @@
       </Col>
       <Col span="3">{{ task.progress ? task.progress : "-" }}</Col>
       <Col span="3">
-      <Tag v-for="(member, index) in isOpen ? (task.members || []) : (task.membersWithChilds || []) " :key="index">{{ member }}</Tag>
+      <Tag :color="getMemberColor(member)" v-for="(member, index) in isOpen ? (task.members || []) : (task.membersWithChilds || []) " :key="index">
+        {{ member }}
+      </Tag>
       </Col>
     </Row>
     <transition name="fade">
@@ -94,6 +96,16 @@ export default class TreeMenuItem extends Vue {
 
   get hasChild() {
     return this.task.childs && this.task.childs.length > 0;
+  }
+
+  getMemberColor(name: string) {
+    let whoami = sessionStorage.getItem("whoami")
+
+    if (name == whoami) {
+      return "#FF9797"
+    }
+
+    return "default"
   }
 }
 </script>
