@@ -38,7 +38,17 @@ export default class TaskView {
   get scheduled(): string | undefined {
     const scheduled = this.innerTask.scheduledWithChilds;
     if (!scheduled) return undefined;
-    return scheduled.calendar(this.baseDate);
+
+    var strDate = scheduled.calendar(this.baseDate);
+
+    if (strDate) {
+      const m = strDate.match(/^(.*)00:00(.*)$/);
+      if (m) {
+        strDate = `${m[1]}${m[2]}`;
+      }
+    }
+
+    return strDate;
   }
 
   get state(): string | undefined {
