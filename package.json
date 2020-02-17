@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
+    "service": "vue-cli-service serve --port 30080",
     "build": "vue-cli-service build",
     "test:unit": "vue-cli-service test:unit",
     "test:model": "ts-mocha tests/model/*.ts",

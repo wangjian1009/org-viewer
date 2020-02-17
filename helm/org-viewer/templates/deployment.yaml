@@ -13,6 +13,7 @@ spec:
       labels:
         app: org-viewer
     spec:
+      hostNetwork: true
       nodeSelector:
         node-env: master
 
@@ -20,9 +21,6 @@ spec:
         - image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           name: org-viewer
           imagePullPolicy: IfNotPresent
-          ports:
-            - containerPort: 8080
-              hostPort: 30080
   strategy:
     type: Recreate
             
