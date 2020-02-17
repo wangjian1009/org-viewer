@@ -1,5 +1,5 @@
 import { Moment } from 'moment'
-import { Document, State, Task } from '@/model'
+import { Document, Task } from '@/model'
 
 export default class TaskView {
   childs: TaskView[];
@@ -53,6 +53,10 @@ export default class TaskView {
     }
 
     return strDate;
+  }
+
+  get duration(): string | undefined {
+    return undefined;
   }
 
   get state(): string | undefined {

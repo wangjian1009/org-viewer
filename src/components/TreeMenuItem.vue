@@ -15,14 +15,15 @@
             <Icon type="md-bug" v-if="task.category == 'BUG'" />
             <Icon type="ios-book" v-if="!task.category" />
           </Tooltip>
-          {{ task.name ? task.name : "-" }}
+          {{ task.name || "-" }}
         </span>
       </Col>
-      <Col span="3">{{ task.priority ? task.priority : "-" }} 
+      <Col span="3">{{ task.priority || "-" }} 
       </Col>
-      <Col span="3">{{ task.scheduled ? task.scheduled : "-" }}</Col>
+      <Col span="3">{{ task.scheduled || "-" }}</Col>
+      <Col span="3">{{ task.duration || "-" }}</Col>
       <Col span="3">
-        <Tag :class="lineStyle">{{ task.state ? task.state : "-" }}</Tag>
+        <Tag :class="lineStyle">{{ task.state || "-" }}</Tag>
       </Col>
       <Col span="3">{{ task.progress ? task.progress : "-" }}</Col>
       <Col span="3">
