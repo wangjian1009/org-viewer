@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: dev-sfox
+  name: org-viewer
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: org-viewer
+  template:
+    metadata:
+      labels:
+        app: org-viewer
+    spec:
+      nodeSelector:
+        node-env: master
+
+      containers:
+        - image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          name: org-viewer
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+              hostPort: 30080
+  strategy:
+    type: Recreate
+            
