@@ -76,8 +76,7 @@
             <Card>
               <p slot="title">自定义</p>
               <ButtonGroup>
-                <Button>当日</Button>
-                <Button>晨会</Button>
+                <Button @click="resetToToday">当日</Button>
                 <Button>未分配</Button>
               </ButtonGroup>
             </Card>
@@ -154,6 +153,12 @@ export default class App extends Vue {
     this.refreshing = true
     this.page.search()
     this.refreshing = false
+  }
+
+  resetToToday() {
+    console.log("resetToToday");
+    this.page.setupToDoday();
+    this.search();
   }
 
   previewDate() {
